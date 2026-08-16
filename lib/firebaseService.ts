@@ -14,7 +14,6 @@ import {
   serverTimestamp
 } from 'firebase/firestore';
 import { db, isMockFirebase, getCachedAuth } from './firebase';
-import { INITIAL_CONFIG } from '../constants';
 
 export enum OperationType {
   CREATE = 'create',
@@ -71,36 +70,12 @@ function getLocalPortfolioItems(): any[] {
   const stored = localStorage.getItem('neutiul_portfolio_items');
   if (stored) {
     try {
-      const parsed = JSON.parse(stored);
-      let updated = false;
-      const initial = INITIAL_CONFIG.portfolio || [];
-      const merged = parsed.map((storedItem: any) => {
-        const initialMatch = initial.find(initItem => initItem.id === storedItem.id);
-        if (initialMatch) {
-          if (initialMatch.beforeImage !== storedItem.beforeImage || 
-              initialMatch.afterImage !== storedItem.afterImage ||
-              initialMatch.title !== storedItem.title ||
-              initialMatch.description !== storedItem.description ||
-              initialMatch.date !== storedItem.date) {
-            updated = true;
-            return { ...storedItem, ...initialMatch };
-          }
-        }
-        return storedItem;
-      });
-      if (updated) {
-        localStorage.setItem('neutiul_portfolio_items', JSON.stringify(merged));
-        return merged;
-      }
-      return parsed;
+      return JSON.parse(stored);
     } catch (e) {
       console.error("Failed to parse local portfolio items:", e);
     }
   }
-  // Initialize with initial portfolios from constants
-  const initial = INITIAL_CONFIG.portfolio || [];
-  localStorage.setItem('neutiul_portfolio_items', JSON.stringify(initial));
-  return initial;
+  return [];
 }
 
 function saveLocalPortfolioItems(items: any[]) {

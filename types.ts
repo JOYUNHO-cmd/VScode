@@ -34,7 +34,6 @@ export interface CompanyInfo {
 export interface SiteConfig {
   companyInfo: CompanyInfo;
   services: ServiceItem[];
-  portfolio: PortfolioItem[];
   themeColor: string; // Primary color hex
 }
 
