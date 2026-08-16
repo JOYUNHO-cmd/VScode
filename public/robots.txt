@@ -60,7 +60,7 @@ User-agent: Bingbot
 Allow: /
 Disallow: /admin
 
-Sitemap: https://neutiul-cleaning.com/sitemap.xml
+Sitemap: https://neutiul.com/sitemap.xml
 # LLM Knowledge Standard
-# llms-txt: https://neutiul-cleaning.com/llms.txt
-# llms-full-txt: https://neutiul-cleaning.com/llms-full.txt
+# llms-txt: https://neutiul.com/llms.txt
+# llms-full-txt: https://neutiul.com/llms-full.txt
