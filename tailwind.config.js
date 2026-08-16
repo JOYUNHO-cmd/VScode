@@ -4,8 +4,10 @@ export default {
   theme: {
     extend: {
       colors: {
-        primary: '#2cd396', // Brilliant, vibrant neon mint from user's image
-        primaryDark: '#04a875', // Deeper vibrant mint for hover states
+        // Darkened from the original #2cd396/#04a875 neon mint so text/buttons
+        // using these tokens clear WCAG AA contrast (4.5:1) against white.
+        primary: '#07835a',
+        primaryDark: '#055c40', // hover state, darker still
         secondary: '#FFFFFF', // White - Card Backgrounds
         surface: '#F1F5F9', // Slate 100 - Section Backgrounds
         accent: '#1cd194', // Accent color (extra vibrant minty emerald)

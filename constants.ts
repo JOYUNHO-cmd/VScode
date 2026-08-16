@@ -4,7 +4,7 @@ import { SiteConfig } from './types';
 import { SERVICES } from './lib/servicesData.mjs';
 
 // Logo updated as requested.
-const GENERATED_LOGO_URL = 'https://i.ibb.co/DP0khScL/image.png';
+const GENERATED_LOGO_URL = '/images/logo.webp';
 
 export const INITIAL_CONFIG: SiteConfig = {
   companyInfo: {

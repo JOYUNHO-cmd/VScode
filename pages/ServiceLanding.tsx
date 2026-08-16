@@ -724,7 +724,7 @@ const BeforeAfterCard: React.FC<{ item: BeforeAfterItem; index?: number }> = ({ 
               className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
               referrerPolicy="no-referrer"
             />
-            <div className="absolute top-2 right-2 z-10 bg-emerald-600/95 text-white text-[9px] font-black px-2 py-0.5 rounded-full shadow-md tracking-wider">
+            <div className="absolute top-2 right-2 z-10 bg-emerald-700/95 text-white text-[9px] font-black px-2 py-0.5 rounded-full shadow-md tracking-wider">
               AFTER
             </div>
           </div>
@@ -757,7 +757,7 @@ const BeforeAfterCard: React.FC<{ item: BeforeAfterItem; index?: number }> = ({ 
             className="absolute inset-0 w-full h-full object-cover pointer-events-none"
             referrerPolicy="no-referrer"
           />
-          <div className="absolute top-3.5 right-3.5 z-20 bg-emerald-600/95 text-white text-[9px] sm:text-[10px] font-black px-2.5 py-1 rounded-full shadow-md tracking-wider pointer-events-none">
+          <div className="absolute top-3.5 right-3.5 z-20 bg-emerald-700/95 text-white text-[9px] sm:text-[10px] font-black px-2.5 py-1 rounded-full shadow-md tracking-wider pointer-events-none">
             AFTER (작업 후)
           </div>
 
@@ -1667,7 +1667,7 @@ const ServiceLanding: React.FC = () => {
               
               <div className="p-6 sm:p-8 md:p-9 rounded-2xl bg-emerald-50/80 border border-emerald-200/80 space-y-3.5">
                 <div className="flex items-center gap-2.5">
-                  <div className="w-7 h-7 rounded-lg bg-emerald-600 text-white flex items-center justify-center shrink-0 shadow-sm">
+                  <div className="w-7 h-7 rounded-lg bg-emerald-700 text-white flex items-center justify-center shrink-0 shadow-sm">
                     <Info className="w-4 h-4 stroke-[2.5]" />
                   </div>
                   <h4 className="text-emerald-950 font-extrabold text-base sm:text-lg md:text-xl">
@@ -1772,7 +1772,7 @@ const ServiceLanding: React.FC = () => {
 
             {/* Top Important Notice Banner */}
             <div className="bg-emerald-50/80 border border-emerald-200/80 rounded-2xl p-5 sm:p-7 mb-10 md:mb-12 shadow-sm flex flex-col sm:flex-row items-center gap-4 sm:gap-6 text-center sm:text-left">
-              <div className="w-12 h-12 rounded-xl bg-emerald-600 text-white flex items-center justify-center shrink-0 shadow-sm">
+              <div className="w-12 h-12 rounded-xl bg-emerald-700 text-white flex items-center justify-center shrink-0 shadow-sm">
                 <Info className="w-6 h-6 stroke-[2.5]" />
               </div>
               <div className="flex-1">
@@ -1936,7 +1936,7 @@ const ServiceLanding: React.FC = () => {
                         <span className="text-emerald-700">85만 원 선</span>
                       </div>
                       <div className="w-full h-3 bg-slate-100 rounded-full overflow-hidden border border-slate-200/60">
-                        <div className="h-full bg-emerald-600 rounded-full" style={{ width: '55%' }} />
+                        <div className="h-full bg-emerald-700 rounded-full" style={{ width: '55%' }} />
                       </div>
                     </div>
 

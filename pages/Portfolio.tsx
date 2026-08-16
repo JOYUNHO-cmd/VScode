@@ -250,7 +250,7 @@ export const Portfolio: React.FC = () => {
                 href={naverBlogUrl1} 
                 target="_blank" 
                 rel="noreferrer"
-                className="inline-flex items-center gap-2 bg-emerald-600 text-white font-bold px-5 py-3 rounded-xl hover:bg-emerald-700 transition-all text-sm shadow-md"
+                className="inline-flex items-center gap-2 bg-emerald-700 text-white font-bold px-5 py-3 rounded-xl hover:bg-emerald-800 transition-all text-sm shadow-md"
               >
                 현장 일지 1 (kslee0143) <ExternalLink size={14} />
               </a>

@@ -4,16 +4,14 @@ import { ArrowRight, CheckCircle2, Star, ShieldCheck, Clock, Sparkles, Quote, Rs
 import { motion } from 'motion/react';
 import { useSite } from '../context/SiteContext';
 
-const zelkovaHero = 'https://i.ibb.co/YBwN7ZpF/PC.png';
-const zelkovaMobileHero = 'https://i.ibb.co/bjDjJrsc/image.png';
-const expertPhilosophyMobile = 'https://i.ibb.co/HLmZYq8S/image.png';
-const expertPhilosophyDesktop = 'https://i.ibb.co/pBCh5d2x/pc.png';
-const anxietyTopImage = 'https://i.ibb.co/60w35yYJ/111.png';
-const stepImage1 = 'https://i.ibb.co/WvWwcyC1/1.png';
-const stepImage2 = 'https://i.ibb.co/bgLk1bvm/2.png';
-const stepImage3 = 'https://i.ibb.co/hJrqGXZ8/3.png';
-const stepImage4 = 'https://i.ibb.co/chc5BR18/4.png';
-const stepImage5 = 'https://i.ibb.co/tM1z44hQ/5.png';
+const zelkovaHero = '/images/hero-tree-family.webp';
+const zelkovaMobileHero = '/images/hero-tree-family-mobile.webp';
+const anxietyTopImage = '/images/professional-cleaning.webp';
+const stepImage1 = '/images/visit-notification.webp';
+const stepImage2 = '/images/diagnosis-process.webp';
+const stepImage3 = '/images/top-to-bottom-cleaning.webp';
+const stepImage4 = '/images/eco-neutralization.webp';
+const stepImage5 = '/images/confirmation-aftercare.webp';
 import ceoMobile from '../src/assets/images/ceo_mobile.webp';
 import ceoPc from '../src/assets/images/ceo_pc.webp';
 
@@ -333,10 +331,10 @@ const Home: React.FC = () => {
                 A FRESH AND PEACEFUL HAVEN
               </span>
               <span className="text-[25px] sm:text-4xl md:text-7xl block mb-1 md:mb-3">
-                한결같은 <span className="text-[#22ba8b] font-black">마음</span>으로
+                한결같은 <span className="text-[#07835a] font-black">마음</span>으로
               </span>
               <span className="text-[25px] sm:text-4xl md:text-7xl block">
-                이웃의 <span className="text-[#22ba8b] font-black">소중한 공간</span>을 품습니다
+                이웃의 <span className="text-[#07835a] font-black">소중한 공간</span>을 품습니다
               </span>
             </h1>
 
@@ -396,7 +394,7 @@ const Home: React.FC = () => {
                 {/* Centered Text for Desktop */}
                 <div className="absolute inset-0 flex items-center justify-center pointer-events-none pr-[13%] pl-[2%]">
                   <h2 className="text-slate-900 font-black text-[20px] md:text-[23px] tracking-tight whitespace-nowrap text-center">
-                    안녕하세요, 대표 <span className="text-[#04a875] font-black">조윤호</span> 입니다
+                    안녕하세요, 대표 <span className="text-[#055c40] font-black">조윤호</span> 입니다
                   </h2>
                 </div>
               </div>
@@ -422,7 +420,7 @@ const Home: React.FC = () => {
                 {/* Centered Text for Mobile */}
                 <div className="absolute inset-0 flex items-center justify-center pointer-events-none pt-[22px] pb-[6px] px-3">
                   <h2 className="text-slate-900 font-black text-[15.5px] tracking-tight whitespace-nowrap text-center">
-                    안녕하세요, 대표 <span className="text-[#04a875] font-black">조윤호</span> 입니다
+                    안녕하세요, 대표 <span className="text-[#055c40] font-black">조윤호</span> 입니다
                   </h2>
                 </div>
               </div>
@@ -436,9 +434,11 @@ const Home: React.FC = () => {
               transition={{ duration: 0.5 }}
               className="relative shrink-0"
             >
-              <img 
-                src={anxietyTopImage} 
-                alt="느티울 대표 조윤호" 
+              <img
+                src={anxietyTopImage}
+                alt="느티울 대표 조윤호"
+                width={880}
+                height={806}
                 className="w-full max-w-[280px] sm:max-w-[360px] md:max-w-[440px] h-auto object-contain mx-auto drop-shadow-md rounded-2xl"
                 referrerPolicy="no-referrer"
               />
@@ -595,11 +595,11 @@ const Home: React.FC = () => {
 
           <div className="flex flex-col items-center max-w-3xl lg:max-w-4xl mx-auto w-full">
             {[
-              { img: stepImage1, step: 'STEP 01' },
-              { img: stepImage2, step: 'STEP 02' },
-              { img: stepImage3, step: 'STEP 03' },
-              { img: stepImage4, step: 'STEP 04' },
-              { img: stepImage5, step: 'STEP 05' },
+              { img: stepImage1, step: 'STEP 01', width: 900, height: 675 },
+              { img: stepImage2, step: 'STEP 02', width: 900, height: 675 },
+              { img: stepImage3, step: 'STEP 03', width: 900, height: 637 },
+              { img: stepImage4, step: 'STEP 04', width: 900, height: 600 },
+              { img: stepImage5, step: 'STEP 05', width: 900, height: 600 },
             ].map((item, idx, arr) => (
               <div key={idx} className="w-full flex flex-col items-center">
                 <motion.div
@@ -612,10 +612,12 @@ const Home: React.FC = () => {
                 >
                   {/* Image Container with Crisp Rendering & Contrast Enhancement */}
                   <div className="w-full bg-white flex items-center justify-center">
-                    <img 
-                      src={item.img} 
-                      alt={`느티울 5단계 진행 과정 - ${item.step}`} 
-                      className="w-full h-auto object-contain block contrast-[1.06] brightness-[1.01] sharp-render group-hover:scale-[1.003] transition-transform duration-500 ease-out" 
+                    <img
+                      src={item.img}
+                      alt={`느티울 5단계 진행 과정 - ${item.step}`}
+                      width={item.width}
+                      height={item.height}
+                      className="w-full h-auto object-contain block contrast-[1.06] brightness-[1.01] sharp-render group-hover:scale-[1.003] transition-transform duration-500 ease-out"
                       style={{
                         imageRendering: '-webkit-optimize-contrast',
                         transform: 'translateZ(0)',
@@ -633,7 +635,7 @@ const Home: React.FC = () => {
                 {idx < arr.length - 1 && (
                   <div className="my-5 sm:my-8 flex flex-col items-center justify-center relative">
                     {/* Glowing flow line with moving light tracer */}
-                    <div className="w-[3px] h-8 sm:h-12 bg-gradient-to-b from-[#22ba8b]/40 via-[#22ba8b] to-[#22ba8b]/40 rounded-full relative overflow-hidden shadow-[0_0_12px_rgba(34,186,139,0.4)]">
+                    <div className="w-[3px] h-8 sm:h-12 bg-gradient-to-b from-[#07835a]/40 via-[#07835a] to-[#07835a]/40 rounded-full relative overflow-hidden shadow-[0_0_12px_rgba(34,186,139,0.4)]">
                       <motion.div
                         animate={{ y: [-24, 48] }}
                         transition={{ repeat: Infinity, duration: 1.5, ease: "linear" }}
@@ -645,7 +647,7 @@ const Home: React.FC = () => {
                     <motion.div
                       animate={{ y: [0, 5, 0] }}
                       transition={{ repeat: Infinity, duration: 1.4, ease: "easeInOut" }}
-                      className="mt-1 flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-gradient-to-b from-[#22ba8b] to-emerald-600 text-white shadow-[0_4px_18px_rgba(34,186,139,0.45)] border-2 border-white ring-4 ring-[#22ba8b]/15"
+                      className="mt-1 flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-gradient-to-b from-[#07835a] to-emerald-600 text-white shadow-[0_4px_18px_rgba(34,186,139,0.45)] border-2 border-white ring-4 ring-[#07835a]/15"
                     >
                       <ChevronDown className="w-5 h-5 sm:w-6 sm:h-6 stroke-[3]" />
                     </motion.div>
@@ -662,7 +664,7 @@ const Home: React.FC = () => {
         <div className="max-w-7xl mx-auto px-1 md:px-8">
           <div className="text-center mb-12 md:mb-16">
             <h2 className="text-[20px] sm:text-2xl md:text-4xl font-extrabold text-slate-900 mb-4 leading-tight break-keep">
-              <span className="text-[#22ba8b] font-black">사실</span>로만 입증하는 4대 안심 보장 조건
+              <span className="text-[#07835a] font-black">사실</span>로만 입증하는 4대 안심 보장 조건
             </h2>
           </div>
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 md:gap-10 text-center">
@@ -703,7 +705,7 @@ const Home: React.FC = () => {
       {/* 5th Section: Beautiful & Interactive Q&A Accordion */}
       <section className="py-20 md:py-28 bg-gradient-to-br from-[#ebf7f4] via-[#f7fbf9] to-[#e6f4f1] relative overflow-hidden border-b border-slate-100/80">
         {/* Premium subtle dot pattern overlay */}
-        <div className="absolute inset-0 bg-[radial-gradient(#22ba8b_0.8px,transparent_0.8px)] bg-[size:24px_24px] [mask-image:radial-gradient(ellipse_60%_60%_at_50%_50%,#000_70%,transparent_100%)] opacity-[0.06] pointer-events-none" />
+        <div className="absolute inset-0 bg-[radial-gradient(#07835a_0.8px,transparent_0.8px)] bg-[size:24px_24px] [mask-image:radial-gradient(ellipse_60%_60%_at_50%_50%,#000_70%,transparent_100%)] opacity-[0.06] pointer-events-none" />
         
         {/* Soft eco-inspired backdrop highlights */}
         <div className="absolute top-1/4 right-[-10%] w-[600px] h-[600px] bg-emerald-400/12 rounded-full blur-[150px] pointer-events-none" />
@@ -728,11 +730,11 @@ const Home: React.FC = () => {
               <span className="flex items-center gap-2 overflow-hidden">
                 <span className="relative flex h-3 w-3 shrink-0">
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-3 w-3 bg-emerald-600"></span>
+                  <span className="relative inline-flex rounded-full h-3 w-3 bg-emerald-700"></span>
                 </span>
                 {activeFAQTab === 'all' ? (
                   <span className="flex items-center gap-1.5 min-[380px]:gap-2 whitespace-nowrap overflow-hidden">
-                    <span className="bg-emerald-600 text-white px-2.5 py-1 rounded-lg text-xs sm:text-sm font-black shadow-sm shrink-0">
+                    <span className="bg-emerald-700 text-white px-2.5 py-1 rounded-lg text-xs sm:text-sm font-black shadow-sm shrink-0">
                       전체 보기
                     </span>
                     <span className="text-[11.5px] min-[360px]:text-xs min-[400px]:text-[13px] text-emerald-950 font-extrabold tracking-tight whitespace-nowrap">
@@ -740,12 +742,12 @@ const Home: React.FC = () => {
                     </span>
                   </span>
                 ) : (
-                  <span className="bg-emerald-600 text-white px-2.5 py-1 rounded-lg text-xs sm:text-sm font-black shadow-sm">
+                  <span className="bg-emerald-700 text-white px-2.5 py-1 rounded-lg text-xs sm:text-sm font-black shadow-sm">
                     {FAQ_DATA.find((cat) => cat.category === activeFAQTab)?.categoryName || ''}
                   </span>
                 )}
               </span>
-              <div className="w-8 h-8 rounded-xl bg-emerald-600 text-white flex items-center justify-center shrink-0 shadow-sm ml-1">
+              <div className="w-8 h-8 rounded-xl bg-emerald-700 text-white flex items-center justify-center shrink-0 shadow-sm ml-1">
                 <ChevronDown
                   className={`w-5 h-5 transition-transform duration-300 ${
                     faqDropdownOpen ? 'rotate-180' : ''
@@ -775,7 +777,7 @@ const Home: React.FC = () => {
                     }}
                     className={`w-full text-left px-5 py-3.5 text-xs sm:text-sm font-bold transition-all duration-150 flex items-center justify-between ${
                       activeFAQTab === 'all'
-                        ? 'bg-emerald-50 text-[#04a875] font-black'
+                        ? 'bg-emerald-50 text-[#055c40] font-black'
                         : 'text-slate-700 hover:bg-slate-50'
                     }`}
                   >
@@ -794,7 +796,7 @@ const Home: React.FC = () => {
                       }}
                       className={`w-full text-left px-5 py-3.5 text-xs sm:text-sm font-bold transition-all duration-150 flex items-center justify-between ${
                         activeFAQTab === cat.category
-                          ? 'bg-emerald-50 text-[#04a875] font-black'
+                          ? 'bg-emerald-50 text-[#055c40] font-black'
                           : 'text-slate-700 hover:bg-slate-50'
                       }`}
                     >
@@ -819,7 +821,7 @@ const Home: React.FC = () => {
                 }}
                 className={`whitespace-nowrap flex-shrink-0 px-4 py-2.5 rounded-full text-xs lg:text-sm font-black transition-all duration-200 cursor-pointer ${
                   activeFAQTab === 'all'
-                    ? 'bg-gradient-to-r from-[#04a875] to-[#22ba8b] text-white shadow-md shadow-emerald-600/25 scale-[1.02]'
+                    ? 'bg-gradient-to-r from-[#055c40] to-[#07835a] text-white shadow-md shadow-emerald-600/25 scale-[1.02]'
                     : 'text-slate-600 hover:text-slate-900 hover:bg-white/80'
                 }`}
               >
@@ -834,7 +836,7 @@ const Home: React.FC = () => {
                   }}
                   className={`whitespace-nowrap flex-shrink-0 px-4 py-2.5 rounded-full text-xs lg:text-sm font-extrabold transition-all duration-200 cursor-pointer ${
                     activeFAQTab === cat.category
-                      ? 'bg-gradient-to-r from-[#04a875] to-[#22ba8b] text-white shadow-md shadow-emerald-600/25 font-black scale-[1.02]'
+                      ? 'bg-gradient-to-r from-[#055c40] to-[#07835a] text-white shadow-md shadow-emerald-600/25 font-black scale-[1.02]'
                       : 'text-slate-600 hover:text-slate-900 hover:bg-white/80'
                   }`}
                 >
@@ -867,13 +869,13 @@ const Home: React.FC = () => {
                     >
                       <div className="flex gap-3 sm:gap-4 items-center flex-1">
                         <div className={`w-8 h-8 sm:w-9 sm:h-9 rounded-xl flex items-center justify-center shrink-0 font-black text-sm sm:text-base transition-colors ${
-                          isOpen ? 'bg-[#04a875] text-white shadow-md' : 'bg-emerald-100/90 text-[#04a875]'
+                          isOpen ? 'bg-[#055c40] text-white shadow-md' : 'bg-emerald-100/90 text-[#055c40]'
                         }`}>
                           Q
                         </div>
                         <div className="flex-1">
                           <span className={`text-[15px] sm:text-[18px] md:text-[19px] font-extrabold leading-snug tracking-tight break-keep transition-colors duration-150 ${
-                            isOpen ? 'text-[#04a875]' : 'text-slate-900 group-hover:text-emerald-700'
+                            isOpen ? 'text-[#055c40]' : 'text-slate-900 group-hover:text-emerald-700'
                           }`}>
                             {qa.q}
                           </span>
@@ -913,7 +915,7 @@ const Home: React.FC = () => {
           </div>
 
           {/* Bottom Trust Badge */}
-          <div className="text-center mt-12 md:mt-16 p-6 sm:p-8 bg-gradient-to-r from-[#04a875] via-[#03855c] to-[#026344] text-white rounded-3xl max-w-2xl mx-auto shadow-xl shadow-emerald-950/20 border border-emerald-400/30 relative overflow-hidden flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div className="text-center mt-12 md:mt-16 p-6 sm:p-8 bg-gradient-to-r from-[#055c40] via-[#03855c] to-[#026344] text-white rounded-3xl max-w-2xl mx-auto shadow-xl shadow-emerald-950/20 border border-emerald-400/30 relative overflow-hidden flex flex-col sm:flex-row items-center justify-between gap-4">
             <div className="text-center sm:text-left">
               <p className="text-sm sm:text-base md:text-lg font-extrabold text-white leading-snug break-keep">
                 💡 찾으시는 답변이 없으신가요?
@@ -924,7 +926,7 @@ const Home: React.FC = () => {
             </div>
             <Link
               to="/contact"
-              className="shrink-0 px-5 py-2.5 bg-white text-[#04a875] hover:bg-emerald-50 text-xs sm:text-sm font-black rounded-xl shadow-md transition-all flex items-center gap-1.5 transform hover:scale-105"
+              className="shrink-0 px-5 py-2.5 bg-white text-[#055c40] hover:bg-emerald-50 text-xs sm:text-sm font-black rounded-xl shadow-md transition-all flex items-center gap-1.5 transform hover:scale-105"
             >
               <span>무료 상담 신청</span>
               <ArrowRight className="w-4 h-4" />
@@ -938,8 +940,8 @@ const Home: React.FC = () => {
         <div className="max-w-7xl mx-auto px-2 md:px-8 relative z-10">
           <div className="text-center mb-10 md:mb-16">
             <h3 className="text-2xl md:text-5xl font-extrabold text-slate-900 mb-3 sm:mb-4">전문적인 청소 솔루션</h3>
-            <p className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 text-primary font-bold text-xs sm:text-sm md:text-base shadow-sm hover:shadow-md transition-all">
-              <MousePointerClick className="w-4 h-4 sm:w-5 sm:h-5 text-primary animate-pulse" />
+            <p className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 text-primaryDark font-bold text-xs sm:text-sm md:text-base shadow-sm hover:shadow-md transition-all">
+              <MousePointerClick className="w-4 h-4 sm:w-5 sm:h-5 text-primaryDark animate-pulse" />
               <span>아래 사진을 클릭하면 이동합니다</span>
               <span className="inline-block animate-bounce text-base sm:text-lg">👇</span>
             </p>

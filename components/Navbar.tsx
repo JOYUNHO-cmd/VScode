@@ -65,7 +65,7 @@ const Navbar: React.FC = () => {
                    느티울
                  </span>
                  <span 
-                   className="text-[#04a875] font-extrabold tracking-[0.2em] whitespace-nowrap uppercase"
+                   className="text-[#055c40] font-extrabold tracking-[0.2em] whitespace-nowrap uppercase"
                    style={{
                      fontFamily: "'Cinzel', serif",
                      fontSize: '14px',
@@ -87,7 +87,7 @@ const Navbar: React.FC = () => {
               const customStyle: React.CSSProperties = {
                 fontSize: '25px',
                 lineHeight: '32px',
-                color: isCurrent || isHovered ? '#04a875' : '#000000',
+                color: isCurrent || isHovered ? '#055c40' : '#000000',
               };
               if (idx === 2) {
                 customStyle.fontFamily = 'Noto Sans KR, sans-serif';
