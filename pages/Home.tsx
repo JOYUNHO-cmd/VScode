@@ -695,10 +695,10 @@ const Home: React.FC = () => {
                 whileHover={{ y: -6, scale: 1.02 }}
                 className="px-2 py-5 md:p-10 rounded-2xl md:rounded-3xl bg-white border border-slate-100 shadow-md md:shadow-xl shadow-slate-200/50 hover:border-primary/40 hover:shadow-2xl transition-all group duration-300 cursor-default"
               >
-                <div className="w-11 h-11 md:w-20 md:h-20 bg-primary/10 text-primary rounded-full flex items-center justify-center mx-auto mb-3 md:mb-8 group-hover:bg-primary group-hover:text-white group-hover:rotate-12 transition-all duration-300 shadow-sm">
+                <div className="w-11 h-11 md:w-20 md:h-20 bg-primaryBright/10 text-primaryBright rounded-full flex items-center justify-center mx-auto mb-3 md:mb-8 group-hover:bg-primaryBright group-hover:text-white group-hover:rotate-12 transition-all duration-300 shadow-sm">
                   <feature.icon className="w-5 h-5 md:w-9 md:h-9" strokeWidth={2.5} />
                 </div>
-                <h3 className="text-[12px] md:text-2xl font-extrabold text-slate-900 mb-1 md:mb-4 whitespace-nowrap break-keep group-hover:text-primary transition-colors">
+                <h3 className="text-[12px] md:text-2xl font-extrabold text-slate-900 mb-1 md:mb-4 whitespace-nowrap break-keep group-hover:text-primaryBright transition-colors">
                   {feature.title}
                 </h3>
                 <p className="text-slate-500 text-[10px] md:text-lg leading-snug md:leading-relaxed font-medium whitespace-pre-line hidden sm:block">
@@ -980,7 +980,7 @@ const Home: React.FC = () => {
                     <div className="absolute inset-0 bg-black/10 group-hover:bg-black/0 transition-colors"></div>
                   </div>
                   <div className="p-4 sm:p-5 flex-1 flex items-center justify-center text-center">
-                    <h4 className="text-[17px] sm:text-[20px] md:text-[22px] lg:text-[23px] font-extrabold text-slate-900 group-hover:text-primary transition-colors break-keep">
+                    <h4 className="text-[17px] sm:text-[20px] md:text-[22px] lg:text-[23px] font-extrabold text-slate-900 group-hover:text-primaryBright transition-colors break-keep">
                       {service.title}
                     </h4>
                   </div>
@@ -1016,7 +1016,7 @@ const Home: React.FC = () => {
 
           {rssLoading ? (
             <div className="flex flex-col items-center justify-center py-16 bg-slate-50 rounded-2xl border border-slate-100">
-              <Loader2 className="w-10 h-10 text-primary animate-spin mb-3" />
+              <Loader2 className="w-10 h-10 text-primaryBright animate-spin mb-3" />
               <p className="text-slate-500 text-sm font-bold">시공 완료 현장 소식을 실시간으로 전송받고 있습니다...</p>
             </div>
           ) : rssItems.length === 0 ? (
@@ -1079,7 +1079,7 @@ const Home: React.FC = () => {
                         <span>{formatDateString(item.pubDate)}</span>
                       </div>
                       
-                      <h4 className="text-base md:text-lg font-bold text-slate-900 mb-2 line-clamp-2 leading-snug group-hover:text-primary transition-colors tracking-tight">
+                      <h4 className="text-base md:text-lg font-bold text-slate-900 mb-2 line-clamp-2 leading-snug group-hover:text-primaryBright transition-colors tracking-tight">
                         {item.title}
                       </h4>
                       
