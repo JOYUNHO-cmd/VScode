@@ -1,0 +1,111 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // 1. Global Safety Net (Default Deny)
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Global helper functions
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isAdmin() {
+      return isSignedIn()
+        && request.auth.token.email == 'johyun3662@gmail.com'
+        && request.auth.token.email_verified == true;
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    function existing() {
+      return resource.data;
+    }
+
+    // Validation Blueprint for Company Info
+    function isValidCompanyInfo(data) {
+      return data.keys().hasAll(['name', 'phone'])
+        && data.name is string && data.name.size() <= 100
+        && data.phone is string && data.phone.size() <= 50
+        && (!data.keys().hasAny(['logo']) || (data.logo is string && data.logo.size() <= 2000))
+        && (!data.keys().hasAny(['slogan']) || (data.slogan is string && data.slogan.size() <= 500))
+        && (!data.keys().hasAny(['description']) || (data.description is string && data.description.size() <= 5000))
+        && (!data.keys().hasAny(['email']) || (data.email is string && data.email.size() <= 100))
+        && (!data.keys().hasAny(['address']) || (data.address is string && data.address.size() <= 200))
+        && (!data.keys().hasAny(['instagram']) || (data.instagram is string && data.instagram.size() <= 200))
+        && (!data.keys().hasAny(['blog']) || (data.blog is string && data.blog.size() <= 200))
+        && (!data.keys().hasAny(['blog2']) || (data.blog2 is string && data.blog2.size() <= 200))
+        && (!data.keys().hasAny(['youtube']) || (data.youtube is string && data.youtube.size() <= 200));
+    }
+
+    // Validation Blueprint for Service Item
+    function isValidServiceItem(data) {
+      return data.keys().hasAll(['title', 'description'])
+        && data.title is string && data.title.size() <= 200
+        && data.description is string && data.description.size() <= 5000
+        && (!data.keys().hasAny(['details']) || (data.details is list && data.details.size() <= 30))
+        && (!data.keys().hasAny(['icon']) || (data.icon is string && data.icon.size() <= 200))
+        && (!data.keys().hasAny(['image']) || (data.image is string && data.image.size() <= 2000))
+        && (!data.keys().hasAny(['order']) || (data.order is number));
+    }
+
+    // Validation Blueprint for Portfolio Item
+    function isValidPortfolioItem(data) {
+      return data.keys().hasAll(['title', 'category', 'beforeImage', 'afterImage', 'description', 'date'])
+        && data.title is string && data.title.size() <= 200
+        && data.category is string && data.category.size() <= 50
+        && data.beforeImage is string && data.beforeImage.size() <= 2000
+        && data.afterImage is string && data.afterImage.size() <= 2000
+        && data.description is string && data.description.size() <= 5000
+        && data.date is string && data.date.size() <= 50;
+    }
+
+    // 2. Company Info Document Match Block
+    match /company/info {
+      allow read: if true;
+      allow create: if isAdmin() && isValidCompanyInfo(incoming());
+      allow update: if isAdmin() && isValidCompanyInfo(incoming())
+        && incoming().diff(existing()).affectedKeys().hasOnly(['name', 'phone', 'logo', 'slogan', 'description', 'email', 'address', 'instagram', 'blog', 'blog2', 'youtube']);
+      allow delete: if isAdmin();
+    }
+
+    // 3. Services Collection Match Block
+    match /services/{serviceId} {
+      allow read: if true;
+      allow create: if isAdmin() && isValidId(serviceId) && isValidServiceItem(incoming());
+      allow update: if isAdmin() && isValidId(serviceId) && isValidServiceItem(incoming())
+        && incoming().diff(existing()).affectedKeys().hasOnly(['title', 'description', 'details', 'icon', 'image', 'order']);
+      allow delete: if isAdmin() && isValidId(serviceId);
+    }
+
+    // 4. Portfolio Collection Match Block
+    match /portfolio/{portfolioId} {
+      allow read: if true;
+      allow create: if isAdmin()
+        && isValidId(portfolioId)
+        && isValidPortfolioItem(incoming())
+        && incoming().createdAt == request.time
+        && incoming().keys().hasAll(['title', 'category', 'beforeImage', 'afterImage', 'description', 'date', 'createdAt'])
+        && incoming().keys().size() == 7;
+      allow update: if isAdmin()
+        && isValidId(portfolioId)
+        && isValidPortfolioItem(incoming())
+        && incoming().createdAt == existing().createdAt
+        && incoming().diff(existing()).affectedKeys().hasOnly(['title', 'category', 'beforeImage', 'afterImage', 'description', 'date']);
+      allow delete: if isAdmin() && isValidId(portfolioId);
+    }
+
+    // 4. System Connection Check Document
+    match /system/{docId} {
+      allow read: if true;
+    }
+  }
+}

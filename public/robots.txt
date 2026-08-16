@@ -1,0 +1,66 @@
+User-agent: *
+Allow: /
+Disallow: /admin
+
+# Modern AI & LLM Search Engine Bots (AEO/GEO Optimization)
+User-agent: GPTBot
+Allow: /
+Disallow: /admin
+
+User-agent: ChatGPT-User
+Allow: /
+Disallow: /admin
+
+User-agent: PerplexityBot
+Allow: /
+Disallow: /admin
+
+User-agent: ClaudeBot
+Allow: /
+Disallow: /admin
+
+User-agent: Claude-Web
+Allow: /
+Disallow: /admin
+
+User-agent: Google-Extended
+Allow: /
+Disallow: /admin
+
+User-agent: Amazonbot
+Allow: /
+Disallow: /admin
+
+User-agent: Applebot-Extended
+Allow: /
+Disallow: /admin
+
+User-agent: Bytespider
+Allow: /
+Disallow: /admin
+
+User-agent: cohere-ai
+Allow: /
+Disallow: /admin
+
+# Major Search Engine Crawlers
+User-agent: Yeti
+Allow: /
+Disallow: /admin
+
+User-agent: Googlebot
+Allow: /
+Disallow: /admin
+
+User-agent: Daumoa
+Allow: /
+Disallow: /admin
+
+User-agent: Bingbot
+Allow: /
+Disallow: /admin
+
+Sitemap: https://neutiul-cleaning.com/sitemap.xml
+# LLM Knowledge Standard
+# llms-txt: https://neutiul-cleaning.com/llms.txt
+# llms-full-txt: https://neutiul-cleaning.com/llms-full.txt

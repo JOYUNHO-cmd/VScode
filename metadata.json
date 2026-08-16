@@ -1,0 +1,8 @@
+{
+  "name": "느티울-08.08 재수정중",
+  "description": "특수 청소, 사무실 청소, 상가 청소, 바닥 관리 전문 기업 느티울종합청소의 공식 반응형 웹사이트 및 관리자 대시보드",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
