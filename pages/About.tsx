@@ -11,37 +11,37 @@ const About: React.FC = () => {
       id: 1, 
       title: "청소전문가 1급", 
       issuer: "한국자격검정평가진흥원",
-      image: "https://i.ibb.co/XrGQYWFf/image.jpg" 
+      image: "/images/about/cert-cleaning-expert.webp" 
     },
     { 
       id: 2, 
       title: "고객상담사 1급", 
       issuer: "한국자격검정평가진흥원",
-      image: "https://i.ibb.co/WvRmhZPC/image.jpg" 
+      image: "/images/about/cert-customer-service.webp" 
     },
     { 
       id: 3, 
       title: "환경관리전문가 1급", 
       issuer: "한국자격검정평가진흥원",
-      image: "https://i.ibb.co/vWTbyPt/image.jpg" 
+      image: "/images/about/cert-environment-management.webp" 
     },
     { 
       id: 4, 
       title: "방역관리사 1급", 
       issuer: "한국방역전문인협회",
-      image: "https://i.ibb.co/Z6QX6mhd/image.jpg" 
+      image: "/images/about/cert-pest-control.webp" 
     },
     { 
       id: 5, 
       title: "건물위생관리사 1급", 
       issuer: "한국자격검정평가진흥원",
-      image: "https://i.ibb.co/99V7ZFXT/image.jpg" 
+      image: "/images/about/cert-building-hygiene.webp" 
     },
     { 
       id: 6, 
       title: "정리수납전문가 1급", 
       issuer: "한국자격검정평가진흥원",
-      image: "https://i.ibb.co/W4cJMhmc/image.jpg" 
+      image: "/images/about/cert-organizing-expert.webp" 
     },
   ];
 
@@ -138,7 +138,7 @@ const About: React.FC = () => {
                 >
                   <div className="w-12 h-12 rounded-xl overflow-hidden flex-shrink-0 shadow-md flex items-center justify-center bg-white border border-slate-100">
                     <img 
-                      src="https://i.ibb.co/Kjb910QF/image.png" 
+                      src="/images/about/icon-neuti-tree.png" 
                       alt="느티" 
                       className="w-full h-full object-cover"
                     />
@@ -167,7 +167,7 @@ const About: React.FC = () => {
                 >
                   <div className="w-12 h-12 rounded-xl overflow-hidden flex-shrink-0 shadow-md flex items-center justify-center bg-white border border-slate-100">
                     <img 
-                      src="https://i.ibb.co/bgL3rtzj/image.png" 
+                      src="/images/about/icon-ul-fence.png" 
                       alt="울" 
                       className="w-full h-full object-cover"
                     />
@@ -337,7 +337,7 @@ const About: React.FC = () => {
                       className="relative w-full max-w-sm aspect-[3/4] rounded-3xl overflow-hidden shadow-2xl border-[12px] border-slate-50 bg-slate-200 transform md:rotate-3 transition-transform duration-500"
                     >
                        <img 
-                         src="https://i.ibb.co/Lq3Zh09/Chat-GPT-Image-2026-7-18-11-27-38.png" alt="CEO 조윤호" className="w-full h-full object-cover" 
+                         src="/images/about/ceo-message.webp" alt="CEO 조윤호" className="w-full h-full object-cover" 
                         />
                         {/* 대표 표기 배지 및 오버레이 (모바일/PC 최적화) */}
                         <div className="absolute top-4 left-4 hidden z-10 bg-slate-900/90 text-primary font-bold text-[11px] sm:text-xs px-3.5 py-1.5 rounded-full shadow-lg border border-white/10 flex items-center gap-1.5 backdrop-blur-sm">

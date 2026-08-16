@@ -172,7 +172,7 @@ const Services: React.FC = () => {
                             <div className="relative w-full max-w-md md:max-w-xl p-1.5 bg-gradient-to-tr from-emerald-500 via-teal-400 to-emerald-200 rounded-2xl md:rounded-3xl shadow-2xl">
                                <div className="relative rounded-[14px] md:rounded-[22px] overflow-hidden border-4 md:border-6 border-white bg-slate-100">
                                   <img 
-                                    src="https://i.ibb.co/60w35yYJ/111.png" 
+                                    src="/images/professional-cleaning.webp"
                                     alt="느티울 대표 조윤호" 
                                     className="w-full h-auto object-cover transform hover:scale-105 transition-transform duration-500"
                                   />
