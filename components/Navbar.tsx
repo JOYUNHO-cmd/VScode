@@ -45,12 +45,14 @@ const Navbar: React.FC = () => {
               title="느티울 홈으로 이동 및 최상단 스크롤"
             >
                {config.companyInfo.logo && (
-                 <motion.img 
+                 <motion.img
                    whileHover={{ scale: 1.05, rotate: 2 }}
                    transition={{ type: "spring", stiffness: 400, damping: 17 }}
-                   src={config.companyInfo.logo} 
-                   alt={`${config.companyInfo.name} Logo`} 
-                   className="h-20" 
+                   src={config.companyInfo.logo}
+                   alt={`${config.companyInfo.name} Logo`}
+                   width={80}
+                   height={80}
+                   className="h-20"
                  />
                )}
                <div className="flex flex-col items-start justify-center leading-none py-1">

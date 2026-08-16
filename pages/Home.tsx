@@ -7,11 +7,17 @@ import { useSite } from '../context/SiteContext';
 const zelkovaHero = '/images/hero-tree-family.webp';
 const zelkovaMobileHero = '/images/hero-tree-family-mobile.webp';
 const anxietyTopImage = '/images/professional-cleaning.webp';
+const anxietyTopImageMobile = '/images/professional-cleaning-mobile.webp';
 const stepImage1 = '/images/visit-notification.webp';
+const stepImage1Mobile = '/images/visit-notification-mobile.webp';
 const stepImage2 = '/images/diagnosis-process.webp';
+const stepImage2Mobile = '/images/diagnosis-process-mobile.webp';
 const stepImage3 = '/images/top-to-bottom-cleaning.webp';
+const stepImage3Mobile = '/images/top-to-bottom-cleaning-mobile.webp';
 const stepImage4 = '/images/eco-neutralization.webp';
+const stepImage4Mobile = '/images/eco-neutralization-mobile.webp';
 const stepImage5 = '/images/confirmation-aftercare.webp';
+const stepImage5Mobile = '/images/confirmation-aftercare-mobile.webp';
 import ceoMobile from '../src/assets/images/ceo_mobile.webp';
 import ceoPc from '../src/assets/images/ceo_pc.webp';
 
@@ -436,6 +442,8 @@ const Home: React.FC = () => {
             >
               <img
                 src={anxietyTopImage}
+                srcSet={`${anxietyTopImageMobile} 520w, ${anxietyTopImage} 880w`}
+                sizes="(min-width: 768px) 440px, 280px"
                 alt="느티울 대표 조윤호"
                 width={880}
                 height={806}
@@ -595,11 +603,11 @@ const Home: React.FC = () => {
 
           <div className="flex flex-col items-center max-w-3xl lg:max-w-4xl mx-auto w-full">
             {[
-              { img: stepImage1, step: 'STEP 01', width: 900, height: 675 },
-              { img: stepImage2, step: 'STEP 02', width: 900, height: 675 },
-              { img: stepImage3, step: 'STEP 03', width: 900, height: 637 },
-              { img: stepImage4, step: 'STEP 04', width: 900, height: 600 },
-              { img: stepImage5, step: 'STEP 05', width: 900, height: 600 },
+              { img: stepImage1, mobileImg: stepImage1Mobile, step: 'STEP 01', width: 900, height: 675 },
+              { img: stepImage2, mobileImg: stepImage2Mobile, step: 'STEP 02', width: 900, height: 675 },
+              { img: stepImage3, mobileImg: stepImage3Mobile, step: 'STEP 03', width: 900, height: 637 },
+              { img: stepImage4, mobileImg: stepImage4Mobile, step: 'STEP 04', width: 900, height: 600 },
+              { img: stepImage5, mobileImg: stepImage5Mobile, step: 'STEP 05', width: 900, height: 600 },
             ].map((item, idx, arr) => (
               <div key={idx} className="w-full flex flex-col items-center">
                 <motion.div
@@ -614,6 +622,8 @@ const Home: React.FC = () => {
                   <div className="w-full bg-white flex items-center justify-center">
                     <img
                       src={item.img}
+                      srcSet={`${item.mobileImg} 700w, ${item.img} 900w`}
+                      sizes="(min-width: 1024px) 900px, 100vw"
                       alt={`느티울 5단계 진행 과정 - ${item.step}`}
                       width={item.width}
                       height={item.height}

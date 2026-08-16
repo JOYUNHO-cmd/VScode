@@ -16,7 +16,7 @@ import {
   Lock
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
+import { useAuth, AuthProvider } from '../context/AuthContext';
 import { useSite } from '../context/SiteContext';
 import { 
   addPortfolioItem, 
@@ -28,7 +28,7 @@ import {
 import { PortfolioItem } from '../types';
 import ImageUploader from '../components/ImageUploader';
 
-const AdminDashboard: React.FC = () => {
+const AdminDashboardInner: React.FC = () => {
   const { user, isAdmin, loading: authLoading, loginWithCredentials, logout, login: loginWithGoogle } = useAuth();
   const { config, updateCompanyInfo } = useSite();
   const [activeTab, setActiveTab] = useState<'general' | 'services' | 'portfolio'>('general');
@@ -584,5 +584,14 @@ const AdminDashboard: React.FC = () => {
     </div>
   );
 };
+
+// AuthProvider (and the firebase/auth SDK it pulls in) is only needed here,
+// so it's scoped to this lazy-loaded chunk instead of App.tsx's global tree —
+// keeps ~firebase/auth's weight out of every public visitor's initial bundle.
+const AdminDashboard: React.FC = () => (
+  <AuthProvider>
+    <AdminDashboardInner />
+  </AuthProvider>
+);
 
 export default AdminDashboard;
