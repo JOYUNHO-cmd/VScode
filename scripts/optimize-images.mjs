@@ -31,10 +31,13 @@ async function reencodeToNewFile(name, { width, quality = 80 } = {}) {
   console.log(`${name}.webp.new: ${(buf.length / 1024).toFixed(0)}KB`);
 }
 
-// Sized for ~2x DPR against the *actual* CSS-rendered width (the sizes=
-// attribute on these <img>s now accounts for container padding correctly,
-// so this is real headroom, not guesswork) - large enough that Moto G
-// Power-class phones (~2.6x DPR) still pick these over the 900px original.
+// Sized against the actual CSS-rendered width (sizes= now accounts for
+// container padding correctly) for real 2x DPR - confirmed in-browser that
+// dropping this to 720px falls back to the 900px original on any real
+// DPR=2 device (extremely common on Android), even though Lighthouse's
+// own "ideal" calc for its specific test profile computes a lower ~670px
+// and flags the 800-670 gap as residual "waste". Prioritizing correct
+// image delivery on real devices over chasing that last audit delta.
 await makeMobileVariant('eco-neutralization', 800);
 await makeMobileVariant('visit-notification', 800);
 await makeMobileVariant('top-to-bottom-cleaning', 800);
@@ -42,7 +45,9 @@ await makeMobileVariant('confirmation-aftercare', 800);
 await makeMobileVariant('diagnosis-process', 800);
 await makeMobileVariant('professional-cleaning', 600);
 
-await reencodeToNewFile('logo', { width: 200, quality: 75 });
+// 90x90 CSS box (h-20 at this site's 18px root) at ~1.75x DPR ~= 158px -
+// 160 covers that with virtually no slack left, plus a bit more compression.
+await reencodeToNewFile('logo', { width: 160, quality: 70 });
 await reencodeToNewFile('hero-tree-family-mobile', { quality: 75 });
 
 console.log('Done.');
