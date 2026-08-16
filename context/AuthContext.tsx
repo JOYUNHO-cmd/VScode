@@ -98,9 +98,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const loginWithCredentials = async (id: string, pw: string): Promise<boolean> => {
     setLoading(true);
     try {
-      // Support both easy "1234" password and the robust default "neutiul1234!"
       const isValidId = id.trim() === DEFAULT_ADMIN_ID;
-      const isValidPw = pw === DEFAULT_ADMIN_PW || pw === '1234';
+      const isValidPw = pw === DEFAULT_ADMIN_PW;
 
       if (isValidId && isValidPw) {
         localStorage.setItem('neutiul_admin_session', 'true');

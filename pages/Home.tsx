@@ -182,6 +182,7 @@ const FAQ_DATA: FAQCategory[] = [
 
 const Home: React.FC = () => {
   const { config } = useSite();
+  const cleanPhone = config.companyInfo.phone.replace(/[^0-9]/g, '');
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const [rssItems, setRssItems] = useState<NaverRssItem[]>([]);
   const [rssLoading, setRssLoading] = useState(true);
@@ -1124,7 +1125,7 @@ const Home: React.FC = () => {
              <m.a
                whileHover={{ scale: 1.04, y: -2 }}
                whileTap={{ scale: 0.96 }}
-               href={`tel:${config.companyInfo.phone}`}
+               href={`tel:${cleanPhone}`}
                onClick={() => trackEvent('contact_click', { method: 'phone', location: 'home_bottom_cta' })}
                className="px-6 py-4 md:px-10 md:py-5 bg-white text-primaryDark text-[16px] md:text-xl font-extrabold rounded-xl hover:bg-slate-50 transition-all shadow-lg whitespace-nowrap"
              >

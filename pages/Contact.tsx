@@ -7,6 +7,7 @@ import { trackEvent } from '../lib/analytics';
 const Contact: React.FC = () => {
   const { config } = useSite();
   const [formStatus, setFormStatus] = useState<'idle' | 'submitting' | 'success'>('idle');
+  const cleanPhone = config.companyInfo.phone.replace(/[^0-9]/g, '');
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -113,7 +114,12 @@ const Contact: React.FC = () => {
               </p>
               
               <div className="space-y-8">
-                <m.div whileHover={{ x: 6 }} className="flex items-center gap-5 group cursor-pointer">
+                <m.a
+                  href={`tel:${cleanPhone}`}
+                  onClick={() => trackEvent('contact_click', { method: 'phone', location: 'contact_page' })}
+                  whileHover={{ x: 6 }}
+                  className="flex items-center gap-5 group cursor-pointer"
+                >
                   <div className="w-12 h-12 md:w-14 md:h-14 bg-white shadow-md border border-slate-200 rounded-2xl flex items-center justify-center text-primary shrink-0 group-hover:bg-primary group-hover:text-white transition-all duration-300">
                     <Phone size={24} />
                   </div>
@@ -121,8 +127,13 @@ const Contact: React.FC = () => {
                     <p className="text-[10px] text-slate-400 uppercase font-black tracking-widest">Phone</p>
                     <p className="font-extrabold text-[11px] sm:text-sm md:text-lg mt-0.5 whitespace-nowrap text-slate-900 group-hover:text-primary transition-colors">{config.companyInfo.phone}</p>
                   </div>
-                </m.div>
-                <m.div whileHover={{ x: 6 }} className="flex items-center gap-5 group cursor-pointer">
+                </m.a>
+                <m.a
+                  href={`mailto:${config.companyInfo.email}`}
+                  onClick={() => trackEvent('contact_click', { method: 'email', location: 'contact_page' })}
+                  whileHover={{ x: 6 }}
+                  className="flex items-center gap-5 group cursor-pointer"
+                >
                   <div className="w-12 h-12 md:w-14 md:h-14 bg-white shadow-md border border-slate-200 rounded-2xl flex items-center justify-center text-primary shrink-0 group-hover:bg-primary group-hover:text-white transition-all duration-300">
                     <Mail size={24} />
                   </div>
@@ -130,7 +141,7 @@ const Contact: React.FC = () => {
                     <p className="text-[10px] text-slate-400 uppercase font-black tracking-widest">Email</p>
                     <p className="font-extrabold text-[11px] sm:text-sm md:text-lg mt-0.5 whitespace-nowrap text-slate-900 group-hover:text-primary transition-colors">{config.companyInfo.email}</p>
                   </div>
-                </m.div>
+                </m.a>
                 <m.div whileHover={{ x: 6 }} className="flex items-center gap-5 group cursor-pointer">
                   <div className="w-12 h-12 md:w-14 md:h-14 bg-white shadow-md border border-slate-200 rounded-2xl flex items-center justify-center text-primary shrink-0 group-hover:bg-primary group-hover:text-white transition-all duration-300">
                     <MapPin size={24} />

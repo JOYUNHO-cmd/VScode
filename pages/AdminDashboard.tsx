@@ -246,8 +246,6 @@ const AdminDashboardInner: React.FC = () => {
           <div className="mt-8 pt-6 border-t border-gray-100 bg-gray-50/50 -mx-8 -mb-10 px-8 py-6 rounded-b-3xl">
              <p className="text-[11px] text-gray-400 font-medium leading-relaxed">
                ※ 네이버/구글 로그인 중단으로 인하여 404 및 연동 오류를 해결하기 위해 <b>자체 ID/Password 로그인 시스템</b>으로 즉각 교체되었습니다.
-               <br />
-               <span className="text-emerald-600 block mt-1 font-bold">임시 비밀번호는 "1234"로도 바로 접속 가능합니다.</span>
              </p>
           </div>
         </div>
