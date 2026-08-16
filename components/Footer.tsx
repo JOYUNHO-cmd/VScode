@@ -3,6 +3,7 @@ import { useSite } from '../context/SiteContext';
 import { Link } from 'react-router-dom';
 import { MapPin, Phone, Mail } from 'lucide-react';
 import { m } from 'motion/react';
+import { trackEvent } from '../lib/analytics';
 
 const Footer: React.FC = () => {
   const { config } = useSite();
@@ -99,7 +100,7 @@ const Footer: React.FC = () => {
               </li>
               <li className="flex items-center gap-2 md:gap-3">
                 <Phone className="flex-shrink-0 text-primary" size={14} />
-                <a href={`tel:${cleanPhone}`} className="hover:text-white text-gray-300 font-bold text-[13px] md:text-lg transition-colors">
+                <a href={`tel:${cleanPhone}`} onClick={() => trackEvent('contact_click', { method: 'phone', location: 'footer' })} className="hover:text-white text-gray-300 font-bold text-[13px] md:text-lg transition-colors">
                   {config.companyInfo.phone}
                 </a>
               </li>
@@ -108,8 +109,9 @@ const Footer: React.FC = () => {
                   <Mail className="flex-shrink-0 text-primary" size={14} />
                   <span className="text-gray-400 font-bold uppercase text-[9px] md:text-xs tracking-widest">Email</span>
                 </div>
-                <a 
-                  href={`mailto:${config.companyInfo.email}`} 
+                <a
+                  href={`mailto:${config.companyInfo.email}`}
+                  onClick={() => trackEvent('contact_click', { method: 'email', location: 'footer' })}
                   className="hover:text-white text-gray-300 font-medium pl-5 md:pl-8 text-[11px] md:text-base truncate transition-colors"
                 >
                   {config.companyInfo.email}

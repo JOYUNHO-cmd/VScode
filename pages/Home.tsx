@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { ArrowRight, CheckCircle2, Star, ShieldCheck, Clock, Sparkles, Quote, Rss, Calendar, Loader2, ArrowUpRight, Target, Compass, Heart, Zap, Shield, Trees, Home as LucideHome, Leaf, ShieldAlert, ChevronDown, HelpCircle, MousePointerClick } from 'lucide-react';
 import { m } from 'motion/react';
 import { useSite } from '../context/SiteContext';
+import { trackEvent } from '../lib/analytics';
 
 const zelkovaHero = '/images/hero-tree-family.webp';
 const zelkovaMobileHero = '/images/hero-tree-family-mobile.webp';
@@ -357,7 +358,7 @@ const Home: React.FC = () => {
 
             <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center w-full max-w-xs sm:max-w-none">
               <m.div whileHover={{ scale: 1.05, y: -2 }} whileTap={{ scale: 0.95 }} className="w-full sm:w-auto">
-                <Link to="/contact" className="w-full sm:w-auto px-6 py-3.5 sm:px-8 sm:py-4 bg-primary text-white text-base sm:text-lg font-bold rounded-xl hover:bg-primaryDark transition-all shadow-lg shadow-primary/30 flex items-center justify-center gap-2 group">
+                <Link to="/contact" onClick={() => trackEvent('contact_click', { method: 'quote', location: 'home_hero' })} className="w-full sm:w-auto px-6 py-3.5 sm:px-8 sm:py-4 bg-primary text-white text-base sm:text-lg font-bold rounded-xl hover:bg-primaryDark transition-all shadow-lg shadow-primary/30 flex items-center justify-center gap-2 group">
                   무료 견적 신청 <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
                 </Link>
               </m.div>
@@ -936,6 +937,7 @@ const Home: React.FC = () => {
             </div>
             <Link
               to="/contact"
+              onClick={() => trackEvent('contact_click', { method: 'quote', location: 'home_faq' })}
               className="shrink-0 px-5 py-2.5 bg-white text-[#055c40] hover:bg-emerald-50 text-xs sm:text-sm font-black rounded-xl shadow-md transition-all flex items-center gap-1.5 transform hover:scale-105"
             >
               <span>무료 상담 신청</span>
@@ -1119,16 +1121,17 @@ const Home: React.FC = () => {
             무료 방문 견적을 통해 합리적인 가격과 맞춤형 청소 계획을 제안해 드립니다.
           </m.p>
           <div className="flex flex-col sm:flex-row gap-5 justify-center">
-             <m.a 
+             <m.a
                whileHover={{ scale: 1.04, y: -2 }}
                whileTap={{ scale: 0.96 }}
-               href={`tel:${config.companyInfo.phone}`} 
+               href={`tel:${config.companyInfo.phone}`}
+               onClick={() => trackEvent('contact_click', { method: 'phone', location: 'home_bottom_cta' })}
                className="px-6 py-4 md:px-10 md:py-5 bg-white text-primaryDark text-[16px] md:text-xl font-extrabold rounded-xl hover:bg-slate-50 transition-all shadow-lg whitespace-nowrap"
              >
                전화 상담 {config.companyInfo.phone}
              </m.a>
              <m.div whileHover={{ scale: 1.04, y: -2 }} whileTap={{ scale: 0.96 }}>
-               <Link to="/contact" className="block px-6 py-4 md:px-10 md:py-5 bg-primaryDark text-white text-[16px] md:text-xl font-extrabold rounded-xl hover:bg-[#039665] transition-all shadow-lg border border-white/20 whitespace-nowrap">
+               <Link to="/contact" onClick={() => trackEvent('contact_click', { method: 'quote', location: 'home_bottom_cta' })} className="block px-6 py-4 md:px-10 md:py-5 bg-primaryDark text-white text-[16px] md:text-xl font-extrabold rounded-xl hover:bg-[#039665] transition-all shadow-lg border border-white/20 whitespace-nowrap">
                  온라인 견적 문의
                </Link>
              </m.div>

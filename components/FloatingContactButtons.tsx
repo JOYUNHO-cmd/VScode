@@ -1,5 +1,6 @@
 import React from 'react';
 import { Phone, MessageCircle } from 'lucide-react';
+import { trackEvent } from '../lib/analytics';
 
 const FloatingContactButtons: React.FC = () => {
   const phoneNumber = '01048807386';
@@ -59,6 +60,7 @@ const FloatingContactButtons: React.FC = () => {
       {/* Phone Call Floating Button */}
       <a
         href={`tel:${phoneNumber}`}
+        onClick={() => trackEvent('contact_click', { method: 'phone', location: 'floating_button' })}
         className="hover-phone-ring group relative flex items-center justify-end"
         aria-label="전화 문의"
       >
@@ -79,6 +81,7 @@ const FloatingContactButtons: React.FC = () => {
         href={kakaoUrl}
         target="_blank"
         rel="noopener noreferrer"
+        onClick={() => trackEvent('contact_click', { method: 'kakao', location: 'floating_button' })}
         className="hover-bubble-bounce group relative flex items-center justify-end"
         aria-label="카카오톡 문의"
       >

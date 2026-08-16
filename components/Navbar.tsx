@@ -3,6 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { Menu, X, Phone, UserCog, ClipboardCheck } from 'lucide-react';
 import { m, AnimatePresence } from 'motion/react';
 import { useSite } from '../context/SiteContext';
+import { trackEvent } from '../lib/analytics';
 
 const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -122,6 +123,7 @@ const Navbar: React.FC = () => {
               whileHover={{ scale: 1.04, y: -1 }}
               whileTap={{ scale: 0.96 }}
               href={`tel:${cleanPhone}`}
+              onClick={() => trackEvent('contact_click', { method: 'phone', location: 'navbar' })}
               className="flex items-center gap-2 bg-primary text-white px-6 py-3 rounded-full hover:bg-primaryDark transition-all shadow-lg shadow-primary/30 text-lg font-bold group cursor-pointer"
             >
               <Phone size={20} className="group-hover:rotate-12 transition-transform duration-300" />

@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
 import { testFirestoreConnection } from './lib/firebaseService';
+import { initAnalytics } from './lib/analytics';
 import './src/styles.css';
 
 // Naver login callback handler for popup redirect
@@ -41,6 +42,7 @@ if (handleNaverCallback()) {
 } else {
   // Initialize and verify the Firebase connection
   testFirestoreConnection();
+  initAnalytics();
 
   const rootElement = document.getElementById('root');
 

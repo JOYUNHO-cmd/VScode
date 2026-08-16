@@ -1,5 +1,6 @@
 import React from 'react';
 import { Phone, MessageCircle } from 'lucide-react';
+import { trackEvent } from '../lib/analytics';
 
 const MobileStickyBar: React.FC = () => {
   const phoneNumber = '01048807386';
@@ -55,8 +56,9 @@ const MobileStickyBar: React.FC = () => {
       `}</style>
 
       {/* Phone Call Button */}
-      <a 
+      <a
         href={`tel:${phoneNumber}`}
+        onClick={() => trackEvent('contact_click', { method: 'phone', location: 'mobile_sticky_bar' })}
         className="mobile-hover-phone flex-1 flex items-center justify-center gap-2 text-white font-black text-base"
       >
         <Phone size={20} className="phone-icon-animate shrink-0" />
@@ -64,10 +66,11 @@ const MobileStickyBar: React.FC = () => {
       </a>
 
       {/* KakaoTalk Button */}
-      <a 
+      <a
         href={kakaoUrl}
         target="_blank"
         rel="noopener noreferrer"
+        onClick={() => trackEvent('contact_click', { method: 'kakao', location: 'mobile_sticky_bar' })}
         className="mobile-hover-kakao flex-1 flex items-center justify-center gap-2 text-[#3C1E1E] font-black text-base"
       >
         <MessageCircle size={20} className="bubble-icon-animate fill-[#3C1E1E] shrink-0" />

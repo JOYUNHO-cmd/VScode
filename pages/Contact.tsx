@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useSite } from '../context/SiteContext';
 import { Phone, Mail, MapPin, Send, Sparkles, MessageCircle, CheckCircle2 } from 'lucide-react';
 import { m } from 'motion/react';
+import { trackEvent } from '../lib/analytics';
 
 const Contact: React.FC = () => {
   const { config } = useSite();
@@ -25,6 +26,7 @@ const Contact: React.FC = () => {
 
       if (response.ok) {
         setFormStatus('success');
+        trackEvent('generate_lead', { method: 'contact_form', service_type: formData.get('service_type') });
         alert('문의가 접수되었습니다. 빠른 시일 내에 연락드리겠습니다.');
         form.reset();
         setTimeout(() => setFormStatus('idle'), 3000);
