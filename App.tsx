@@ -1,4 +1,4 @@
-import React, { useEffect, Suspense, lazy } from 'react';
+import React, { useEffect, useRef, Suspense, lazy } from 'react';
 import { BrowserRouter, MemoryRouter, Routes, Route, useLocation, Navigate } from 'react-router-dom';
 import { AnimatePresence, motion } from 'motion/react';
 import Navbar from './components/Navbar';
@@ -39,12 +39,20 @@ const ScrollToTop = () => {
 // Animated Routes Wrapper for silky smooth page transitions
 const AnimatedRoutes: React.FC = () => {
   const location = useLocation();
+  // Skip the fade-in on the very first paint only — otherwise the SSR'd
+  // homepage ships as `opacity:0` and Chrome won't count it as painted
+  // for LCP until this animation's JS runs on the client. Route changes
+  // after that (isInitialMount flips post-mount) still get the fade.
+  const isInitialMount = useRef(true);
+  useEffect(() => {
+    isInitialMount.current = false;
+  }, []);
 
   return (
     <AnimatePresence mode="wait">
       <motion.div
         key={location.pathname}
-        initial={{ opacity: 0, y: 6 }}
+        initial={isInitialMount.current ? false : { opacity: 0, y: 6 }}
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, y: -6 }}
         transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}

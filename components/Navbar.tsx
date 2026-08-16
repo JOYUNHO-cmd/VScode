@@ -50,8 +50,8 @@ const Navbar: React.FC = () => {
                    transition={{ type: "spring", stiffness: 400, damping: 17 }}
                    src={config.companyInfo.logo}
                    alt={`${config.companyInfo.name} Logo`}
-                   width={80}
-                   height={80}
+                   width={90}
+                   height={90}
                    className="h-20"
                  />
                )}
