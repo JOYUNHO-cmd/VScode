@@ -106,7 +106,7 @@ const Footer: React.FC = () => {
               <li className="flex flex-col gap-1">
                 <div className="flex items-center gap-2 md:gap-3">
                   <Mail className="flex-shrink-0 text-primary" size={14} />
-                  <span className="text-gray-500 font-bold uppercase text-[9px] md:text-xs tracking-widest">Email</span>
+                  <span className="text-gray-400 font-bold uppercase text-[9px] md:text-xs tracking-widest">Email</span>
                 </div>
                 <a 
                   href={`mailto:${config.companyInfo.email}`} 
@@ -165,10 +165,10 @@ const Footer: React.FC = () => {
 
         {/* Bottom Copyright */}
         <div className="border-t border-gray-800 pt-8 text-center flex flex-col sm:flex-row items-center justify-between gap-3">
-          <p className="text-[10px] md:text-sm text-gray-500 font-medium">
+          <p className="text-[10px] md:text-sm text-gray-400 font-medium">
             &copy; {new Date().getFullYear()} {config.companyInfo.name}. All rights reserved. | 대표: 조윤호 | 사업자등록번호 및 통신판매업신고 완료
           </p>
-          <p className="text-[10px] md:text-xs text-gray-500">
+          <p className="text-[10px] md:text-xs text-gray-400">
             수도권 전지역 24시간 실시간 상담 & 100% 무료 현장 방문 견적 지원
           </p>
         </div>

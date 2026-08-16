@@ -1,0 +1,54 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  font-size: 18px;
+}
+body {
+  font-family: 'Noto Sans KR', sans-serif;
+  line-height: 1.6;
+  background-color: #F8FAFC; /* Slate 50 - Very Light Gray/White */
+  color: #1E293B; /* Slate 800 - Dark Gray Text */
+}
+/* Custom Scrollbar for Dashboard */
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: #F1F5F9;
+}
+::-webkit-scrollbar-thumb {
+  background: #CBD5E1;
+  border-radius: 5px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #34D399;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: #CBD5E1;
+}
+html {
+  scroll-behavior: smooth;
+}
+@keyframes float-slow {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-6px); }
+}
+@keyframes pulse-subtle {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.85; transform: scale(1.03); }
+}
+@keyframes shimmer-sweep {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(200%); }
+}
+.animate-float {
+  animation: float-slow 4s ease-in-out infinite;
+}
+.animate-pulse-subtle {
+  animation: pulse-subtle 3s ease-in-out infinite;
+}
+.animate-shimmer {
+  animation: shimmer-sweep 2.5s infinite;
+}

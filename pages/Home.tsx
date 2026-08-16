@@ -294,10 +294,11 @@ const Home: React.FC = () => {
       <section className="relative min-h-[calc(100vh-6rem)] md:h-[90vh] flex flex-col justify-center items-center overflow-hidden bg-white">
         {/* Mobile Background Image (Absolute full-bleed background on mobile for vertical image) */}
         <div className="block md:hidden absolute inset-0 z-0">
-          <img 
-            src={zelkovaMobileHero} 
-            alt="느티울종합청소 느티나무 배경" 
+          <img
+            src={zelkovaMobileHero}
+            alt="느티울종합청소 느티나무 배경"
             className="w-full h-full object-cover object-center"
+            fetchPriority="high"
           />
           {/* Elegant overlay that lets the image show through clearly and vividly, keeping the text readable */}
           <div className="absolute inset-0 bg-white/50" />
@@ -310,10 +311,11 @@ const Home: React.FC = () => {
             transform: `translate(${mousePos.x * -10}px, ${mousePos.y * -10}px) scale(1.05)`
           }}
         >
-          <img 
-            src={zelkovaHero} 
-            alt="느티울종합청소 느티나무 배경" 
+          <img
+            src={zelkovaHero}
+            alt="느티울종합청소 느티나무 배경"
             className="w-full h-full object-cover object-center"
+            fetchPriority="high"
           />
           <div className="absolute inset-0 bg-gradient-to-r from-white/80 via-white/50 to-white/30 md:bg-white/25" />
         </div>
@@ -393,9 +395,9 @@ const Home: React.FC = () => {
 
                 {/* Centered Text for Desktop */}
                 <div className="absolute inset-0 flex items-center justify-center pointer-events-none pr-[13%] pl-[2%]">
-                  <h3 className="text-slate-900 font-black text-[20px] md:text-[23px] tracking-tight whitespace-nowrap text-center">
+                  <h2 className="text-slate-900 font-black text-[20px] md:text-[23px] tracking-tight whitespace-nowrap text-center">
                     안녕하세요, 대표 <span className="text-[#04a875] font-black">조윤호</span> 입니다
-                  </h3>
+                  </h2>
                 </div>
               </div>
 
@@ -419,9 +421,9 @@ const Home: React.FC = () => {
 
                 {/* Centered Text for Mobile */}
                 <div className="absolute inset-0 flex items-center justify-center pointer-events-none pt-[22px] pb-[6px] px-3">
-                  <h3 className="text-slate-900 font-black text-[15.5px] tracking-tight whitespace-nowrap text-center">
+                  <h2 className="text-slate-900 font-black text-[15.5px] tracking-tight whitespace-nowrap text-center">
                     안녕하세요, 대표 <span className="text-[#04a875] font-black">조윤호</span> 입니다
-                  </h3>
+                  </h2>
                 </div>
               </div>
             </motion.div>

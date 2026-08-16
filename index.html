@@ -2,7 +2,7 @@
 <html lang="ko">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     
     <!-- Primary SEO Meta Tags -->
@@ -54,6 +54,9 @@
     <meta name="theme-color" content="#2cd396" />
 
     <!-- Schema.org JSON-LD Structured Data for Local Business & Cleaning Service -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -245,117 +248,18 @@
       ]
     }
     </script>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=Nanum+Brush+Script&family=Nanum+Pen+Script&family=Gowun+Batang:wght@400;700&family=Cinzel:wght@600;800&family=Playfair+Display:ital,wght@0,600;1,600&display=swap" rel="stylesheet">
-    <style>
-      :root {
-        font-size: 18px; 
-      }
-      body {
-        font-family: 'Noto Sans KR', sans-serif;
-        line-height: 1.6;
-        background-color: #F8FAFC; /* Slate 50 - Very Light Gray/White */
-        color: #1E293B; /* Slate 800 - Dark Gray Text */
-      }
-      /* Custom Scrollbar for Dashboard */
-      ::-webkit-scrollbar {
-        width: 10px; 
-      }
-      ::-webkit-scrollbar-track {
-        background: #F1F5F9; 
-      }
-      ::-webkit-scrollbar-thumb {
-        background: #CBD5E1; 
-        border-radius: 5px;
-      }
-      ::-webkit-scrollbar-thumb:hover {
-        background: #34D399; 
-      }
-      .custom-scrollbar::-webkit-scrollbar-thumb {
-         background-color: #CBD5E1;
-      }
-      html {
-        scroll-behavior: smooth;
-      }
-      @keyframes float-slow {
-        0%, 100% { transform: translateY(0px); }
-        50% { transform: translateY(-6px); }
-      }
-      @keyframes pulse-subtle {
-        0%, 100% { opacity: 1; transform: scale(1); }
-        50% { opacity: 0.85; transform: scale(1.03); }
-      }
-      @keyframes shimmer-sweep {
-        0% { transform: translateX(-100%); }
-        100% { transform: translateX(200%); }
-      }
-      .animate-float {
-        animation: float-slow 4s ease-in-out infinite;
-      }
-      .animate-pulse-subtle {
-        animation: pulse-subtle 3s ease-in-out infinite;
-      }
-      .animate-shimmer {
-        animation: shimmer-sweep 2.5s infinite;
-      }
-    </style>
-    <script>
-      tailwind.config = {
-        theme: {
-          extend: {
-            colors: {
-              primary: '#2cd396', // Brilliant, vibrant neon mint from user's image
-              primaryDark: '#04a875', // Deeper vibrant mint for hover states
-              secondary: '#FFFFFF', // White - Card Backgrounds
-              surface: '#F1F5F9', // Slate 100 - Section Backgrounds
-              accent: '#1cd194', // Accent color (extra vibrant minty emerald)
-              dark: '#0F172A', // Slate 900 - Dark Text
-              light: '#F8FAFC', // Slate 50 - Background
-              textMain: '#1E293B', // Slate 800
-              textSub: '#64748B', // Slate 500
-            },
-            fontWeight: {
-              normal: '400',
-              medium: '500',
-              bold: '700',
-              extrabold: '900',
-            },
-            animation: {
-              'fade-in': 'fadeIn 0.5s ease-out',
-              'float': 'float-slow 4s ease-in-out infinite',
-              'pulse-subtle': 'pulse-subtle 3s ease-in-out infinite',
-            },
-            keyframes: {
-              fadeIn: {
-                '0%': { opacity: '0', transform: 'translateY(10px)' },
-                '100%': { opacity: '1', transform: 'translateY(0)' },
-              },
-              'float-slow': {
-                '0%, 100%': { transform: 'translateY(0px)' },
-                '50%': { transform: 'translateY(-6px)' }
-              },
-              'pulse-subtle': {
-                '0%, 100%': { opacity: '1', transform: 'scale(1)' },
-                '50%': { opacity: '0.85', transform: 'scale(1.03)' }
-              }
-            }
-          }
-        }
-      }
-    </script>
-    <script src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.2.js" charset="utf-8"></script>
-  <script type="importmap">
-{
-  "imports": {
-    "react-router-dom": "https://esm.sh/react-router-dom@^7.13.0",
-    "react/": "https://esm.sh/react@^19.2.4/",
-    "react": "https://esm.sh/react@^19.2.4",
-    "lucide-react": "https://esm.sh/lucide-react@^0.563.0",
-    "react-dom/": "https://esm.sh/react-dom@^19.2.4/"
-  }
-}
-</script>
-<link rel="stylesheet" href="/index.css">
+    <!-- Loaded non-render-blocking: swap media to 'all' once the stylesheet arrives, -->
+    <!-- with a <noscript> fallback for crawlers/no-JS clients. -->
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=Nanum+Brush+Script&family=Gowun+Batang:wght@700&family=Cinzel:wght@800&display=swap"
+      media="print"
+      onload="this.media='all'"
+    />
+    <noscript>
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=Nanum+Brush+Script&family=Gowun+Batang:wght@700&family=Cinzel:wght@800&display=swap" />
+    </noscript>
+    <script src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.2.js" charset="utf-8" defer></script>
 </head>
   <body>
     <div id="root"></div>

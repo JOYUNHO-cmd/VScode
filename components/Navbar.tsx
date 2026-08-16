@@ -128,7 +128,7 @@ const Navbar: React.FC = () => {
             
             {/* Admin Toggle Link */}
             <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
-              <Link to="/admin" className={`p-2 rounded-full hover:bg-gray-100 transition inline-flex items-center justify-center ${isEditable ? 'text-red-500' : 'text-gray-400'}`}>
+              <Link to="/admin" aria-label="관리자 페이지" className={`p-2 rounded-full hover:bg-gray-100 transition inline-flex items-center justify-center ${isEditable ? 'text-red-500' : 'text-gray-400'}`}>
                   <UserCog size={24} />
               </Link>
             </motion.div>
@@ -136,7 +136,7 @@ const Navbar: React.FC = () => {
 
           {/* Mobile menu button */}
           <div className="flex md:hidden items-center gap-2">
-             <Link to="/admin" className={`p-2 rounded-full hover:bg-gray-100 transition ${isEditable ? 'text-red-500' : 'text-gray-400'}`}>
+             <Link to="/admin" aria-label="관리자 페이지" className={`p-2 rounded-full hover:bg-gray-100 transition ${isEditable ? 'text-red-500' : 'text-gray-400'}`}>
                 <UserCog size={24} />
             </Link>
             <motion.button
