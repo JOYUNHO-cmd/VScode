@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, CheckCircle2, Star, ShieldCheck, Clock, Sparkles, Quote, Rss, Calendar, Loader2, ArrowUpRight, Target, Compass, Heart, Zap, Shield, Trees, Home as LucideHome, Leaf, ShieldAlert, ChevronDown, HelpCircle, MousePointerClick } from 'lucide-react';
-import { motion } from 'motion/react';
+import { m } from 'motion/react';
 import { useSite } from '../context/SiteContext';
 
 const zelkovaHero = '/images/hero-tree-family.webp';
@@ -326,7 +326,7 @@ const Home: React.FC = () => {
 
         {/* Text and Buttons Container */}
         <div className="relative z-10 text-center px-4 max-w-7xl mx-auto w-full flex flex-col items-center justify-center py-10 md:py-0 -translate-y-10 md:translate-y-0">
-          <motion.div 
+          <m.div 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
@@ -356,13 +356,13 @@ const Home: React.FC = () => {
             </div>
 
             <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center w-full max-w-xs sm:max-w-none">
-              <motion.div whileHover={{ scale: 1.05, y: -2 }} whileTap={{ scale: 0.95 }} className="w-full sm:w-auto">
+              <m.div whileHover={{ scale: 1.05, y: -2 }} whileTap={{ scale: 0.95 }} className="w-full sm:w-auto">
                 <Link to="/contact" className="w-full sm:w-auto px-6 py-3.5 sm:px-8 sm:py-4 bg-primary text-white text-base sm:text-lg font-bold rounded-xl hover:bg-primaryDark transition-all shadow-lg shadow-primary/30 flex items-center justify-center gap-2 group">
                   무료 견적 신청 <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
                 </Link>
-              </motion.div>
+              </m.div>
             </div>
-          </motion.div>
+          </m.div>
         </div>
       </section>
 
@@ -372,7 +372,7 @@ const Home: React.FC = () => {
           {/* Top Section Graphic Image with Representative Greeting */}
           <div className="flex flex-col-reverse sm:flex-row items-center justify-center gap-6 sm:gap-8 md:gap-10 mb-10 md:mb-14 max-w-5xl mx-auto px-4">
             {/* Speech Bubble (모바일: 12시 방향 말꼬리, 데스크톱: 우측 사진 방향 말꼬리) */}
-            <motion.div 
+            <m.div 
               initial={{ opacity: 0, scale: 0.95, y: 8 }}
               whileInView={{ opacity: 1, scale: 1, y: 0 }}
               viewport={{ once: true }}
@@ -430,10 +430,10 @@ const Home: React.FC = () => {
                   </h2>
                 </div>
               </div>
-            </motion.div>
+            </m.div>
 
             {/* Representative Image (우측 배치) */}
-            <motion.div 
+            <m.div 
               initial={{ opacity: 0, scale: 0.95 }}
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
@@ -450,7 +450,7 @@ const Home: React.FC = () => {
                 className="w-full max-w-[280px] sm:max-w-[360px] md:max-w-[440px] h-auto object-contain mx-auto drop-shadow-md rounded-2xl"
                 referrerPolicy="no-referrer"
               />
-            </motion.div>
+            </m.div>
           </div>
 
           <div className="text-center mb-12 md:mb-16">
@@ -491,7 +491,7 @@ const Home: React.FC = () => {
                 )
               }
             ].map((item, idx) => (
-              <motion.div 
+              <m.div 
                 key={idx} 
                 initial={{ opacity: 0, y: 15 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -510,7 +510,7 @@ const Home: React.FC = () => {
                 <p className="text-slate-600 text-xs md:text-[15px] leading-relaxed font-semibold break-keep">
                   {item.desc}
                 </p>
-              </motion.div>
+              </m.div>
             ))}
           </div>
 
@@ -610,7 +610,7 @@ const Home: React.FC = () => {
               { img: stepImage5, mobileImg: stepImage5Mobile, step: 'STEP 05', width: 900, height: 600 },
             ].map((item, idx, arr) => (
               <div key={idx} className="w-full flex flex-col items-center">
-                <motion.div
+                <m.div
                   initial={{ opacity: 0, y: 24 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, margin: "-50px" }}
@@ -639,14 +639,14 @@ const Home: React.FC = () => {
                       referrerPolicy="no-referrer" 
                     />
                   </div>
-                </motion.div>
+                </m.div>
 
                 {/* Animated Lively Downward Connector Flow */}
                 {idx < arr.length - 1 && (
                   <div className="my-5 sm:my-8 flex flex-col items-center justify-center relative">
                     {/* Glowing flow line with moving light tracer */}
                     <div className="w-[3px] h-8 sm:h-12 bg-gradient-to-b from-[#07835a]/40 via-[#07835a] to-[#07835a]/40 rounded-full relative overflow-hidden shadow-[0_0_12px_rgba(34,186,139,0.4)]">
-                      <motion.div
+                      <m.div
                         animate={{ y: [-24, 48] }}
                         transition={{ repeat: Infinity, duration: 1.5, ease: "linear" }}
                         className="w-full h-5 bg-white rounded-full opacity-90 blur-[0.5px]"
@@ -654,13 +654,13 @@ const Home: React.FC = () => {
                     </div>
                     
                     {/* Floating bouncing animated circle badge with bold downward chevron */}
-                    <motion.div
+                    <m.div
                       animate={{ y: [0, 5, 0] }}
                       transition={{ repeat: Infinity, duration: 1.4, ease: "easeInOut" }}
                       className="mt-1 flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-gradient-to-b from-[#07835a] to-emerald-600 text-white shadow-[0_4px_18px_rgba(34,186,139,0.45)] border-2 border-white ring-4 ring-[#07835a]/15"
                     >
                       <ChevronDown className="w-5 h-5 sm:w-6 sm:h-6 stroke-[3]" />
-                    </motion.div>
+                    </m.div>
                   </div>
                 )}
               </div>
@@ -684,7 +684,7 @@ const Home: React.FC = () => {
               { icon: Clock, title: '신속 현장 대응', desc: '고객님이 원하는 시간\n언제든 달려갑니다.' },
               { icon: Star, title: '100% 만족 보장', desc: '만족하실 때까지\n끝까지 책임집니다.' }
             ].map((feature, idx) => (
-              <motion.div 
+              <m.div 
                 key={idx} 
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -706,7 +706,7 @@ const Home: React.FC = () => {
                 <p className="text-slate-500 text-[12px] leading-tight font-bold sm:hidden whitespace-pre-line">
                   {feature.desc}
                 </p>
-              </motion.div>
+              </m.div>
             ))}
           </div>
         </div>
@@ -773,7 +773,7 @@ const Home: React.FC = () => {
                   className="fixed inset-0 z-20 cursor-default"
                   onClick={() => setFaqDropdownOpen(false)}
                 />
-                <motion.div
+                <m.div
                   initial={{ opacity: 0, y: -8 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.15 }}
@@ -816,7 +816,7 @@ const Home: React.FC = () => {
                       )}
                     </button>
                   ))}
-                </motion.div>
+                </m.div>
               </>
             )}
           </div>
@@ -899,7 +899,7 @@ const Home: React.FC = () => {
                     </button>
 
                     {/* Collapsible Answer Body */}
-                    <motion.div
+                    <m.div
                       initial={false}
                       animate={{
                         height: isOpen ? 'auto' : 0,
@@ -918,7 +918,7 @@ const Home: React.FC = () => {
                           </div>
                         </div>
                       </div>
-                    </motion.div>
+                    </m.div>
                   </div>
                 );
               }))}
@@ -959,7 +959,7 @@ const Home: React.FC = () => {
 
           <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
             {config.services.map((service, idx) => (
-              <motion.div
+              <m.div
                 key={service.id}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -982,7 +982,7 @@ const Home: React.FC = () => {
                     </h4>
                   </div>
                 </Link>
-              </motion.div>
+              </m.div>
             ))}
           </div>
         </div>
@@ -1044,7 +1044,7 @@ const Home: React.FC = () => {
                 const coverImage = getPostCoverImage(item, index);
                 const isSecondBlog = item.blogCode === 'decline11731';
                 return (
-                  <motion.a
+                  <m.a
                     key={item.guid || index}
                     initial={{ opacity: 0, y: 15 }}
                     whileInView={{ opacity: 1, y: 0 }}
@@ -1089,7 +1089,7 @@ const Home: React.FC = () => {
                         <ArrowUpRight size={14} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
                       </div>
                     </div>
-                  </motion.a>
+                  </m.a>
                 );
               })}
             </div>
@@ -1101,15 +1101,15 @@ const Home: React.FC = () => {
       <section className="py-24 bg-primary relative overflow-hidden">
         <div className="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]"></div>
         <div className="max-w-4xl mx-auto px-4 text-center relative z-10">
-          <motion.h2 
+          <m.h2 
             initial={{ opacity: 0, y: 15 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             className="text-[20px] sm:text-4xl md:text-5xl font-extrabold text-white mb-6 whitespace-nowrap"
           >
             깨끗한 공간, 새로운 시작을 준비하세요
-          </motion.h2>
-          <motion.p 
+          </m.h2>
+          <m.p 
             initial={{ opacity: 0, y: 15 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -1117,21 +1117,21 @@ const Home: React.FC = () => {
             className="text-white/90 mb-10 text-lg md:text-2xl font-medium break-keep"
           >
             무료 방문 견적을 통해 합리적인 가격과 맞춤형 청소 계획을 제안해 드립니다.
-          </motion.p>
+          </m.p>
           <div className="flex flex-col sm:flex-row gap-5 justify-center">
-             <motion.a 
+             <m.a 
                whileHover={{ scale: 1.04, y: -2 }}
                whileTap={{ scale: 0.96 }}
                href={`tel:${config.companyInfo.phone}`} 
                className="px-6 py-4 md:px-10 md:py-5 bg-white text-primaryDark text-[16px] md:text-xl font-extrabold rounded-xl hover:bg-slate-50 transition-all shadow-lg whitespace-nowrap"
              >
                전화 상담 {config.companyInfo.phone}
-             </motion.a>
-             <motion.div whileHover={{ scale: 1.04, y: -2 }} whileTap={{ scale: 0.96 }}>
+             </m.a>
+             <m.div whileHover={{ scale: 1.04, y: -2 }} whileTap={{ scale: 0.96 }}>
                <Link to="/contact" className="block px-6 py-4 md:px-10 md:py-5 bg-primaryDark text-white text-[16px] md:text-xl font-extrabold rounded-xl hover:bg-[#039665] transition-all shadow-lg border border-white/20 whitespace-nowrap">
                  온라인 견적 문의
                </Link>
-             </motion.div>
+             </m.div>
           </div>
         </div>
       </section>

@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, Suspense, lazy } from 'react';
 import { BrowserRouter, MemoryRouter, Routes, Route, useLocation, Navigate } from 'react-router-dom';
-import { AnimatePresence, motion } from 'motion/react';
+import { AnimatePresence, LazyMotion, m } from 'motion/react';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import MobileStickyBar from './components/MobileStickyBar';
@@ -12,6 +12,14 @@ import SEO from './components/SEO';
 // is invisible to that render path but keeps them out of the initial bundle.
 import Home from './pages/Home';
 import { SiteProvider } from './context/SiteContext';
+
+// Loaded async so the ~25KB feature bundle (drag/layout/gesture logic —
+// domMax, needed for the nav underline's layoutId) code-splits out of the
+// main bundle instead of shipping on every page load. m.* components still
+// render their base markup with initial/animate styles applied immediately
+// (including during SSR) — this only defers the interactivity/animation
+// engine itself, so there's no flash of unstyled/unpositioned content.
+const loadMotionFeatures = () => import('./lib/motionFeatures').then((mod) => mod.default);
 
 const About = lazy(() => import('./pages/About'));
 const Services = lazy(() => import('./pages/Services'));
@@ -50,7 +58,7 @@ const AnimatedRoutes: React.FC = () => {
 
   return (
     <AnimatePresence mode="wait">
-      <motion.div
+      <m.div
         key={location.pathname}
         initial={isInitialMount.current ? false : { opacity: 0, y: 6 }}
         animate={{ opacity: 1, y: 0 }}
@@ -70,7 +78,7 @@ const AnimatedRoutes: React.FC = () => {
             <Route path="/admin" element={<AdminDashboard />} />
           </Routes>
         </Suspense>
-      </motion.div>
+      </m.div>
     </AnimatePresence>
   );
 };
@@ -113,11 +121,13 @@ const App: React.FC<AppProps> = ({ ssrPath }) => {
 
   return (
     <SiteProvider>
-      {ssrPath ? (
-        <MemoryRouter initialEntries={[ssrPath]}>{routes}</MemoryRouter>
-      ) : (
-        <BrowserRouter>{routes}</BrowserRouter>
-      )}
+      <LazyMotion features={loadMotionFeatures} strict>
+        {ssrPath ? (
+          <MemoryRouter initialEntries={[ssrPath]}>{routes}</MemoryRouter>
+        ) : (
+          <BrowserRouter>{routes}</BrowserRouter>
+        )}
+      </LazyMotion>
     </SiteProvider>
   );
 };

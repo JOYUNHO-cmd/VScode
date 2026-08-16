@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSite } from '../context/SiteContext';
 import { Target, Users, Award, Quote, Sparkles, CheckCircle, Leaf } from 'lucide-react';
-import { motion } from 'motion/react';
+import { m } from 'motion/react';
 
 const About: React.FC = () => {
   const { config } = useSite();
@@ -53,7 +53,7 @@ const About: React.FC = () => {
         <div className="absolute inset-0 bg-gradient-to-b from-slate-800/40 via-transparent to-slate-900/60" />
 
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <motion.h1 
+          <m.h1 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
@@ -71,27 +71,27 @@ const About: React.FC = () => {
             <span className="bg-white/15 px-4 md:px-10 py-3 md:py-4 rounded-xl md:rounded-2xl border border-white/20 backdrop-blur-md mt-3 md:mt-4 inline-block text-[1.35rem] sm:text-2xl md:text-7xl font-black tracking-normal md:tracking-wider shadow-2xl whitespace-nowrap">
                청소 전문 기업입니다
             </span>
-          </motion.h1>
+          </m.h1>
 
-          <motion.div 
+          <m.div 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
             className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-8 lg:gap-6 xl:gap-8 mt-10 md:mt-16 lg:mt-24 max-w-7xl mx-auto px-4 w-full"
           >
-             <motion.div whileHover={{ scale: 1.05, y: -2 }} className="flex items-center justify-center gap-3 sm:gap-5 lg:gap-4 xl:gap-5 text-white font-extrabold text-[16px] sm:text-xl md:text-2xl lg:bg-white/10 lg:backdrop-blur-md lg:border lg:border-white/20 lg:px-7 lg:py-4 xl:px-8 xl:py-5 lg:rounded-2xl lg:shadow-xl transition-all duration-300 w-auto cursor-default">
+             <m.div whileHover={{ scale: 1.05, y: -2 }} className="flex items-center justify-center gap-3 sm:gap-5 lg:gap-4 xl:gap-5 text-white font-extrabold text-[16px] sm:text-xl md:text-2xl lg:bg-white/10 lg:backdrop-blur-md lg:border lg:border-white/20 lg:px-7 lg:py-4 xl:px-8 xl:py-5 lg:rounded-2xl lg:shadow-xl transition-all duration-300 w-auto cursor-default">
                 <CheckCircle className="text-primary w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 lg:w-9 lg:h-9 xl:w-10 xl:h-10 shrink-0" />
                 <p className="text-[17px] sm:text-inherit lg:text-[27px] font-black leading-none whitespace-nowrap">100% 대표 직접 관리</p>
-             </motion.div>
-             <motion.div whileHover={{ scale: 1.05, y: -2 }} className="flex items-center justify-center gap-3 sm:gap-5 lg:gap-4 xl:gap-5 text-white font-extrabold text-[16px] sm:text-xl md:text-2xl lg:bg-white/10 lg:backdrop-blur-md lg:border lg:border-white/20 lg:px-7 lg:py-4 xl:px-8 xl:py-5 lg:rounded-2xl lg:shadow-xl transition-all duration-300 w-auto cursor-default">
+             </m.div>
+             <m.div whileHover={{ scale: 1.05, y: -2 }} className="flex items-center justify-center gap-3 sm:gap-5 lg:gap-4 xl:gap-5 text-white font-extrabold text-[16px] sm:text-xl md:text-2xl lg:bg-white/10 lg:backdrop-blur-md lg:border lg:border-white/20 lg:px-7 lg:py-4 xl:px-8 xl:py-5 lg:rounded-2xl lg:shadow-xl transition-all duration-300 w-auto cursor-default">
                 <CheckCircle className="text-primary w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 lg:w-9 lg:h-9 xl:w-10 xl:h-10 shrink-0" />
                 <p className="text-[17px] sm:text-inherit lg:text-[27px] font-black leading-none whitespace-nowrap">검수 후 후불제</p>
-             </motion.div>
-             <motion.div whileHover={{ scale: 1.05, y: -2 }} className="flex items-center justify-center gap-3 sm:gap-5 lg:gap-4 xl:gap-5 text-white font-extrabold text-[16px] sm:text-xl md:text-2xl lg:bg-white/10 lg:backdrop-blur-md lg:border lg:border-white/20 lg:px-7 lg:py-4 xl:px-8 xl:py-5 lg:rounded-2xl lg:shadow-xl transition-all duration-300 w-auto cursor-default">
+             </m.div>
+             <m.div whileHover={{ scale: 1.05, y: -2 }} className="flex items-center justify-center gap-3 sm:gap-5 lg:gap-4 xl:gap-5 text-white font-extrabold text-[16px] sm:text-xl md:text-2xl lg:bg-white/10 lg:backdrop-blur-md lg:border lg:border-white/20 lg:px-7 lg:py-4 xl:px-8 xl:py-5 lg:rounded-2xl lg:shadow-xl transition-all duration-300 w-auto cursor-default">
                 <CheckCircle className="text-primary w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 lg:w-9 lg:h-9 xl:w-10 xl:h-10 shrink-0" />
                 <p className="text-[17px] sm:text-inherit lg:text-[27px] font-black leading-none whitespace-nowrap">체계적인 전문 장비</p>
-             </motion.div>
-          </motion.div>
+             </m.div>
+          </m.div>
 
         </div>
         
@@ -109,7 +109,7 @@ const About: React.FC = () => {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-stretch">
             
             {/* Left Column: Premium Visual breakdown */}
-            <motion.div 
+            <m.div 
               initial={{ opacity: 0, x: -20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
@@ -132,7 +132,7 @@ const About: React.FC = () => {
               {/* Syllable Breakdown Cards */}
               <div className="space-y-4 w-full text-left">
                 {/* Neuti Card */}
-                <motion.div 
+                <m.div 
                   whileHover={{ scale: 1.02, x: 4 }}
                   className="bg-slate-50 border border-slate-100 p-5 rounded-2xl flex items-start gap-4 transition-all hover:bg-slate-100/70 hover:shadow-md cursor-default"
                 >
@@ -158,10 +158,10 @@ const About: React.FC = () => {
                       <span className="block sm:inline">아름다운 느티나무를 의미합니다</span>
                     </p>
                   </div>
-                </motion.div>
+                </m.div>
 
                 {/* Ul Card */}
-                <motion.div 
+                <m.div 
                   whileHover={{ scale: 1.02, x: 4 }}
                   className="bg-slate-50 border border-slate-100 p-5 rounded-2xl flex items-start gap-4 transition-all hover:bg-slate-100/70 hover:shadow-md cursor-default"
                 >
@@ -191,12 +191,12 @@ const About: React.FC = () => {
                       </span>
                     </p>
                   </div>
-                </motion.div>
+                </m.div>
               </div>
-            </motion.div>
+            </m.div>
 
             {/* Right Column: Narrative content */}
-            <motion.div 
+            <m.div 
               initial={{ opacity: 0, x: 20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
@@ -237,7 +237,7 @@ const About: React.FC = () => {
                   믿음직한 울타리가 되는 동반자로 함께하겠습니다.
                 </p>
               </div>
-            </motion.div>
+            </m.div>
 
           </div>
         </div>
@@ -247,7 +247,7 @@ const About: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
 
         {/* CEO Message Section */}
-        <motion.div 
+        <m.div 
           initial={{ opacity: 0, y: 25 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -332,7 +332,7 @@ const About: React.FC = () => {
                 </div>
 
                 <div className="w-full md:w-2/5 order-1 md:order-2 flex justify-center">
-                    <motion.div 
+                    <m.div 
                       whileHover={{ scale: 1.03, rotate: 0 }}
                       className="relative w-full max-w-sm aspect-[3/4] rounded-3xl overflow-hidden shadow-2xl border-[12px] border-slate-50 bg-slate-200 transform md:rotate-3 transition-transform duration-500"
                     >
@@ -344,11 +344,11 @@ const About: React.FC = () => {
                           <div className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></div>
                           <span>대표</span>
                         </div>
-                    </motion.div>
+                    </m.div>
                 </div>
              </div>
            </div>
-         </motion.div>
+         </m.div>
 
         {/* Values - Updated for 4 columns, optimized for mobile and PC */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 md:gap-10 mb-32 px-1 md:px-0">
@@ -378,7 +378,7 @@ const About: React.FC = () => {
               descMobile: "친환경 세제 사용\n안심 공간 케어"
             }
           ].map((val, idx) => (
-            <motion.div 
+            <m.div 
               key={idx}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -398,13 +398,13 @@ const About: React.FC = () => {
               <p className="text-slate-500 text-[13px] md:text-[25px] font-bold leading-tight break-keep xs:hidden whitespace-pre-line">
                 {val.descMobile}
               </p>
-            </motion.div>
+            </m.div>
           ))}
         </div>
 
         {/* Certifications Section - Updated for 3 columns on mobile */}
         <div className="border-t border-slate-200 pt-24">
-          <motion.div 
+          <m.div 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -415,11 +415,11 @@ const About: React.FC = () => {
               느티울은 검증된 전문 자격을 갖춘 대표가 직접 시공합니다.<br />
               전문성과 기술력을 바탕으로 신뢰할 수 있는 서비스를 제공합니다.
             </p>
-          </motion.div>
+          </m.div>
 
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-5 sm:gap-6 md:gap-8 px-1 md:px-0">
             {certifications.map((cert, idx) => (
-              <motion.div 
+              <m.div 
                 key={cert.id}
                 initial={{ opacity: 0, scale: 0.95 }}
                 whileInView={{ opacity: 1, scale: 1 }}
@@ -444,7 +444,7 @@ const About: React.FC = () => {
                     {cert.title}
                   </h4>
                 </div>
-              </motion.div>
+              </m.div>
             ))}
           </div>
         </div>

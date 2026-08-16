@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X, Phone, UserCog, ClipboardCheck } from 'lucide-react';
-import { motion, AnimatePresence } from 'motion/react';
+import { m, AnimatePresence } from 'motion/react';
 import { useSite } from '../context/SiteContext';
 
 const Navbar: React.FC = () => {
@@ -45,7 +45,7 @@ const Navbar: React.FC = () => {
               title="느티울 홈으로 이동 및 최상단 스크롤"
             >
                {config.companyInfo.logo && (
-                 <motion.img
+                 <m.img
                    whileHover={{ scale: 1.05, rotate: 2 }}
                    transition={{ type: "spring", stiffness: 400, damping: 17 }}
                    src={config.companyInfo.logo}
@@ -109,7 +109,7 @@ const Navbar: React.FC = () => {
                 >
                   <span className="relative z-10">{link.name}</span>
                   {isCurrent && (
-                    <motion.div
+                    <m.div
                       layoutId="activeNavUnderline"
                       className="absolute bottom-0 left-0 right-0 h-1 bg-primary rounded-full shadow-[0_2px_8px_rgba(44,211,150,0.5)]"
                       transition={{ type: "spring", stiffness: 380, damping: 30 }}
@@ -118,7 +118,7 @@ const Navbar: React.FC = () => {
                 </Link>
               );
             })}
-            <motion.a
+            <m.a
               whileHover={{ scale: 1.04, y: -1 }}
               whileTap={{ scale: 0.96 }}
               href={`tel:${cleanPhone}`}
@@ -126,14 +126,14 @@ const Navbar: React.FC = () => {
             >
               <Phone size={20} className="group-hover:rotate-12 transition-transform duration-300" />
               {config.companyInfo.phone}
-            </motion.a>
+            </m.a>
             
             {/* Admin Toggle Link */}
-            <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
+            <m.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
               <Link to="/admin" aria-label="관리자 페이지" className={`p-2 rounded-full hover:bg-gray-100 transition inline-flex items-center justify-center ${isEditable ? 'text-red-500' : 'text-gray-400'}`}>
                   <UserCog size={24} />
               </Link>
-            </motion.div>
+            </m.div>
           </div>
 
           {/* Mobile menu button */}
@@ -141,14 +141,14 @@ const Navbar: React.FC = () => {
              <Link to="/admin" aria-label="관리자 페이지" className={`p-2 rounded-full hover:bg-gray-100 transition ${isEditable ? 'text-red-500' : 'text-gray-400'}`}>
                 <UserCog size={24} />
             </Link>
-            <motion.button
+            <m.button
               whileTap={{ scale: 0.9 }}
               onClick={() => setIsOpen(!isOpen)}
               className="text-slate-800 hover:text-primary p-2 focus:outline-none rounded-xl"
               aria-label="Toggle navigation menu"
             >
               {isOpen ? <X size={32} /> : <Menu size={32} />}
-            </motion.button>
+            </m.button>
           </div>
         </div>
       </div>
@@ -156,7 +156,7 @@ const Navbar: React.FC = () => {
       {/* Mobile Menu with AnimatePresence */}
       <AnimatePresence>
         {isOpen && (
-          <motion.div 
+          <m.div 
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
@@ -167,7 +167,7 @@ const Navbar: React.FC = () => {
             <div className="px-4 pt-3 pb-6 space-y-1 sm:px-3 bg-white">
               <div className="divide-y divide-slate-100/90 rounded-2xl overflow-hidden">
                 {navLinks.map((link, idx) => (
-                  <motion.div
+                  <m.div
                     key={link.name}
                     initial={{ opacity: 0, x: -10 }}
                     animate={{ opacity: 1, x: 0 }}
@@ -184,12 +184,12 @@ const Navbar: React.FC = () => {
                     >
                       {link.name}
                     </Link>
-                  </motion.div>
+                  </m.div>
                 ))}
               </div>
 
               <div className="flex justify-center gap-5 py-3.5 bg-white border-t border-slate-100/80 mt-2">
-                 <motion.a 
+                 <m.a 
                    whileHover={{ scale: 1.15 }}
                    whileTap={{ scale: 0.9 }}
                    href={config.companyInfo.blog} 
@@ -199,8 +199,8 @@ const Navbar: React.FC = () => {
                    title="Naver Blog 1"
                  >
                     <span className="font-bold text-[10px]">BLOG</span>
-                 </motion.a>
-                 <motion.a 
+                 </m.a>
+                 <m.a 
                    whileHover={{ scale: 1.15 }}
                    whileTap={{ scale: 0.9 }}
                    href={config.companyInfo.blog2} 
@@ -210,10 +210,10 @@ const Navbar: React.FC = () => {
                    title="Naver Blog 2"
                  >
                     <span className="font-bold text-[10px]">BLOG</span>
-                 </motion.a>
+                 </m.a>
                </div>
 
-               <motion.div
+               <m.div
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.97 }}
               >
@@ -225,9 +225,9 @@ const Navbar: React.FC = () => {
                   <ClipboardCheck size={20} className="stroke-[2.5]" />
                   무료 방문 견적
                 </Link>
-              </motion.div>
+              </m.div>
             </div>
-          </motion.div>
+          </m.div>
         )}
       </AnimatePresence>
     </nav>

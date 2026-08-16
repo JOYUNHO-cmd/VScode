@@ -2,7 +2,7 @@ import React from 'react';
 import { useSite } from '../context/SiteContext';
 import { Link } from 'react-router-dom';
 import { MapPin, Phone, Mail } from 'lucide-react';
-import { motion } from 'motion/react';
+import { m } from 'motion/react';
 
 const Footer: React.FC = () => {
   const { config } = useSite();
@@ -28,7 +28,7 @@ const Footer: React.FC = () => {
               평화와 휴식을 선물합니다.
             </p>
             <div className="flex space-x-2 md:space-x-4">
-              <motion.a 
+              <m.a 
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.95 }}
                 href={config.companyInfo.blog} 
@@ -38,8 +38,8 @@ const Footer: React.FC = () => {
                 title="Naver Blog 1"
               >
                 <span className="font-bold text-[7px] md:text-[9px]">BLOG</span>
-              </motion.a>
-              <motion.a 
+              </m.a>
+              <m.a 
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.95 }}
                 href={config.companyInfo.blog2} 
@@ -49,7 +49,7 @@ const Footer: React.FC = () => {
                 title="Naver Blog 2"
               >
                 <span className="font-bold text-[7px] md:text-[9px]">BLOG</span>
-              </motion.a>
+              </m.a>
             </div>
           </div>
 

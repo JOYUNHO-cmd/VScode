@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useSite } from '../context/SiteContext';
 import { Phone, Mail, MapPin, Send, Sparkles, MessageCircle, CheckCircle2 } from 'lucide-react';
-import { motion } from 'motion/react';
+import { m } from 'motion/react';
 
 const Contact: React.FC = () => {
   const { config } = useSite();
@@ -61,15 +61,15 @@ const Contact: React.FC = () => {
         </div>
 
         <div className="relative z-10 max-w-7xl mx-auto px-4 text-center">
-          <motion.h1 
+          <m.h1 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
             className="text-4xl md:text-6xl font-black text-white mb-6 tracking-tight drop-shadow-lg"
           >
             견적 문의
-          </motion.h1>
-          <motion.p 
+          </m.h1>
+          <m.p 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.15 }}
@@ -77,7 +77,7 @@ const Contact: React.FC = () => {
           >
             <span className="block">공간의 가치를 높이는 느티울이</span>
             <span className="block">정직하고 투명한 견적을 약속드립니다.</span>
-          </motion.p>
+          </m.p>
         </div>
 
         {/* Smooth bottom transition without black line */}
@@ -86,7 +86,7 @@ const Contact: React.FC = () => {
 
       {/* Main Content Area */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-20 -mt-10 relative z-20">
-        <motion.div 
+        <m.div 
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
@@ -111,7 +111,7 @@ const Contact: React.FC = () => {
               </p>
               
               <div className="space-y-8">
-                <motion.div whileHover={{ x: 6 }} className="flex items-center gap-5 group cursor-pointer">
+                <m.div whileHover={{ x: 6 }} className="flex items-center gap-5 group cursor-pointer">
                   <div className="w-12 h-12 md:w-14 md:h-14 bg-white shadow-md border border-slate-200 rounded-2xl flex items-center justify-center text-primary shrink-0 group-hover:bg-primary group-hover:text-white transition-all duration-300">
                     <Phone size={24} />
                   </div>
@@ -119,8 +119,8 @@ const Contact: React.FC = () => {
                     <p className="text-[10px] text-slate-400 uppercase font-black tracking-widest">Phone</p>
                     <p className="font-extrabold text-[11px] sm:text-sm md:text-lg mt-0.5 whitespace-nowrap text-slate-900 group-hover:text-primary transition-colors">{config.companyInfo.phone}</p>
                   </div>
-                </motion.div>
-                <motion.div whileHover={{ x: 6 }} className="flex items-center gap-5 group cursor-pointer">
+                </m.div>
+                <m.div whileHover={{ x: 6 }} className="flex items-center gap-5 group cursor-pointer">
                   <div className="w-12 h-12 md:w-14 md:h-14 bg-white shadow-md border border-slate-200 rounded-2xl flex items-center justify-center text-primary shrink-0 group-hover:bg-primary group-hover:text-white transition-all duration-300">
                     <Mail size={24} />
                   </div>
@@ -128,8 +128,8 @@ const Contact: React.FC = () => {
                     <p className="text-[10px] text-slate-400 uppercase font-black tracking-widest">Email</p>
                     <p className="font-extrabold text-[11px] sm:text-sm md:text-lg mt-0.5 whitespace-nowrap text-slate-900 group-hover:text-primary transition-colors">{config.companyInfo.email}</p>
                   </div>
-                </motion.div>
-                <motion.div whileHover={{ x: 6 }} className="flex items-center gap-5 group cursor-pointer">
+                </m.div>
+                <m.div whileHover={{ x: 6 }} className="flex items-center gap-5 group cursor-pointer">
                   <div className="w-12 h-12 md:w-14 md:h-14 bg-white shadow-md border border-slate-200 rounded-2xl flex items-center justify-center text-primary shrink-0 group-hover:bg-primary group-hover:text-white transition-all duration-300">
                     <MapPin size={24} />
                   </div>
@@ -137,7 +137,7 @@ const Contact: React.FC = () => {
                     <p className="text-[10px] text-slate-400 uppercase font-black tracking-widest">Office</p>
                     <p className="font-extrabold text-[11px] sm:text-sm md:text-lg mt-0.5 text-slate-900 leading-tight whitespace-nowrap group-hover:text-primary transition-colors">{config.companyInfo.address}</p>
                   </div>
-                </motion.div>
+                </m.div>
               </div>
             </div>
           </div>
@@ -218,7 +218,7 @@ const Contact: React.FC = () => {
                 </div>
 
                 <div className="pt-4">
-                  <motion.button 
+                  <m.button 
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                     disabled={formStatus === 'submitting'}
@@ -236,11 +236,11 @@ const Contact: React.FC = () => {
                     ) : (
                        <>견적 문의 전송하기 <Send size={22} /></>
                     )}
-                  </motion.button>
+                  </m.button>
                 </div>
              </form>
           </div>
-        </motion.div>
+        </m.div>
       </div>
     </div>
   );

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSite } from '../context/SiteContext';
 import { Sparkles, Calendar, ArrowUpRight, ExternalLink, Loader2, Rss, ChevronRight } from 'lucide-react';
-import { motion } from 'motion/react';
+import { m } from 'motion/react';
 
 interface NaverRssItem {
   title: string;
@@ -153,16 +153,16 @@ export const Portfolio: React.FC = () => {
         </div>
 
         <div className="relative z-10 max-w-7xl mx-auto px-4 text-center pb-6 md:pb-10">
-          <motion.h1 
+          <m.h1 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
             className="text-3xl md:text-6xl font-black text-white mb-4 md:mb-6 leading-tight drop-shadow-md tracking-tight"
           >
             실시간 <span className="text-primary font-bold">작업 현장 공유</span>
-          </motion.h1>
+          </m.h1>
           
-          <motion.p 
+          <m.p 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.15 }}
@@ -172,7 +172,7 @@ export const Portfolio: React.FC = () => {
             <br className="hidden md:block" />
             <span className="block md:inline">생생한 실제 현장 작업 사진과</span>{' '}
             <span className="block md:inline">진행하는 과정들을 만나보세요.</span>
-          </motion.p>
+          </m.p>
         </div>
 
         {/* Smooth bottom transition without black line */}
@@ -182,7 +182,7 @@ export const Portfolio: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-16">
         
         {/* Construction Channel Callout */}
-        <motion.div 
+        <m.div 
           initial={{ opacity: 0, y: 25 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -206,7 +206,7 @@ export const Portfolio: React.FC = () => {
             </div>
             
             <div className="flex flex-col gap-3.5 w-full md:w-64 shrink-0">
-              <motion.a 
+              <m.a 
                 whileHover={{ scale: 1.03 }}
                 whileTap={{ scale: 0.98 }}
                 href={naverBlogUrl1} 
@@ -216,8 +216,8 @@ export const Portfolio: React.FC = () => {
               >
                 <span>현장 일지 1</span>
                 <ArrowUpRight size={16} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
-              </motion.a>
-              <motion.a 
+              </m.a>
+              <m.a 
                 whileHover={{ scale: 1.03 }}
                 whileTap={{ scale: 0.98 }}
                 href={naverBlogUrl2} 
@@ -227,10 +227,10 @@ export const Portfolio: React.FC = () => {
               >
                 <span>현장 일지 2</span>
                 <ArrowUpRight size={16} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
-              </motion.a>
+              </m.a>
             </div>
           </div>
-        </motion.div>
+        </m.div>
 
         {/* 1. Live Blog Feed */}
         {rssLoading ? (
@@ -270,7 +270,7 @@ export const Portfolio: React.FC = () => {
               const coverImage = getPostCoverImage(item, index);
               const isSecondBlog = item.blogCode === 'decline11731';
               return (
-                <motion.a
+                <m.a
                   key={item.guid || index}
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
@@ -317,7 +317,7 @@ export const Portfolio: React.FC = () => {
                       <ChevronRight className="w-3 h-3 sm:w-4 sm:h-4" />
                     </div>
                   </div>
-                </motion.a>
+                </m.a>
               );
             })}
           </div>

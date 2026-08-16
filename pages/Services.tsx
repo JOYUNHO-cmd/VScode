@@ -7,7 +7,7 @@ import {
   Home, Briefcase, Eraser, Factory, Biohazard, CheckCircle2, ShieldCheck
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { motion, AnimatePresence } from 'motion/react';
+import { m, AnimatePresence } from 'motion/react';
 
 const iconMap: Record<string, React.ReactNode> = {
   Sparkles: <Sparkles size={20} />,
@@ -82,7 +82,7 @@ const Services: React.FC = () => {
           
           <div className="flex-1 overflow-y-auto custom-scrollbar p-2 md:p-3 space-y-1.5 md:space-y-2">
             {config.services.map((service) => (
-              <motion.div
+              <m.div
                 key={service.id}
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
@@ -100,7 +100,7 @@ const Services: React.FC = () => {
                   </div>
                   <span className="text-xs md:text-[15px]">{service.title}</span>
                 </Link>
-              </motion.div>
+              </m.div>
             ))}
           </div>
         </div>
@@ -111,7 +111,7 @@ const Services: React.FC = () => {
           className="w-full md:w-3/4 lg:w-4/5 bg-white rounded-2xl md:rounded-3xl border border-slate-200 flex flex-col shadow-xl shadow-slate-200/50 overflow-hidden relative md:h-full scroll-mt-20"
         >
            <div className="flex-1 overflow-y-auto custom-scrollbar">
-              <motion.div 
+              <m.div 
                 key={activeServiceId} 
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -199,7 +199,7 @@ const Services: React.FC = () => {
                    </div>
 
                    {/* CTA Box */}
-                   <motion.div 
+                   <m.div 
                      initial={{ opacity: 0, y: 20 }}
                      whileInView={{ opacity: 1, y: 0 }}
                      viewport={{ once: true }}
@@ -216,7 +216,7 @@ const Services: React.FC = () => {
                            현장 방문을 통한 <span className="text-primary font-bold">100% 무료 견적</span>으로 합리적인 비용을 제안해 드립니다.
                          </p>
                          <div className="pt-2 md:pt-4">
-                            <motion.div
+                            <m.div
                               whileHover={{ scale: 1.05 }}
                               whileTap={{ scale: 0.98 }}
                               className="inline-block"
@@ -227,13 +227,13 @@ const Services: React.FC = () => {
                               >
                                 무료 견적 신청하기 <Sparkles size={20} />
                               </Link>
-                            </motion.div>
+                            </m.div>
                          </div>
                       </div>
-                   </motion.div>
+                   </m.div>
                 </div>
 
-              </motion.div>
+              </m.div>
            </div>
         </div>
 

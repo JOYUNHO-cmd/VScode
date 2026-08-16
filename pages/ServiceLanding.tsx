@@ -8,7 +8,7 @@ import {
   CheckCircle2, ExternalLink, Lock, DollarSign, Calculator, TrendingUp, EyeOff, AlertTriangle, MessageCircle,
   Award, FileCheck, FileText, Building2
 } from 'lucide-react';
-import { motion } from 'motion/react';
+import { m } from 'motion/react';
 import { subscribePortfolioItems } from '../lib/firebaseService';
 import { PortfolioItem } from '../types';
 
@@ -692,7 +692,7 @@ const BeforeAfterCard: React.FC<{ item: BeforeAfterItem; index?: number }> = ({ 
   };
 
   return (
-    <motion.div
+    <m.div
       initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-40px" }}
@@ -808,7 +808,7 @@ const BeforeAfterCard: React.FC<{ item: BeforeAfterItem; index?: number }> = ({ 
           <h4 className="text-base sm:text-lg font-bold text-slate-900 break-keep group-hover:text-primaryDark transition-colors">{item.title}</h4>
         </div>
       </div>
-    </motion.div>
+    </m.div>
   );
 };
 
@@ -1538,14 +1538,14 @@ const ServiceLanding: React.FC = () => {
                   전체 작업 과정들이 궁금하시다면??
                 </p>
                 <div className="flex flex-col items-center mt-2">
-                  <motion.div
+                  <m.div
                     animate={{ y: [0, 8, 0] }}
                     transition={{ repeat: Infinity, duration: 1.2, ease: "easeInOut" }}
                     className="flex flex-col items-center -space-y-3.5 text-primary"
                   >
                     <ChevronDown className="w-8 h-8 sm:w-11 sm:h-11 stroke-[3.5]" />
                     <ChevronDown className="w-6 h-6 sm:w-8 sm:h-8 opacity-60 stroke-[3.5]" />
-                  </motion.div>
+                  </m.div>
                 </div>
               </div>
             </div>
@@ -1566,14 +1566,14 @@ const ServiceLanding: React.FC = () => {
                   전체 작업 과정들이 궁금하시다면??
                 </p>
                 <div className="flex flex-col items-center mt-2">
-                  <motion.div
+                  <m.div
                     animate={{ y: [0, 8, 0] }}
                     transition={{ repeat: Infinity, duration: 1.2, ease: "easeInOut" }}
                     className="flex flex-col items-center -space-y-3.5 text-primary"
                   >
                     <ChevronDown className="w-8 h-8 sm:w-11 sm:h-11 stroke-[3.5]" />
                     <ChevronDown className="w-6 h-6 sm:w-8 sm:h-8 opacity-60 stroke-[3.5]" />
-                  </motion.div>
+                  </m.div>
                 </div>
               </div>
             </div>
@@ -2043,7 +2043,7 @@ const ServiceLanding: React.FC = () => {
 
       {/* Main Multi-Bento Core Values Section */}
       <section className="py-16 md:py-24 max-w-7xl mx-auto px-4">
-        <motion.div 
+        <m.div 
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -2053,11 +2053,11 @@ const ServiceLanding: React.FC = () => {
           <h3 className="text-[17px] min-[360px]:text-xl min-[410px]:text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black text-slate-900 tracking-tight whitespace-nowrap">
             느티울이 약속하는 3대 작업 원칙
           </h3>
-        </motion.div>
+        </m.div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
           
-          <motion.div 
+          <m.div 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -2083,9 +2083,9 @@ const ServiceLanding: React.FC = () => {
                 디테일을 마감합니다.
               </p>
             </div>
-          </motion.div>
+          </m.div>
 
-          <motion.div 
+          <m.div 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -2111,9 +2111,9 @@ const ServiceLanding: React.FC = () => {
                 고객님께 의뢰를 제시합니다.
               </p>
             </div>
-          </motion.div>
+          </m.div>
 
-          <motion.div 
+          <m.div 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -2138,7 +2138,7 @@ const ServiceLanding: React.FC = () => {
                 감동적인 공간으로 되돌려드립니다.
               </p>
             </div>
-          </motion.div>
+          </m.div>
 
         </div>
       </section>
@@ -2147,7 +2147,7 @@ const ServiceLanding: React.FC = () => {
       <section className="py-16 md:py-24 bg-white border-t border-slate-200">
         <div className="max-w-4xl mx-auto px-4">
           
-          <motion.div 
+          <m.div 
             initial={{ opacity: 0, y: 25 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -2207,7 +2207,7 @@ const ServiceLanding: React.FC = () => {
               </div>
 
               <div className="pt-2">
-                <motion.button 
+                <m.button 
                   whileHover={{ scale: 1.01 }}
                   whileTap={{ scale: 0.99 }}
                   disabled={formStatus === 'submitting'}
@@ -2225,10 +2225,10 @@ const ServiceLanding: React.FC = () => {
                   ) : (
                      <>무료 상세 견적 신청 및 문의 전송 <Send className="w-4 h-4 sm:w-6 sm:h-6 shrink-0" /></>
                   )}
-                </motion.button>
+                </m.button>
               </div>
             </form>
-          </motion.div>
+          </m.div>
 
           <div className="text-center mt-12 mb-4">
             <Link to="/services" className="inline-flex items-center gap-2 text-slate-800 hover:text-primary transition-all font-extrabold text-base sm:text-lg md:text-[21px] border-b-2 border-slate-300/60 hover:border-primary pb-1">
