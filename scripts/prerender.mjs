@@ -20,6 +20,7 @@ import path from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { initializeApp } from 'firebase/app';
 import { getFirestore, doc, getDoc } from 'firebase/firestore';
+import Beasties from 'beasties';
 import { buildMeta } from '../lib/seoData.mjs';
 import { SERVICES } from '../lib/servicesData.mjs';
 import { REGIONS } from '../lib/regionData.mjs';
@@ -40,6 +41,37 @@ const CONTENT_PRERENDER_ROUTES = new Set(['/']);
 
 function injectRootHtml(html, rootHtml) {
   return html.replace('<div id="root"></div>', `<div id="root">${rootHtml}</div>`);
+}
+
+// Only worth running on routes that actually have body content baked in
+// (CONTENT_PRERENDER_ROUTES) — on meta-only routes the <body> is just an
+// empty #root div, so there's no real "above the fold" to analyze.
+const beasties = new Beasties({
+  path: DIST_DIR,
+  preload: 'swap',
+  pruneSource: false, // keep the full stylesheet intact for client-side nav to other routes
+  logLevel: 'warn',
+});
+
+async function inlineCriticalCss(html) {
+  // Beasties re-serializes the entire document it's given, which normalizes
+  // attribute casing (React's fetchPriority -> fetchpriority) and drops
+  // self-closing slashes on void elements. Harmless for plain HTML, but it
+  // breaks React 19's hydration matching for the <link rel="preload"> tags
+  // its Float API auto-generates for fetchPriority="high" images — React
+  // expects to find its own exact serialization still in the DOM. Beasties
+  // needs the full document to know which selectors are actually used, but
+  // its only real output is <head> (the inlined <style> + rewritten
+  // stylesheet <link>s), so keep the original <body> untouched.
+  try {
+    const processed = await beasties.process(html);
+    const newHead = processed.match(/<head[^>]*>[\s\S]*?<\/head>/i);
+    if (!newHead) return processed;
+    return html.replace(/<head[^>]*>[\s\S]*?<\/head>/i, newHead[0]);
+  } catch (err) {
+    console.warn('  ! critical CSS inlining failed, leaving external stylesheet as-is:', err.message);
+    return html;
+  }
 }
 
 async function renderContentByRoute() {
@@ -193,6 +225,7 @@ async function main() {
     let html = applyMeta(template, meta, currentUrl);
     if (contentByRoute.has(route)) {
       html = injectRootHtml(html, contentByRoute.get(route));
+      html = await inlineCriticalCss(html);
     }
     await writeRouteHtml(route, html);
   }
