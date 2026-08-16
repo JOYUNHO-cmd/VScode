@@ -5,7 +5,7 @@ import {
   signOut, 
   onAuthStateChanged 
 } from 'firebase/auth';
-import { auth, isMockFirebase } from '../lib/firebase';
+import { getFirebaseAuth, isMockFirebase } from '../lib/firebase';
 
 export interface AdminUser {
   email: string;
@@ -50,8 +50,19 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
 
     // 2. Real Firebase Auth state listener
-    if (!isMockFirebase && auth) {
-      const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
+    if (isMockFirebase) {
+      setLoading(false);
+      return;
+    }
+
+    let unsubscribe: (() => void) | undefined;
+    let cancelled = false;
+    getFirebaseAuth().then((auth) => {
+      if (cancelled || !auth) {
+        setLoading(false);
+        return;
+      }
+      unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
         if (firebaseUser) {
           if (firebaseUser.email === 'johyun3662@gmail.com') {
             setUser({
@@ -76,11 +87,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         console.error("Auth state change error:", error);
         setLoading(false);
       });
+    });
 
-      return () => unsubscribe();
-    } else {
-      setLoading(false);
-    }
+    return () => {
+      cancelled = true;
+      if (unsubscribe) unsubscribe();
+    };
   }, []);
 
   const loginWithCredentials = async (id: string, pw: string): Promise<boolean> => {
@@ -114,11 +126,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     localStorage.removeItem('neutiul_admin_session');
     setUser(null);
     setIsAdmin(false);
-    if (!isMockFirebase && auth) {
-      try {
-        await signOut(auth);
-      } catch (err) {
-        console.error("Sign out error:", err);
+    if (!isMockFirebase) {
+      const auth = await getFirebaseAuth();
+      if (auth) {
+        try {
+          await signOut(auth);
+        } catch (err) {
+          console.error("Sign out error:", err);
+        }
       }
     }
   };
@@ -126,7 +141,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   // Google Login
   const login = async () => {
     setLoading(true);
-    if (isMockFirebase || !auth) {
+    const auth = isMockFirebase ? null : await getFirebaseAuth();
+    if (!auth) {
       localStorage.setItem('neutiul_admin_session', 'true');
       setUser({
         email: 'johyun3662@gmail.com',

@@ -13,7 +13,7 @@ import {
   getDocFromServer,
   serverTimestamp
 } from 'firebase/firestore';
-import { db, auth, isMockFirebase } from './firebase';
+import { db, isMockFirebase, getCachedAuth } from './firebase';
 import { INITIAL_CONFIG } from '../constants';
 
 export enum OperationType {
@@ -43,6 +43,7 @@ interface FirestoreErrorInfo {
 }
 
 export function handleFirestoreError(error: unknown, operationType: OperationType, path: string | null) {
+  const auth = getCachedAuth();
   const errInfo: FirestoreErrorInfo = {
     error: error instanceof Error ? error.message : String(error),
     authInfo: {
@@ -51,7 +52,7 @@ export function handleFirestoreError(error: unknown, operationType: OperationTyp
       emailVerified: auth?.currentUser?.emailVerified,
       isAnonymous: auth?.currentUser?.isAnonymous,
       tenantId: auth?.currentUser?.tenantId,
-      providerInfo: auth?.currentUser?.providerData?.map(provider => ({
+      providerInfo: auth?.currentUser?.providerData?.map((provider: any) => ({
         providerId: provider.providerId,
         email: provider.email,
       })) || []
@@ -177,7 +178,7 @@ export async function getCompanyInfo() {
 }
 
 export async function updateCompanyInfoDoc(data: any) {
-  if (isMockFirebase || !auth?.currentUser) {
+  if (isMockFirebase || !getCachedAuth()?.currentUser) {
     localStorage.setItem('neutiul_company_info', JSON.stringify(data));
     return;
   }
@@ -208,7 +209,7 @@ export async function getPortfolioItems() {
 }
 
 export async function addPortfolioItem(data: any) {
-  if (isMockFirebase || !auth?.currentUser) {
+  if (isMockFirebase || !getCachedAuth()?.currentUser) {
     const items = getLocalPortfolioItems();
     const newItem = {
       ...data,
@@ -234,7 +235,7 @@ export async function addPortfolioItem(data: any) {
 }
 
 export async function updatePortfolioItem(id: string, data: any) {
-  if (isMockFirebase || !auth?.currentUser) {
+  if (isMockFirebase || !getCachedAuth()?.currentUser) {
     const items = getLocalPortfolioItems();
     const updated = items.map(item => {
       if (item.id === id) {
@@ -256,7 +257,7 @@ export async function updatePortfolioItem(id: string, data: any) {
 }
 
 export async function deletePortfolioItem(id: string) {
-  if (isMockFirebase || !auth?.currentUser) {
+  if (isMockFirebase || !getCachedAuth()?.currentUser) {
     const items = getLocalPortfolioItems();
     const updated = items.filter(item => item.id !== id);
     saveLocalPortfolioItems(updated);
