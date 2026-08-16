@@ -31,12 +31,16 @@ async function reencodeToNewFile(name, { width, quality = 80 } = {}) {
   console.log(`${name}.webp.new: ${(buf.length / 1024).toFixed(0)}KB`);
 }
 
-await makeMobileVariant('eco-neutralization', 700);
-await makeMobileVariant('visit-notification', 700);
-await makeMobileVariant('top-to-bottom-cleaning', 700);
-await makeMobileVariant('confirmation-aftercare', 700);
-await makeMobileVariant('diagnosis-process', 700);
-await makeMobileVariant('professional-cleaning', 520);
+// Sized for ~2x DPR against the *actual* CSS-rendered width (the sizes=
+// attribute on these <img>s now accounts for container padding correctly,
+// so this is real headroom, not guesswork) - large enough that Moto G
+// Power-class phones (~2.6x DPR) still pick these over the 900px original.
+await makeMobileVariant('eco-neutralization', 800);
+await makeMobileVariant('visit-notification', 800);
+await makeMobileVariant('top-to-bottom-cleaning', 800);
+await makeMobileVariant('confirmation-aftercare', 800);
+await makeMobileVariant('diagnosis-process', 800);
+await makeMobileVariant('professional-cleaning', 600);
 
 await reencodeToNewFile('logo', { width: 200, quality: 75 });
 await reencodeToNewFile('hero-tree-family-mobile', { quality: 75 });

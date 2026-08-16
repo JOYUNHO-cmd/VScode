@@ -442,8 +442,8 @@ const Home: React.FC = () => {
             >
               <img
                 src={anxietyTopImage}
-                srcSet={`${anxietyTopImageMobile} 520w, ${anxietyTopImage} 880w`}
-                sizes="(min-width: 768px) 440px, 280px"
+                srcSet={`${anxietyTopImageMobile} 600w, ${anxietyTopImage} 880w`}
+                sizes="(min-width: 768px) 440px, (min-width: 640px) 360px, 280px"
                 alt="느티울 대표 조윤호"
                 width={880}
                 height={806}
@@ -622,8 +622,8 @@ const Home: React.FC = () => {
                   <div className="w-full bg-white flex items-center justify-center">
                     <img
                       src={item.img}
-                      srcSet={`${item.mobileImg} 700w, ${item.img} 900w`}
-                      sizes="(min-width: 1024px) 900px, 100vw"
+                      srcSet={`${item.mobileImg} 800w, ${item.img} 900w`}
+                      sizes="(min-width: 1024px) 900px, (min-width: 640px) calc(100vw - 3rem), calc(100vw - 1.5rem)"
                       alt={`느티울 5단계 진행 과정 - ${item.step}`}
                       width={item.width}
                       height={item.height}
