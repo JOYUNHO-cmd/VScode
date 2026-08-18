@@ -841,7 +841,7 @@ const Home: React.FC = () => {
             <p className="text-slate-500 text-sm md:text-lg leading-relaxed md:leading-loose break-keep">
               <span className="block md:inline">가격을 숨기는 업체는 믿지 않으셔도 됩니다.</span>{' '}
               <span className="block md:inline">저희는 인건비 산정 기준부터 투명하게 말씀드리고,</span>{' '}
-              <span className="block md:inline">정확한 인원은 현장을 직접 보고 결정합니다.</span>
+              <span className="block">정확한 인원은 현장을 직접 보고 결정합니다.</span>
             </p>
           </div>
 
