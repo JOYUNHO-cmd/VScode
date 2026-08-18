@@ -411,9 +411,9 @@ const About: React.FC = () => {
             className="text-center mb-16"
           >
             <h2 className="text-3xl md:text-5xl font-extrabold text-slate-900 mb-6">전문 자격증 보유 현황</h2>
-            <p className="text-slate-500 text-[15px] sm:text-xl max-w-3xl mx-auto leading-relaxed break-keep font-medium">
-              느티울은 검증된 전문 자격을 갖춘 대표가 직접 시공합니다.<br />
-              전문성과 기술력을 바탕으로 신뢰할 수 있는 서비스를 제공합니다.
+            <p className="text-slate-500 max-w-3xl mx-auto leading-relaxed break-keep font-medium">
+              <span className="block text-[12px] whitespace-nowrap sm:text-xl sm:whitespace-normal">느티울은 검증된 전문 자격을 갖춘 대표가 직접 시공합니다.</span>
+              <span className="block text-[12px] whitespace-nowrap sm:text-xl sm:whitespace-normal">전문성과 기술력을 바탕으로 신뢰할 수 있는 서비스를 제공합니다.</span>
             </p>
           </m.div>
 
