@@ -9,6 +9,7 @@ import {
   Award, FileCheck, FileText, Building2
 } from 'lucide-react';
 import { m } from 'motion/react';
+import { trackEvent } from '../lib/analytics';
 import { subscribePortfolioItems } from '../lib/firebaseService';
 import { PortfolioItem } from '../types';
 
@@ -1327,6 +1328,7 @@ const ServiceLanding: React.FC = () => {
 
       if (response.ok) {
         setFormStatus('success');
+        trackEvent('generate_lead', { method: 'contact_form', location: 'service_landing', service_type: formData.get('service_type') });
         alert('문의가 성공적으로 전달되었습니다! 기재해주신 번호로 신속히 연락해 드리겠습니다.');
         form.reset();
         setTimeout(() => setFormStatus('idle'), 3000);

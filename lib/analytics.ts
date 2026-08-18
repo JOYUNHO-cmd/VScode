@@ -21,6 +21,7 @@ declare global {
     dataLayer: unknown[];
     gtag: (...args: unknown[]) => void;
     karrotPixel?: { track: (...args: unknown[]) => void };
+    clarity?: (...args: unknown[]) => void;
   }
 }
 
@@ -42,4 +43,18 @@ export function trackEvent(name: string, params?: Record<string, unknown>) {
 
   const karrotEvent = KARROT_EVENT_MAP[name];
   if (karrotEvent && window.karrotPixel) window.karrotPixel.track(karrotEvent);
+
+  // Custom Clarity event, same name as the GA4 event, so a recording/
+  // heatmap session can be filtered down to exactly the ones where a
+  // visitor actually contacted us (not just page views). Also tags the
+  // session with the touchpoint's method/location so recordings can be
+  // filtered by e.g. method=phone in the Clarity dashboard.
+  if (window.clarity) {
+    window.clarity('event', name);
+    if (params) {
+      for (const [key, value] of Object.entries(params)) {
+        if (value !== undefined && value !== null) window.clarity('set', key, String(value));
+      }
+    }
+  }
 }
