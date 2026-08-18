@@ -46,7 +46,7 @@ const About: React.FC = () => {
   ];
 
   return (
-    <div className="bg-slate-50 text-slate-800 min-h-screen">
+    <div className="bg-slate-50 text-slate-800 min-h-svh">
       {/* Hero Header */}
       <section className="relative h-[65vh] md:h-[70vh] flex items-center justify-center overflow-hidden bg-[#334155]">
         <div className="absolute inset-0 z-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]" />
@@ -64,7 +64,7 @@ const About: React.FC = () => {
                 느티울은 고객의 <span className="text-primary">신뢰</span>를 최우선으로 생각하는
               </span>
               <span className="block md:hidden text-center leading-normal">
-                <span className="block whitespace-nowrap text-[18px]">느티울은 고객의 <span className="text-[#07835a] font-extrabold">신뢰</span>를</span>
+                <span className="block whitespace-nowrap text-[18px]">느티울은 고객의 <span className="text-[#0f9d6c] font-extrabold">신뢰</span>를</span>
                 <span className="block whitespace-nowrap mt-1 text-[18px]">최우선으로 생각하는</span>
               </span>
             </span>
@@ -117,7 +117,7 @@ const About: React.FC = () => {
               className="lg:col-span-5 flex flex-col justify-center text-center lg:text-left items-center lg:items-start"
             >
               <h2 className="text-[16px] xs:text-[18px] sm:text-2xl md:text-3xl lg:text-[32px] font-black text-slate-900 leading-tight mb-6 whitespace-nowrap text-center lg:text-left">
-                '느티울' 이라는 이름에 담긴 <span className="text-[#07835a] font-black border-b-4 border-[#07835a]/20">소중한 약속</span>
+                '느티울' 이라는 이름에 담긴 <span className="text-[#0f9d6c] font-black border-b-4 border-[#0f9d6c]/20">소중한 약속</span>
               </h2>
               
               <p className="text-slate-500 text-xs sm:text-sm md:text-base leading-relaxed mb-8 break-keep text-center lg:text-left">
@@ -145,8 +145,8 @@ const About: React.FC = () => {
                   </div>
                   <div>
                     <div className="flex flex-col sm:flex-row sm:items-baseline gap-0.5 sm:gap-2 mb-1">
-                      <span className="text-lg font-bold text-slate-955"><strong className="font-black text-[#07835a]" style={{ fontSize: '30px', fontFamily: '"Noto Sans KR", sans-serif', lineHeight: '32px' }}>느티</strong>나무(Zelkova)</span>
-                      <span className="text-xs text-[#07835a] font-bold">든든한 그늘과 쉼</span>
+                      <span className="text-lg font-bold text-slate-955"><strong className="font-black text-[#0f9d6c]" style={{ fontSize: '30px', fontFamily: '"Noto Sans KR", sans-serif', lineHeight: '32px' }}>느티</strong>나무(Zelkova)</span>
+                      <span className="text-xs text-[#0f9d6c] font-bold">든든한 그늘과 쉼</span>
                     </div>
                     <p className="text-slate-600 text-[11.5px] xs:text-xs sm:text-sm leading-relaxed font-bold break-keep" style={{ fontWeight: 'bold' }}>
                       <span className="block sm:inline">마을 한가운데에서 오랜 세월 변함없이</span>
@@ -174,7 +174,7 @@ const About: React.FC = () => {
                   </div>
                   <div>
                     <div className="flex flex-col sm:flex-row sm:items-baseline gap-0.5 sm:gap-2 mb-1">
-                      <span className="text-lg font-bold text-slate-955"><strong className="font-black text-[#07835a]" style={{ fontSize: '32px', fontFamily: '"Noto Sans KR", sans-serif', lineHeight: '32px' }}>울</strong>타리(Fence)</span>
+                      <span className="text-lg font-bold text-slate-955"><strong className="font-black text-[#0f9d6c]" style={{ fontSize: '32px', fontFamily: '"Noto Sans KR", sans-serif', lineHeight: '32px' }}>울</strong>타리(Fence)</span>
                       <span className="text-xs text-primaryDark font-bold">따뜻하게 품는 울타리</span>
                     </div>
                     <p className="text-slate-600 text-[11px] xs:text-xs sm:text-sm leading-relaxed font-bold break-keep" style={{ fontWeight: 'bold' }}>
@@ -204,7 +204,7 @@ const About: React.FC = () => {
               className="lg:col-span-7 flex flex-col justify-center px-1 sm:px-4 py-6"
             >
               <div className="mb-8">
-                <p className="text-[#07835a] font-black text-[18px] sm:text-[22px] md:text-[24px] leading-snug tracking-wide break-keep">
+                <p className="text-[#0f9d6c] font-black text-[18px] sm:text-[22px] md:text-[24px] leading-snug tracking-wide break-keep">
                   "언제나 한자리에 서서 이웃을 품다"
                 </p>
               </div>

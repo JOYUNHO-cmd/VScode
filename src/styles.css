@@ -52,3 +52,48 @@ html {
 .animate-shimmer {
   animation: shimmer-sweep 2.5s infinite;
 }
+@keyframes marquee-scroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.animate-marquee {
+  animation: marquee-scroll 60s linear infinite;
+  will-change: transform;
+  transform: translateZ(0);
+}
+.animate-marquee.is-paused {
+  animation-play-state: paused;
+}
+/* Slower pace for text-heavy content (review screenshots) so there's a
+   realistic chance to read a card as it drifts by. */
+.animate-marquee-slow {
+  animation-duration: 90s;
+}
+/* Pause-on-hover only for real pointer devices. Touch browsers emulate
+   :hover on tap, which was pausing/resuming the animation mid-gesture on
+   mobile and looked like stutter/flicker while scrolling past the strip. */
+@media (hover: hover) and (pointer: fine) {
+  .marquee-track:hover .animate-marquee {
+    animation-play-state: paused;
+  }
+}
+/* Rating stars: a soft glow/scale pulse, staggered per star (via
+   animation-delay inline) so they twinkle in sequence rather than in
+   unison. Cheap — transform + filter only, no layout impact. */
+@keyframes star-twinkle {
+  0%, 100% { transform: scale(1); filter: drop-shadow(0 0 0px rgba(251,191,36,0)); }
+  50% { transform: scale(1.18); filter: drop-shadow(0 0 6px rgba(251,191,36,0.85)); }
+}
+.animate-star-twinkle {
+  animation: star-twinkle 2.2s ease-in-out infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .animate-star-twinkle {
+    animation: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .animate-marquee {
+    animation: none;
+  }
+}

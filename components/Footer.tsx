@@ -169,6 +169,7 @@ const Footer: React.FC = () => {
         <div className="border-t border-gray-800 pt-8 text-center flex flex-col sm:flex-row items-center justify-between gap-3">
           <p className="text-[10px] md:text-sm text-gray-400 font-medium">
             &copy; {new Date().getFullYear()} {config.companyInfo.name}. All rights reserved. | 대표: 조윤호 | 사업자등록번호 및 통신판매업신고 완료
+            {' '}| <Link to="/privacy" className="underline hover:text-white transition-colors">개인정보처리방침</Link>
           </p>
           <p className="text-[10px] md:text-xs text-gray-400">
             수도권 전지역 24시간 실시간 상담 & 100% 무료 현장 방문 견적 지원

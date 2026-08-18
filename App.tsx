@@ -27,6 +27,7 @@ const ServiceLanding = lazy(() => import('./pages/ServiceLanding'));
 const RegionServiceLanding = lazy(() => import('./pages/RegionServiceLanding'));
 const Portfolio = lazy(() => import('./pages/Portfolio'));
 const Contact = lazy(() => import('./pages/Contact'));
+const PrivacyPolicy = lazy(() => import('./pages/PrivacyPolicy'));
 const AdminDashboard = lazy(() => import('./pages/AdminDashboard'));
 
 const RouteFallback = () => (
@@ -75,6 +76,7 @@ const AnimatedRoutes: React.FC = () => {
             <Route path="/services/:serviceId/:regionId" element={<RegionServiceLanding />} />
             <Route path="/portfolio" element={<Portfolio />} />
             <Route path="/contact" element={<Contact />} />
+            <Route path="/privacy" element={<PrivacyPolicy />} />
             <Route path="/admin" element={<AdminDashboard />} />
           </Routes>
         </Suspense>
@@ -93,7 +95,7 @@ const Layout = ({ children }: { children?: React.ReactNode }) => {
     <>
       <SEO />
       {!isAdmin && <Navbar />}
-      <main className="flex-grow min-h-screen flex flex-col">
+      <main className="flex-grow min-h-svh flex flex-col">
         {children}
       </main>
       {!isAdmin && !isServices && <Footer />}

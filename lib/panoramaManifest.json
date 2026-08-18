@@ -1,0 +1,392 @@
+[
+  {
+    "file": "panorama-01.webp",
+    "title": "강남 신세계 타일틀리스트",
+    "width": 600,
+    "height": 800
+  },
+  {
+    "file": "panorama-02.webp",
+    "title": "강남 현대백화점 LEE",
+    "width": 600,
+    "height": 800
+  },
+  {
+    "file": "panorama-03.webp",
+    "title": "강남페이레네 콩자갈청소",
+    "width": 600,
+    "height": 800
+  },
+  {
+    "file": "panorama-04.webp",
+    "title": "광교 박주호 축구교실",
+    "width": 600,
+    "height": 800
+  },
+  {
+    "file": "panorama-05.webp",
+    "title": "광명 롯데몰 스케쳐스",
+    "width": 600,
+    "height": 800
+  },
+  {
+    "file": "panorama-06.webp",
+    "title": "국회의사당 외창",
+    "width": 600,
+    "height": 800
+  },
+  {
+    "file": "panorama-07.webp",
+    "title": "군포 쓰레기집",
+    "width": 600,
+    "height": 800
+  },
+  {
+    "file": "panorama-08.webp",
+    "title": "남사초등학교 도서관",
+    "width": 600,
+    "height": 800
+  },
+  {
+    "file": "panorama-09.webp",
+    "title": "대선초등학교 강당",
+    "width": 600,
+    "height": 800
+  },
+  {
+    "file": "panorama-10.webp",
+    "title": "독정초등학교",
+    "width": 600,
+    "height": 800
+  },
+  {
+    "file": "panorama-11.webp",
+    "title": "딴지일보",
+    "width": 600,
+    "height": 800
+  },
+  {
+    "file": "panorama-12.webp",
+    "title": "마북초등학교",
+    "width": 600,
+    "height": 800
+  },
+  {
+    "file": "panorama-13.webp",
+    "title": "바나프레소 대치동",
+    "width": 600,
+    "height": 800
+  },
+  {
+    "file": "panorama-14.webp",
+    "title": "바토스골프 콩자갈청소",
+    "width": 600,
+    "height": 800
+  },
+  {
+    "file": "panorama-15.webp",
+    "title": "부천 데이터실",
+    "width": 600,
+    "height": 800
+  },
+  {
+    "file": "panorama-16.webp",
+    "title": "부천 쓰레기집",
+    "width": 600,
+    "height": 800
+  },
+  {
+    "file": "panorama-17.webp",
+    "title": "부천 침수청소",
+    "width": 600,
+    "height": 800
+  },
+  {
+    "file": "panorama-18.webp",
+    "title": "부천 화재청소",
+    "width": 600,
+    "height": 450
+  },
+  {
+    "file": "panorama-19.webp",
+    "title": "분당 화재청소",
+    "width": 600,
+    "height": 800
+  },
+  {
+    "file": "panorama-20.webp",
+    "title": "분당 AEGIS",
+    "width": 600,
+    "height": 800
+  },
+  {
+    "file": "panorama-21.webp",
+    "title": "분당 DATA STOVE",
+    "width": 600,
+    "height": 800
+  },
+  {
+    "file": "panorama-22.webp",
+    "title": "삼부토건 AK타워 복원 청소",
+    "width": 600,
+    "height": 800
+  },
+  {
+    "file": "panorama-23.webp",
+    "title": "서울역 시트지제거",
+    "width": 600,
+    "height": 800
+  },
+  {
+    "file": "panorama-24.webp",
+    "title": "서초2동 주민센터 주차장",
+    "width": 600,
+    "height": 450
+  },
+  {
+    "file": "panorama-25.webp",
+    "title": "서초동 주민센터",
+    "width": 600,
+    "height": 800
+  },
+  {
+    "file": "panorama-26.webp",
+    "title": "성남 악세스플로어",
+    "width": 600,
+    "height": 800
+  },
+  {
+    "file": "panorama-27.webp",
+    "title": "성수동 키스",
+    "width": 600,
+    "height": 800
+  },
+  {
+    "file": "panorama-28.webp",
+    "title": "성수동 탄산마그네슘 팝업",
+    "width": 600,
+    "height": 800
+  },
+  {
+    "file": "panorama-29.webp",
+    "title": "성수동 탄산마그네슘",
+    "width": 600,
+    "height": 600
+  },
+  {
+    "file": "panorama-30.webp",
+    "title": "수원 박물관",
+    "width": 600,
+    "height": 800
+  },
+  {
+    "file": "panorama-31.webp",
+    "title": "수원 쓰레기집",
+    "width": 600,
+    "height": 1067
+  },
+  {
+    "file": "panorama-32.webp",
+    "title": "수원 탄산마그네슘",
+    "width": 600,
+    "height": 800
+  },
+  {
+    "file": "panorama-33.webp",
+    "title": "신사동 시트지 제거(특수)",
+    "width": 600,
+    "height": 800
+  },
+  {
+    "file": "panorama-34.webp",
+    "title": "씨젠 매디컬센터",
+    "width": 600,
+    "height": 800
+  },
+  {
+    "file": "panorama-35.webp",
+    "title": "안산 쓰레기집",
+    "width": 600,
+    "height": 800
+  },
+  {
+    "file": "panorama-36.webp",
+    "title": "안산NC백화점 용호낙지",
+    "width": 600,
+    "height": 800
+  },
+  {
+    "file": "panorama-37.webp",
+    "title": "안양 화재청소",
+    "width": 600,
+    "height": 800
+  },
+  {
+    "file": "panorama-38.webp",
+    "title": "어닝 청소",
+    "width": 600,
+    "height": 800
+  },
+  {
+    "file": "panorama-39.webp",
+    "title": "에버랜드 캔디샾",
+    "width": 600,
+    "height": 800
+  },
+  {
+    "file": "panorama-40.webp",
+    "title": "에버랜드 핀란드 셋방살이",
+    "width": 600,
+    "height": 800
+  },
+  {
+    "file": "panorama-41.webp",
+    "title": "용산 유품정리",
+    "width": 600,
+    "height": 800
+  },
+  {
+    "file": "panorama-42.webp",
+    "title": "원촌중 바닥왁스",
+    "width": 600,
+    "height": 800
+  },
+  {
+    "file": "panorama-43.webp",
+    "title": "의왕 쓰레기집",
+    "width": 600,
+    "height": 800
+  },
+  {
+    "file": "panorama-44.webp",
+    "title": "의정부 JDX매장",
+    "width": 600,
+    "height": 337
+  },
+  {
+    "file": "panorama-45.webp",
+    "title": "인천 오수청소",
+    "width": 600,
+    "height": 800
+  },
+  {
+    "file": "panorama-46.webp",
+    "title": "인천 화재청소",
+    "width": 600,
+    "height": 800
+  },
+  {
+    "file": "panorama-47.webp",
+    "title": "잠실 돌첸&가바나",
+    "width": 600,
+    "height": 800
+  },
+  {
+    "file": "panorama-48.webp",
+    "title": "잠실 용호낙지",
+    "width": 600,
+    "height": 800
+  },
+  {
+    "file": "panorama-49.webp",
+    "title": "잠실 Callawau",
+    "width": 600,
+    "height": 1067
+  },
+  {
+    "file": "panorama-50.webp",
+    "title": "지센 에스컬레이터 청소",
+    "width": 600,
+    "height": 800
+  },
+  {
+    "file": "panorama-51.webp",
+    "title": "카페트 본드제거",
+    "width": 600,
+    "height": 800
+  },
+  {
+    "file": "panorama-52.webp",
+    "title": "쿠우쿠우 고양점",
+    "width": 600,
+    "height": 800
+  },
+  {
+    "file": "panorama-53.webp",
+    "title": "쿠우쿠우 구월점",
+    "width": 600,
+    "height": 800
+  },
+  {
+    "file": "panorama-54.webp",
+    "title": "쿠우쿠우 김포점",
+    "width": 600,
+    "height": 800
+  },
+  {
+    "file": "panorama-55.webp",
+    "title": "쿠우쿠우 송탄점",
+    "width": 600,
+    "height": 800
+  },
+  {
+    "file": "panorama-56.webp",
+    "title": "킨텍스 행사장",
+    "width": 600,
+    "height": 800
+  },
+  {
+    "file": "panorama-57.webp",
+    "title": "판교 악세스플로어",
+    "width": 600,
+    "height": 450
+  },
+  {
+    "file": "panorama-58.webp",
+    "title": "평촌 담운",
+    "width": 600,
+    "height": 800
+  },
+  {
+    "file": "panorama-59.webp",
+    "title": "한국무역보험공사",
+    "width": 600,
+    "height": 800
+  },
+  {
+    "file": "panorama-60.webp",
+    "title": "해성고등학교 바닥왁스",
+    "width": 600,
+    "height": 600
+  },
+  {
+    "file": "panorama-61.webp",
+    "title": "AMUSE",
+    "width": 600,
+    "height": 800
+  },
+  {
+    "file": "panorama-62.webp",
+    "title": "LG서비스센터",
+    "width": 600,
+    "height": 800
+  },
+  {
+    "file": "panorama-63.webp",
+    "title": "LG하이엠 사무실",
+    "width": 600,
+    "height": 800
+  },
+  {
+    "file": "panorama-64.webp",
+    "title": "LOCKERDIUM",
+    "width": 600,
+    "height": 800
+  },
+  {
+    "file": "panorama-65.webp",
+    "title": "MUSTARD 한남",
+    "width": 600,
+    "height": 800
+  }
+]

@@ -4,15 +4,16 @@ export default {
   theme: {
     extend: {
       colors: {
-        // Darkened from the original #2cd396/#04a875 neon mint so text/buttons
-        // using these tokens clear WCAG AA contrast (4.5:1) against white.
-        primary: '#07835a',
-        primaryDark: '#055c40', // hover state, darker still
-        // Lighter green for icons and hover-only accents. Never use for
-        // default-rendered text — it falls below the 4.5:1 ratio the
-        // `primary` token was calibrated for (icons/hover states aren't
-        // covered by that WCAG contrast rule, so this is safe there).
-        primaryBright: '#0EA372',
+        // Brightened toward the sandbox site's neon mint (#2cd396) while
+        // staying dark enough to keep white button/badge text readable —
+        // pure #2cd396 fails contrast for that use. This is the practical
+        // ceiling for a fresher green without hurting legibility.
+        primary: '#0f9d6c',
+        primaryDark: '#0b7a54', // hover state, darker still
+        // Lighter green for icons and large/bold hover-only accents. Avoid
+        // for small default-rendered text — contrast is looser here since
+        // large text only needs to clear the 3:1 WCAG threshold.
+        primaryBright: '#12a87a',
         secondary: '#FFFFFF', // White - Card Backgrounds
         surface: '#F1F5F9', // Slate 100 - Section Backgrounds
         accent: '#1cd194', // Accent color (extra vibrant minty emerald)

@@ -1297,7 +1297,7 @@ const ServiceLanding: React.FC = () => {
 
   if (!service) {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center bg-slate-50 p-6 text-center">
+      <div className="min-h-svh flex flex-col items-center justify-center bg-slate-50 p-6 text-center">
         <Info size={48} className="text-slate-400 mb-4 animate-bounce" />
         <h2 className="text-2xl font-extrabold text-slate-900 mb-2">원하시는 서비스를 찾을 수 없습니다</h2>
         <p className="text-slate-500 mb-6 font-medium">잘못된 경로이거나 존재하지 않는 서비스입니다.</p>
@@ -1347,7 +1347,7 @@ const ServiceLanding: React.FC = () => {
   const cleanPhone = config.companyInfo.phone.replace(/[^0-9]/g, '');
 
   return (
-    <div className="bg-slate-50 text-slate-800 min-h-screen font-sans">
+    <div className="bg-slate-50 text-slate-800 min-h-svh font-sans">
       
       {/* Dynamic Immersive Premium Hero Header */}
       <section className="relative min-h-[75vh] sm:min-h-[80vh] md:min-h-[85vh] py-10 sm:py-14 md:py-18 flex items-center justify-center overflow-hidden bg-slate-950">
@@ -2206,12 +2206,20 @@ const ServiceLanding: React.FC = () => {
                 ></textarea>
               </div>
 
+              <div className="flex items-start gap-2.5">
+                <input id="privacy-consent-service" name="privacy_consent" type="checkbox" required className="mt-1 w-4 h-4 accent-primary shrink-0" />
+                <label htmlFor="privacy-consent-service" className="text-xs md:text-sm text-slate-300 leading-relaxed break-keep">
+                  (필수) 견적 상담을 위한 개인정보 수집·이용에 동의합니다.{' '}
+                  <Link to="/privacy" target="_blank" rel="noreferrer" className="underline text-slate-200 hover:text-primary">개인정보처리방침 보기</Link>
+                </label>
+              </div>
+
               <div className="pt-2">
-                <m.button 
+                <m.button
                   whileHover={{ scale: 1.01 }}
                   whileTap={{ scale: 0.99 }}
                   disabled={formStatus === 'submitting'}
-                  type="submit" 
+                  type="submit"
                   className="w-full bg-primary text-white text-[15px] xs:text-[16px] sm:text-xl md:text-[22px] font-black py-4 sm:py-[22px] md:py-[24px] px-4 rounded-xl sm:rounded-2xl hover:bg-[#1fa178] transition-all duration-300 flex items-center justify-center gap-2.5 disabled:bg-slate-700 disabled:text-slate-500 shadow-lg shadow-primary/20 hover:shadow-xl hover:shadow-primary/45 whitespace-nowrap"
                 >
                   {formStatus === 'submitting' ? (

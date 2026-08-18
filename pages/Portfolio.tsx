@@ -137,7 +137,7 @@ export const Portfolio: React.FC = () => {
   };
 
   return (
-    <div className="bg-slate-50 text-slate-800 min-h-screen">
+    <div className="bg-slate-50 text-slate-800 min-h-svh">
       {/* Premium Hero Header Section */}
       <section className="relative h-[45vh] md:h-[55vh] flex items-center justify-center overflow-hidden bg-slate-900">
         <div className="absolute inset-0 z-0">

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { useSite } from '../context/SiteContext';
 import { Phone, Mail, MapPin, Send, Sparkles, MessageCircle, CheckCircle2 } from 'lucide-react';
 import { m } from 'motion/react';
@@ -42,7 +43,7 @@ const Contact: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-800">
+    <div className="min-h-svh bg-slate-50 text-slate-800">
       {/* Enhanced Hero Header for Contact Page */}
       <section className="relative py-24 md:py-36 overflow-hidden bg-slate-900">
         {/* Aesthetic Background Image */}
@@ -230,12 +231,20 @@ const Contact: React.FC = () => {
                    ></textarea>
                 </div>
 
+                <div className="flex items-start gap-2.5">
+                  <input id="privacy-consent" name="privacy_consent" type="checkbox" required className="mt-1 w-4 h-4 accent-primary shrink-0" />
+                  <label htmlFor="privacy-consent" className="text-xs md:text-sm text-slate-400 leading-relaxed break-keep">
+                    (필수) 견적 상담을 위한 개인정보 수집·이용에 동의합니다.{' '}
+                    <Link to="/privacy" target="_blank" rel="noreferrer" className="underline text-slate-300 hover:text-primary">개인정보처리방침 보기</Link>
+                  </label>
+                </div>
+
                 <div className="pt-4">
-                  <m.button 
+                  <m.button
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                     disabled={formStatus === 'submitting'}
-                    type="submit" 
+                    type="submit"
                     className="w-full bg-primary text-white text-lg md:text-xl font-black py-4 md:py-5 rounded-2xl hover:bg-primaryDark transition-all flex items-center justify-center gap-3 disabled:bg-slate-300 disabled:text-slate-500 shadow-xl shadow-primary/20"
                   >
                     {formStatus === 'submitting' ? (

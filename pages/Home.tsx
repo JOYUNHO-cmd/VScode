@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, CheckCircle2, Star, ShieldCheck, Clock, Sparkles, Quote, Rss, Calendar, Loader2, ArrowUpRight, Target, Compass, Heart, Zap, Shield, Trees, Home as LucideHome, Leaf, ShieldAlert, ChevronDown, HelpCircle, MousePointerClick } from 'lucide-react';
+import { ArrowRight, CheckCircle2, Star, ShieldCheck, Clock, Sparkles, Quote, Rss, Calendar, Loader2, ArrowUpRight, Target, Compass, Heart, Zap, Shield, Trees, Home as LucideHome, Leaf, ShieldAlert, ChevronDown, HelpCircle, MousePointerClick, Banknote, Award, X } from 'lucide-react';
 import { m } from 'motion/react';
 import { useSite } from '../context/SiteContext';
 import { trackEvent } from '../lib/analytics';
+import PhotoMarquee from '../components/PhotoMarquee';
+import ReviewMarquee from '../components/ReviewMarquee';
 
 const zelkovaHero = '/images/hero-tree-family.webp';
 const zelkovaMobileHero = '/images/hero-tree-family-mobile.webp';
@@ -188,10 +190,19 @@ const Home: React.FC = () => {
   const [rssLoading, setRssLoading] = useState(true);
   const [hoveredIdx, setHoveredIdx] = useState<number | null>(null);
   const [spotlights, setSpotlights] = useState<{ [key: number]: { x: number; y: number } }>({});
-  const [activeFAQTab, setActiveFAQTab] = useState<string>('all');
+  const [activeFAQTab, setActiveFAQTab] = useState<string | null>(null);
   const [openFAQIdx, setOpenFAQIdx] = useState<string | null>(null);
   const [faqDropdownOpen, setFaqDropdownOpen] = useState(false);
+  const [openCertIdx, setOpenCertIdx] = useState<number | null>(null);
 
+  const certifications = [
+    { title: '청소전문가 1급', issuer: '한국자격검정평가진흥원', image: '/images/about/cert-cleaning-expert.webp' },
+    { title: '고객상담사 1급', issuer: '한국자격검정평가진흥원', image: '/images/about/cert-customer-service.webp' },
+    { title: '환경관리전문가 1급', issuer: '한국자격검정평가진흥원', image: '/images/about/cert-environment-management.webp' },
+    { title: '방역관리사 1급', issuer: '한국방역전문인협회', image: '/images/about/cert-pest-control.webp' },
+    { title: '건물위생관리사 1급', issuer: '한국자격검정평가진흥원', image: '/images/about/cert-building-hygiene.webp' },
+    { title: '정리수납전문가 1급', issuer: '한국자격검정평가진흥원', image: '/images/about/cert-organizing-expert.webp' },
+  ];
 
   const handleCardMouseMove = (idx: number, e: React.MouseEvent<HTMLDivElement>) => {
     const rect = e.currentTarget.getBoundingClientRect();
@@ -297,7 +308,7 @@ const Home: React.FC = () => {
   return (
     <div className="flex flex-col bg-light text-textMain">
       {/* Hero Section */}
-      <section className="relative min-h-[calc(100vh-6rem)] md:h-[90vh] flex flex-col justify-center items-center overflow-hidden bg-white">
+      <section className="relative min-h-[calc(100svh-6rem)] md:h-[90vh] flex flex-col justify-center items-center overflow-hidden bg-white">
         {/* Mobile Background Image (Absolute full-bleed background on mobile for vertical image) */}
         <div className="block md:hidden absolute inset-0 z-0">
           <img
@@ -339,10 +350,10 @@ const Home: React.FC = () => {
                 A FRESH AND PEACEFUL HAVEN
               </span>
               <span className="text-[25px] sm:text-4xl md:text-7xl block mb-1 md:mb-3">
-                한결같은 <span className="text-[#07835a] font-black">마음</span>으로
+                한결같은 <span className="text-[#0f9d6c] font-black">마음</span>으로
               </span>
               <span className="text-[25px] sm:text-4xl md:text-7xl block">
-                이웃의 <span className="text-[#07835a] font-black">소중한 공간</span>을 품습니다
+                이웃의 <span className="text-[#0f9d6c] font-black">소중한 공간</span>을 품습니다
               </span>
             </h1>
 
@@ -366,6 +377,38 @@ const Home: React.FC = () => {
             </div>
           </m.div>
         </div>
+      </section>
+
+      {/* Trust Stats Bar */}
+      <section className="bg-slate-900 py-5 md:py-7 relative">
+        <div className="max-w-5xl mx-auto px-4 md:px-8">
+          <div className="grid grid-cols-3 gap-2 md:gap-8 text-center divide-x divide-white/10">
+            <div>
+              <p className="text-xl md:text-4xl font-black text-white">15<span className="text-primary">년</span></p>
+              <p className="text-slate-400 text-[10px] md:text-sm font-medium mt-0.5">대표 현장 경력</p>
+            </div>
+            <div>
+              <p className="text-xl md:text-4xl font-black text-white">5,000<span className="text-primary">+</span></p>
+              <p className="text-slate-400 text-[10px] md:text-sm font-medium mt-0.5">누적 시공 건수</p>
+            </div>
+            <div>
+              <p className="text-xl md:text-4xl font-black text-white">4.9<span className="text-primary">★</span></p>
+              <p className="text-slate-400 text-[10px] md:text-sm font-medium mt-0.5">실제 고객 평점</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Client Site Photo Marquee */}
+      <section className="py-12 md:py-16 bg-gradient-to-b from-emerald-50/60 via-white to-white relative border-b border-slate-100 overflow-hidden">
+        <div className="absolute top-0 left-1/4 w-64 h-64 bg-emerald-400/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute bottom-0 right-1/4 w-72 h-72 bg-teal-400/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="max-w-7xl mx-auto px-4 md:px-8 text-center mb-6 md:mb-10 relative z-10">
+          <p className="text-slate-900 text-xl md:text-3xl font-black tracking-tight break-keep">
+            이런 곳들도 <span className="bg-gradient-to-r from-[#04a875] to-[#22ba8b] bg-clip-text text-transparent">느티울</span>과 함께했습니다
+          </p>
+        </div>
+        <PhotoMarquee />
       </section>
 
       {/* Real Client Anxieties Section */}
@@ -402,7 +445,7 @@ const Home: React.FC = () => {
                 {/* Centered Text for Desktop */}
                 <div className="absolute inset-0 flex items-center justify-center pointer-events-none pr-[13%] pl-[2%]">
                   <h2 className="text-slate-900 font-black text-[20px] md:text-[23px] tracking-tight whitespace-nowrap text-center">
-                    안녕하세요, 대표 <span className="text-[#055c40] font-black">조윤호</span> 입니다
+                    안녕하세요, 대표 <span className="text-[#0b7a54] font-black">조윤호</span> 입니다
                   </h2>
                 </div>
               </div>
@@ -428,7 +471,7 @@ const Home: React.FC = () => {
                 {/* Centered Text for Mobile */}
                 <div className="absolute inset-0 flex items-center justify-center pointer-events-none pt-[22px] pb-[6px] px-3">
                   <h2 className="text-slate-900 font-black text-[15.5px] tracking-tight whitespace-nowrap text-center">
-                    안녕하세요, 대표 <span className="text-[#055c40] font-black">조윤호</span> 입니다
+                    안녕하세요, 대표 <span className="text-[#0b7a54] font-black">조윤호</span> 입니다
                   </h2>
                 </div>
               </div>
@@ -517,7 +560,7 @@ const Home: React.FC = () => {
           </div>
 
           {/* Solution Highlight Banner */}
-          <div className="max-w-4xl mx-auto text-center mt-8 p-6 md:p-10 bg-gradient-to-br from-[#0c5c43] to-[#043d2c] rounded-3xl border-none relative overflow-hidden shadow-lg shadow-emerald-900/10">
+          <div className="max-w-4xl mx-auto text-center mt-8 p-6 md:p-10 bg-gradient-to-br from-[#10945f] to-[#085f42] rounded-3xl border-none relative overflow-hidden shadow-lg shadow-emerald-900/10">
             {/* Subtle decorative elements for the premium banner */}
             <div className="absolute -right-10 -bottom-10 w-40 h-40 bg-emerald-500/10 rounded-full blur-2xl" />
             <div className="absolute -left-10 -top-10 w-40 h-40 bg-emerald-500/10 rounded-full blur-2xl" />
@@ -647,7 +690,7 @@ const Home: React.FC = () => {
                 {idx < arr.length - 1 && (
                   <div className="my-5 sm:my-8 flex flex-col items-center justify-center relative">
                     {/* Glowing flow line with moving light tracer */}
-                    <div className="w-[3px] h-8 sm:h-12 bg-gradient-to-b from-[#07835a]/40 via-[#07835a] to-[#07835a]/40 rounded-full relative overflow-hidden shadow-[0_0_12px_rgba(34,186,139,0.4)]">
+                    <div className="w-[3px] h-8 sm:h-12 bg-gradient-to-b from-[#0f9d6c]/40 via-[#0f9d6c] to-[#0f9d6c]/40 rounded-full relative overflow-hidden shadow-[0_0_12px_rgba(34,186,139,0.4)]">
                       <m.div
                         animate={{ y: [-24, 48] }}
                         transition={{ repeat: Infinity, duration: 1.5, ease: "linear" }}
@@ -659,7 +702,7 @@ const Home: React.FC = () => {
                     <m.div
                       animate={{ y: [0, 5, 0] }}
                       transition={{ repeat: Infinity, duration: 1.4, ease: "easeInOut" }}
-                      className="mt-1 flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-gradient-to-b from-[#07835a] to-emerald-600 text-white shadow-[0_4px_18px_rgba(34,186,139,0.45)] border-2 border-white ring-4 ring-[#07835a]/15"
+                      className="mt-1 flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-gradient-to-b from-[#0f9d6c] to-emerald-600 text-white shadow-[0_4px_18px_rgba(34,186,139,0.45)] border-2 border-white ring-4 ring-[#0f9d6c]/15"
                     >
                       <ChevronDown className="w-5 h-5 sm:w-6 sm:h-6 stroke-[3]" />
                     </m.div>
@@ -676,7 +719,7 @@ const Home: React.FC = () => {
         <div className="max-w-7xl mx-auto px-1 md:px-8">
           <div className="text-center mb-12 md:mb-16">
             <h2 className="text-[20px] sm:text-2xl md:text-4xl font-extrabold text-slate-900 mb-4 leading-tight break-keep">
-              <span className="text-[#07835a] font-black">사실</span>로만 입증하는 4대 안심 보장 조건
+              <span className="text-[#0f9d6c] font-black">사실</span>로만 입증하는 4대 안심 보장 조건
             </h2>
           </div>
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 md:gap-10 text-center">
@@ -714,10 +757,234 @@ const Home: React.FC = () => {
         </div>
       </section>
 
+      {/* Certifications Section */}
+      <section className="py-16 md:py-24 bg-slate-50 relative border-b border-slate-100">
+        <div className="max-w-6xl mx-auto px-4 md:px-8">
+          <div className="flex flex-col items-center text-center max-w-3xl mx-auto mb-10 md:mb-14">
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary/10 text-primaryDark text-xs md:text-sm font-bold mb-3 md:mb-4">
+              <Award size={14} />
+              공인 자격 보유
+            </span>
+            <h2 className="text-sm md:text-4xl font-black text-slate-900 mb-3 md:mb-5 leading-tight whitespace-nowrap">
+              말이 아닌 자격증으로 증명합니다
+            </h2>
+            <p className="text-slate-500 text-sm md:text-lg leading-relaxed break-keep">
+              <span className="block md:inline">대표와 전담팀이 취득한 6개 공인 자격증입니다.</span>{' '}
+              <span className="block md:inline">눌러서 실제 자격증을 확인하실 수 있습니다.</span>
+            </p>
+          </div>
+
+          <div className="grid grid-cols-3 md:grid-cols-6 gap-3 md:gap-5">
+            {certifications.map((cert, idx) => (
+              <button
+                key={cert.title}
+                type="button"
+                onClick={() => setOpenCertIdx(idx)}
+                className="text-center group"
+                aria-label={`${cert.title} 자격증 크게 보기`}
+              >
+                <div className="aspect-[3/4] rounded-xl md:rounded-2xl overflow-hidden bg-white border border-slate-200 shadow-sm group-hover:shadow-lg group-hover:border-primary/40 transition-all mb-2">
+                  <img
+                    src={cert.image}
+                    alt={cert.title}
+                    loading="lazy"
+                    decoding="async"
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <p className="text-slate-700 text-[10px] md:text-sm font-bold leading-tight break-keep">{cert.title}</p>
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {openCertIdx !== null && (
+          <div
+            className="fixed inset-0 z-[100] bg-black/85 backdrop-blur-sm flex items-center justify-center p-4 md:p-10"
+            onClick={() => setOpenCertIdx(null)}
+          >
+            <button
+              type="button"
+              onClick={() => setOpenCertIdx(null)}
+              className="absolute top-4 right-4 md:top-6 md:right-6 w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-colors"
+              aria-label="닫기"
+            >
+              <X size={22} />
+            </button>
+            <div className="flex flex-col items-center gap-4 max-w-full max-h-full" onClick={(e) => e.stopPropagation()}>
+              <img
+                src={certifications[openCertIdx].image}
+                alt={certifications[openCertIdx].title}
+                className="max-w-full max-h-[75vh] w-auto h-auto rounded-xl shadow-2xl"
+              />
+              <p className="text-white font-bold text-center">
+                {certifications[openCertIdx].title} · {certifications[openCertIdx].issuer}
+              </p>
+            </div>
+          </div>
+        )}
+      </section>
+
+      {/* Transparent Pricing Section */}
+      <section className="py-16 md:py-24 bg-gradient-to-b from-emerald-50/40 via-white to-emerald-50/30 relative overflow-hidden border-b border-slate-100">
+        <div className="absolute top-16 -left-20 w-72 h-72 bg-emerald-400/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute bottom-16 -right-20 w-80 h-80 bg-teal-400/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="max-w-5xl mx-auto px-4 md:px-8 relative z-10">
+          <div className="flex flex-col items-center text-center max-w-3xl mx-auto mb-10 md:mb-14">
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary/10 text-primaryDark text-xs md:text-sm font-bold mb-3 md:mb-4">
+              <Banknote size={14} />
+              인건비, 숨기지 않고 공개합니다
+            </span>
+            <h2 className="text-2xl md:text-4xl font-black text-slate-900 mb-3 md:mb-5 leading-tight break-keep">
+              왜 견적이 이렇게 나올까요?
+            </h2>
+            <p className="text-slate-500 text-sm md:text-lg leading-relaxed md:leading-loose break-keep">
+              <span className="block md:inline">가격을 숨기는 업체는 믿지 않으셔도 됩니다.</span>{' '}
+              <span className="block md:inline">저희는 인건비 산정 기준부터 투명하게 말씀드리고,</span>{' '}
+              <span className="block md:inline">정확한 인원은 현장을 직접 보고 결정합니다.</span>
+            </p>
+          </div>
+
+          <div className="max-w-2xl mx-auto bg-white rounded-2xl md:rounded-3xl shadow-xl shadow-slate-200/60 border border-slate-100 px-5 py-2 md:px-10 md:py-4">
+            <h2 className="text-sm md:text-2xl font-black text-slate-900 text-center pt-6 md:pt-8 whitespace-nowrap">
+              정확한 견적의 기준, <span className="text-primaryDark">투입 인원</span>입니다
+            </h2>
+
+            {/* Labor cost comparison */}
+            <div className="py-6 md:py-8">
+              <h3 className="flex items-center gap-2 font-black text-slate-900 text-base md:text-xl mb-4 md:mb-5">
+                <span className="w-1.5 h-5 md:h-6 rounded-full bg-primary" />
+                인건비, 왜 다른가요?
+              </h3>
+              <div className="grid grid-cols-3 text-sm md:text-base rounded-xl overflow-hidden border-2 border-slate-200 shadow-sm">
+                <div className="bg-slate-100" />
+                <div className="font-bold text-slate-600 text-center py-3 bg-slate-100 text-xs md:text-sm border-l border-slate-200">일반 인력사무소</div>
+                <div className="font-black text-white text-center py-3 bg-gradient-to-r from-[#04a875] to-[#22ba8b] text-xs md:text-sm border-l border-emerald-600">느티울 전문팀</div>
+
+                <div className="text-slate-500 font-semibold py-3 px-3 border-t-2 border-slate-200 text-xs md:text-sm flex items-center">일당</div>
+                <div className="text-slate-700 font-semibold text-center py-3 border-t-2 border-l border-slate-200 flex items-center justify-center">14~16만원</div>
+                <div className="text-primaryDark font-black text-center py-3 border-t-2 border-l border-slate-200 bg-primary/5 flex items-center justify-center">20만원</div>
+
+                <div className="text-slate-500 font-semibold py-3 px-3 border-t-2 border-slate-200 text-xs md:text-sm flex items-center">투입 인력</div>
+                <div className="text-slate-700 text-center py-3 border-t-2 border-l border-slate-200 text-xs md:text-sm flex items-center justify-center">비전문 일용직</div>
+                <div className="text-primaryDark font-bold text-center py-3 border-t-2 border-l border-slate-200 bg-primary/5 text-xs md:text-sm flex items-center justify-center">15년 경력 전담팀</div>
+              </div>
+              <p className="text-slate-400 text-xs md:text-sm mt-3 break-keep">
+                일용직은 소개 수수료(약 10%) 제외 시 실수령 13~15만원 수준으로, 청소 방법을 제대로 숙지하지 못한 비전문 인력인 경우가 많습니다.
+              </p>
+            </div>
+
+            {/* How headcount is determined */}
+            <div className="py-6 md:py-8 border-t border-slate-100">
+              <h3 className="flex items-center gap-2 font-black text-slate-900 text-base md:text-xl mb-3 md:mb-4">
+                <span className="w-1.5 h-5 md:h-6 rounded-full bg-primary" />
+                투입 인원, 어떻게 정하나요?
+              </h3>
+              <p className="text-slate-700 text-sm md:text-base leading-relaxed break-keep mb-3">
+                <span className="block md:inline">전화로 대충 정하지 않습니다. 15년 경력 대표가</span>{' '}
+                <span className="block md:inline">직접 방문해 평수·오염도·난이도를 확인 후,</span>{' '}
+                <span className="block md:inline">꼭 필요한 인원만 산정합니다.</span>
+              </p>
+              <ul className="flex flex-wrap gap-2">
+                <li className="px-3 py-1.5 rounded-full bg-primary/10 text-primaryDark text-xs md:text-sm font-bold">방문 견적 무료</li>
+                <li className="px-3 py-1.5 rounded-full bg-primary/10 text-primaryDark text-xs md:text-sm font-bold">계약 의무 없음</li>
+              </ul>
+            </div>
+
+            {/* Why flat per-pyeong pricing is unreliable */}
+            <div className="py-6 md:py-8 border-t border-slate-100">
+              <h3 className="flex items-center gap-2 font-black text-slate-900 text-base md:text-xl mb-3 md:mb-4">
+                <span className="w-1.5 h-5 md:h-6 rounded-full bg-primary" />
+                '평당 얼마'가 위험한 이유
+              </h3>
+              <div className="grid grid-cols-3 text-sm md:text-base mb-3 rounded-xl overflow-hidden border-2 border-slate-200 shadow-sm">
+                <div className="bg-slate-100" />
+                <div className="font-bold text-slate-600 text-center py-3 bg-slate-100 text-xs md:text-sm border-l border-slate-200">텅 빈 공실 100평</div>
+                <div className="font-bold text-slate-600 text-center py-3 bg-slate-100 text-xs md:text-sm border-l border-slate-200">집기 가득 50평</div>
+
+                <div className="text-slate-500 font-semibold py-3 px-3 border-t-2 border-slate-200 text-xs md:text-sm flex items-center">작업 난이도</div>
+                <div className="text-slate-700 font-semibold text-center py-3 border-t-2 border-l border-slate-200 flex items-center justify-center">수월함</div>
+                <div className="text-slate-700 font-semibold text-center py-3 border-t-2 border-l border-slate-200 flex items-center justify-center">고됨</div>
+
+                <div className="text-slate-500 font-semibold py-3 px-3 border-t-2 border-slate-200 text-xs md:text-sm flex items-center">평당 계산 시</div>
+                <div className="text-rose-600 font-black text-center py-3 border-t-2 border-l border-slate-200 bg-rose-50/60 flex items-center justify-center">더 비쌈</div>
+                <div className="text-emerald-600 font-black text-center py-3 border-t-2 border-l border-slate-200 bg-emerald-50/60 flex items-center justify-center">더 저렴함</div>
+              </div>
+              <p className="text-slate-700 text-sm md:text-base leading-relaxed break-keep">
+                <span className="block md:inline">같은 평수여도 작업량은 정반대일 수 있습니다.</span>{' '}
+                <span className="block md:inline">평당 계산은 쉬운 현장을 더 비싸게 만들고,</span>{' '}
+                <span className="block md:inline">인원 배치 오류로 제 시간 내에 작업을</span>{' '}
+                <span className="block md:inline">끝내지 못할 위험도 있습니다.</span>{' '}
+                <strong className="block md:inline mt-3 md:mt-0 text-primaryDark">그래서 현장을 직접 보고 정확히 산정합니다.</strong>
+              </p>
+            </div>
+
+            {/* No-surprise-fee promise */}
+            <div className="py-6 md:py-8 border-t border-slate-100">
+              <h3 className="flex items-center gap-2 font-black text-slate-900 text-base md:text-xl mb-3 md:mb-4">
+                <span className="w-1.5 h-5 md:h-6 rounded-full bg-primary" />
+                추가 요금이 생기면 어떻게 하나요?
+              </h3>
+              <p className="text-slate-700 text-sm md:text-base leading-relaxed break-keep">
+                <span className="block md:inline">예상 못한 특수 오염이나 상황이 발견되면,</span>{' '}
+                <span className="block md:inline">먼저 안내드리고 동의 받은 후에 진행합니다.</span>{' '}
+                <strong className="block md:inline mt-3 md:mt-0 text-primaryDark">사전 협의 없는 추가 청구는 없습니다!</strong>
+              </p>
+            </div>
+          </div>
+
+          <div className="flex justify-center mt-8 md:mt-10">
+            <Link
+              to="/contact"
+              onClick={() => trackEvent('contact_click', { method: 'quote', location: 'home_pricing' })}
+              className="inline-flex items-center gap-2 bg-primary text-white px-6 py-3.5 md:px-8 md:py-4 rounded-xl font-bold text-sm md:text-base hover:bg-primaryDark transition-all shadow-lg shadow-primary/25 group"
+            >
+              내 공간 견적 확인하기
+              <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Real Customer Reviews */}
+      <section className="py-16 md:py-24 bg-gradient-to-b from-white via-amber-50/30 to-white relative border-b border-slate-100 overflow-hidden">
+        <div className="absolute top-10 right-[10%] w-64 h-64 bg-amber-300/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute bottom-10 left-[10%] w-72 h-72 bg-emerald-300/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="max-w-7xl mx-auto px-4 md:px-8 text-center mb-8 md:mb-14 relative z-10">
+          <div className="flex items-center justify-center gap-1.5 md:gap-2 mb-4 md:mb-5">
+            {[...Array(5)].map((_, i) => (
+              <m.div
+                key={i}
+                initial={{ scale: 0, rotate: -180 }}
+                whileInView={{ scale: 1, rotate: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.1, type: 'spring', stiffness: 260, damping: 14 }}
+              >
+                <Star
+                  size={30}
+                  className="md:w-9 md:h-9 text-amber-400 fill-amber-400 animate-star-twinkle"
+                  style={{ animationDelay: `${i * 0.15}s` }}
+                />
+              </m.div>
+            ))}
+          </div>
+          <h2 className="text-sm md:text-4xl font-black text-slate-900 leading-tight mb-3 md:mb-5 whitespace-nowrap">
+            직접 이용해보신 고객님들의 후기
+          </h2>
+          <p className="text-slate-500 text-sm md:text-lg leading-relaxed break-keep">
+            <span className="block md:inline">저희가 아닌, 실제로 청소를 맡기신</span>{' '}
+            <span className="block md:inline">고객님들의 이야기입니다.</span>{' '}
+            <span className="block md:inline mt-3 md:mt-0">사진을 눌러 크게 볼 수 있습니다.</span>
+          </p>
+        </div>
+
+        <ReviewMarquee />
+      </section>
+
       {/* 5th Section: Beautiful & Interactive Q&A Accordion */}
       <section className="py-20 md:py-28 bg-gradient-to-br from-[#ebf7f4] via-[#f7fbf9] to-[#e6f4f1] relative overflow-hidden border-b border-slate-100/80">
         {/* Premium subtle dot pattern overlay */}
-        <div className="absolute inset-0 bg-[radial-gradient(#07835a_0.8px,transparent_0.8px)] bg-[size:24px_24px] [mask-image:radial-gradient(ellipse_60%_60%_at_50%_50%,#000_70%,transparent_100%)] opacity-[0.06] pointer-events-none" />
+        <div className="absolute inset-0 bg-[radial-gradient(#0f9d6c_0.8px,transparent_0.8px)] bg-[size:24px_24px] [mask-image:radial-gradient(ellipse_60%_60%_at_50%_50%,#000_70%,transparent_100%)] opacity-[0.06] pointer-events-none" />
         
         {/* Soft eco-inspired backdrop highlights */}
         <div className="absolute top-1/4 right-[-10%] w-[600px] h-[600px] bg-emerald-400/12 rounded-full blur-[150px] pointer-events-none" />
@@ -744,7 +1011,11 @@ const Home: React.FC = () => {
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
                   <span className="relative inline-flex rounded-full h-3 w-3 bg-emerald-700"></span>
                 </span>
-                {activeFAQTab === 'all' ? (
+                {activeFAQTab === null ? (
+                  <span className="text-[13px] min-[360px]:text-sm text-emerald-950 font-extrabold tracking-tight whitespace-nowrap">
+                    궁금하신 카테고리를 선택해주세요
+                  </span>
+                ) : activeFAQTab === 'all' ? (
                   <span className="flex items-center gap-1.5 min-[380px]:gap-2 whitespace-nowrap overflow-hidden">
                     <span className="bg-emerald-700 text-white px-2.5 py-1 rounded-lg text-xs sm:text-sm font-black shadow-sm shrink-0">
                       전체 보기
@@ -789,7 +1060,7 @@ const Home: React.FC = () => {
                     }}
                     className={`w-full text-left px-5 py-3.5 text-xs sm:text-sm font-bold transition-all duration-150 flex items-center justify-between ${
                       activeFAQTab === 'all'
-                        ? 'bg-emerald-50 text-[#055c40] font-black'
+                        ? 'bg-emerald-50 text-[#0b7a54] font-black'
                         : 'text-slate-700 hover:bg-slate-50'
                     }`}
                   >
@@ -808,7 +1079,7 @@ const Home: React.FC = () => {
                       }}
                       className={`w-full text-left px-5 py-3.5 text-xs sm:text-sm font-bold transition-all duration-150 flex items-center justify-between ${
                         activeFAQTab === cat.category
-                          ? 'bg-emerald-50 text-[#055c40] font-black'
+                          ? 'bg-emerald-50 text-[#0b7a54] font-black'
                           : 'text-slate-700 hover:bg-slate-50'
                       }`}
                     >
@@ -833,7 +1104,7 @@ const Home: React.FC = () => {
                 }}
                 className={`whitespace-nowrap flex-shrink-0 px-4 py-2.5 rounded-full text-xs lg:text-sm font-black transition-all duration-200 cursor-pointer ${
                   activeFAQTab === 'all'
-                    ? 'bg-gradient-to-r from-[#055c40] to-[#07835a] text-white shadow-md shadow-emerald-600/25 scale-[1.02]'
+                    ? 'bg-gradient-to-r from-[#0b7a54] to-[#0f9d6c] text-white shadow-md shadow-emerald-600/25 scale-[1.02]'
                     : 'text-slate-600 hover:text-slate-900 hover:bg-white/80'
                 }`}
               >
@@ -848,7 +1119,7 @@ const Home: React.FC = () => {
                   }}
                   className={`whitespace-nowrap flex-shrink-0 px-4 py-2.5 rounded-full text-xs lg:text-sm font-extrabold transition-all duration-200 cursor-pointer ${
                     activeFAQTab === cat.category
-                      ? 'bg-gradient-to-r from-[#055c40] to-[#07835a] text-white shadow-md shadow-emerald-600/25 font-black scale-[1.02]'
+                      ? 'bg-gradient-to-r from-[#0b7a54] to-[#0f9d6c] text-white shadow-md shadow-emerald-600/25 font-black scale-[1.02]'
                       : 'text-slate-600 hover:text-slate-900 hover:bg-white/80'
                   }`}
                 >
@@ -859,6 +1130,32 @@ const Home: React.FC = () => {
           </div>
 
           {/* Interactive FAQ Accordion List */}
+          {activeFAQTab === null ? (
+            <div className="max-w-2xl mx-auto text-center py-10 md:py-14 px-6 rounded-2xl md:rounded-3xl border-2 border-dashed border-emerald-300/70 bg-white/60">
+              <p className="text-slate-600 font-bold text-sm md:text-base mb-5 break-keep">
+                위에서 궁금하신 카테고리를 선택하시면 질문을 확인하실 수 있어요.
+              </p>
+              <div className="flex flex-col gap-2.5 md:flex-row md:items-stretch md:justify-center md:gap-4">
+                <button
+                  onClick={() => setActiveFAQTab('all')}
+                  className="w-full md:w-auto px-4 py-2.5 md:px-7 rounded-full md:rounded-2xl text-sm md:text-base font-black bg-gradient-to-r from-[#0b7a54] to-[#0f9d6c] text-white shadow-md shadow-emerald-600/25 md:flex md:items-center"
+                >
+                  전체 질문 보기
+                </button>
+                <div className="grid grid-cols-3 gap-2 md:gap-2.5">
+                  {FAQ_DATA.map((cat) => (
+                    <button
+                      key={cat.category}
+                      onClick={() => setActiveFAQTab(cat.category)}
+                      className="px-2.5 py-2 md:px-4 md:py-2.5 rounded-full text-[11px] sm:text-xs md:text-sm font-bold bg-slate-100 text-slate-600 hover:bg-emerald-50 hover:text-emerald-700 transition-colors break-keep leading-snug"
+                    >
+                      {cat.categoryName}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+          ) : (
           <div className="space-y-4 max-w-3xl mx-auto">
             {FAQ_DATA.filter(cat => activeFAQTab === 'all' || cat.category === activeFAQTab)
               .flatMap((cat) => cat.qas.map((qa, index) => {
@@ -881,13 +1178,13 @@ const Home: React.FC = () => {
                     >
                       <div className="flex gap-3 sm:gap-4 items-center flex-1">
                         <div className={`w-8 h-8 sm:w-9 sm:h-9 rounded-xl flex items-center justify-center shrink-0 font-black text-sm sm:text-base transition-colors ${
-                          isOpen ? 'bg-[#055c40] text-white shadow-md' : 'bg-emerald-100/90 text-[#055c40]'
+                          isOpen ? 'bg-[#0b7a54] text-white shadow-md' : 'bg-emerald-100/90 text-[#0b7a54]'
                         }`}>
                           Q
                         </div>
                         <div className="flex-1">
                           <span className={`text-[15px] sm:text-[18px] md:text-[19px] font-extrabold leading-snug tracking-tight break-keep transition-colors duration-150 ${
-                            isOpen ? 'text-[#055c40]' : 'text-slate-900 group-hover:text-emerald-700'
+                            isOpen ? 'text-[#0b7a54]' : 'text-slate-900 group-hover:text-emerald-700'
                           }`}>
                             {qa.q}
                           </span>
@@ -925,9 +1222,10 @@ const Home: React.FC = () => {
                 );
               }))}
           </div>
+          )}
 
           {/* Bottom Trust Badge */}
-          <div className="text-center mt-12 md:mt-16 p-6 sm:p-8 bg-gradient-to-r from-[#055c40] via-[#03855c] to-[#026344] text-white rounded-3xl max-w-2xl mx-auto shadow-xl shadow-emerald-950/20 border border-emerald-400/30 relative overflow-hidden flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div className="text-center mt-12 md:mt-16 p-6 sm:p-8 bg-gradient-to-r from-[#0b7a54] via-[#0da36c] to-[#085f42] text-white rounded-3xl max-w-2xl mx-auto shadow-xl shadow-emerald-950/20 border border-emerald-400/30 relative overflow-hidden flex flex-col sm:flex-row items-center justify-between gap-4">
             <div className="text-center sm:text-left">
               <p className="text-sm sm:text-base md:text-lg font-extrabold text-white leading-snug break-keep">
                 💡 찾으시는 답변이 없으신가요?
@@ -939,7 +1237,7 @@ const Home: React.FC = () => {
             <Link
               to="/contact"
               onClick={() => trackEvent('contact_click', { method: 'quote', location: 'home_faq' })}
-              className="shrink-0 px-5 py-2.5 bg-white text-[#055c40] hover:bg-emerald-50 text-xs sm:text-sm font-black rounded-xl shadow-md transition-all flex items-center gap-1.5 transform hover:scale-105"
+              className="shrink-0 px-5 py-2.5 bg-white text-[#0b7a54] hover:bg-emerald-50 text-xs sm:text-sm font-black rounded-xl shadow-md transition-all flex items-center gap-1.5 transform hover:scale-105"
             >
               <span>무료 상담 신청</span>
               <ArrowRight className="w-4 h-4" />
@@ -1132,7 +1430,7 @@ const Home: React.FC = () => {
                전화 상담 {config.companyInfo.phone}
              </m.a>
              <m.div whileHover={{ scale: 1.04, y: -2 }} whileTap={{ scale: 0.96 }}>
-               <Link to="/contact" onClick={() => trackEvent('contact_click', { method: 'quote', location: 'home_bottom_cta' })} className="block px-6 py-4 md:px-10 md:py-5 bg-primaryDark text-white text-[16px] md:text-xl font-extrabold rounded-xl hover:bg-[#039665] transition-all shadow-lg border border-white/20 whitespace-nowrap">
+               <Link to="/contact" onClick={() => trackEvent('contact_click', { method: 'quote', location: 'home_bottom_cta' })} className="block px-6 py-4 md:px-10 md:py-5 bg-primaryDark text-white text-[16px] md:text-xl font-extrabold rounded-xl hover:bg-[#12b47e] transition-all shadow-lg border border-white/20 whitespace-nowrap">
                  온라인 견적 문의
                </Link>
              </m.div>
