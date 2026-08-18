@@ -20,10 +20,26 @@ declare global {
   interface Window {
     dataLayer: unknown[];
     gtag: (...args: unknown[]) => void;
+    karrotPixel?: { track: (...args: unknown[]) => void };
   }
 }
 
+// Maps our GA4 event names to the Karrot (당근마켓) ads pixel's own event
+// taxonomy, so a single trackEvent() call at each contact touchpoint keeps
+// both platforms' conversion data in sync instead of tracking page views
+// only (ViewPage, already fired from index.html, can't tell Karrot's ad
+// dashboard which visitors actually contacted us). Lead = "특정 서비스
+// 신청 전 발생하는 이벤트" (about to contact — phone/kakao/email tap),
+// SubmitApplication = an actually-completed quote request.
+const KARROT_EVENT_MAP: Record<string, string> = {
+  contact_click: 'Lead',
+  generate_lead: 'SubmitApplication',
+};
+
 export function trackEvent(name: string, params?: Record<string, unknown>) {
-  if (typeof window === 'undefined' || !window.gtag) return;
-  window.gtag('event', name, params);
+  if (typeof window === 'undefined') return;
+  if (window.gtag) window.gtag('event', name, params);
+
+  const karrotEvent = KARROT_EVENT_MAP[name];
+  if (karrotEvent && window.karrotPixel) window.karrotPixel.track(karrotEvent);
 }
