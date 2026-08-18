@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, Phone, UserCog, ClipboardCheck } from 'lucide-react';
+import { Menu, X, Phone, UserCog, ClipboardCheck, ChevronUp } from 'lucide-react';
 import { m, AnimatePresence } from 'motion/react';
 import { useSite } from '../context/SiteContext';
 import { trackEvent } from '../lib/analytics';
@@ -144,12 +144,15 @@ const Navbar: React.FC = () => {
                 <UserCog size={24} />
             </Link>
             <m.button
-              whileTap={{ scale: 0.9 }}
+              whileTap={{ scale: 0.92 }}
               onClick={() => setIsOpen(!isOpen)}
-              className="text-slate-800 hover:text-primary p-2 focus:outline-none rounded-xl"
+              className="relative bg-primary text-white p-2.5 focus:outline-none rounded-2xl shadow-lg shadow-primary/35 active:bg-primaryDark transition-colors"
               aria-label="Toggle navigation menu"
             >
-              {isOpen ? <X size={32} /> : <Menu size={32} />}
+              {!isOpen && (
+                <span className="absolute -inset-0.5 rounded-2xl bg-primary/40 animate-ping pointer-events-none" />
+              )}
+              {isOpen ? <X size={26} /> : <Menu size={26} />}
             </m.button>
           </div>
         </div>
@@ -228,6 +231,20 @@ const Navbar: React.FC = () => {
                   무료 방문 견적
                 </Link>
               </m.div>
+
+              {/* Collapse handle — closes the menu, mirrors the fold-out feel */}
+              <div className="flex justify-center mt-3">
+                <m.button
+                  type="button"
+                  whileHover={{ scale: 1.08 }}
+                  whileTap={{ scale: 0.92 }}
+                  onClick={() => setIsOpen(false)}
+                  aria-label="메뉴 접기"
+                  className="flex items-center justify-center w-12 h-12 rounded-full bg-primary/10 border border-primary/20 text-primaryDark shadow-sm hover:bg-primary/15 hover:shadow-md active:bg-primary/20 transition-all"
+                >
+                  <ChevronUp size={26} className="stroke-[3]" />
+                </m.button>
+              </div>
             </div>
           </m.div>
         )}
