@@ -10,7 +10,7 @@ const Footer: React.FC = () => {
   const cleanPhone = config.companyInfo.phone.replace(/[^0-9]/g, '');
 
   return (
-    <footer className="bg-gray-900 text-gray-300 pt-12 md:pt-16 pb-28 md:pb-12 border-t border-gray-800">
+    <footer className="bg-gray-900 text-gray-300 pt-12 md:pt-16 pb-12 border-t border-gray-800">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Main Footer Grid: Company Info + Links + Services + Contact */}
@@ -166,7 +166,8 @@ const Footer: React.FC = () => {
         </div>
 
         {/* Bottom Copyright */}
-        <div className="border-t border-gray-800 pt-8 text-center flex flex-col sm:flex-row items-center justify-between gap-3">
+        {/* pr-14 on mobile keeps text clear of the fixed side-floating contact buttons */}
+        <div className="border-t border-gray-800 pt-8 pr-14 md:pr-0 text-center flex flex-col sm:flex-row items-center justify-between gap-3">
           <p className="text-[10px] md:text-sm text-gray-400 font-medium">
             &copy; {new Date().getFullYear()} {config.companyInfo.name}. All rights reserved. | 대표: 조윤호 | 사업자등록번호 및 통신판매업신고 완료
             {' '}| <Link to="/privacy" className="underline hover:text-white transition-colors">개인정보처리방침</Link>

@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Phone, MessageCircle } from 'lucide-react';
 import { trackEvent } from '../lib/analytics';
+import KakaoConfirmModal from './KakaoConfirmModal';
 
 const FloatingContactButtons: React.FC = () => {
   const phoneNumber = '01048807386';
   const kakaoUrl = 'https://open.kakao.com/o/srNJGmpg';
+  const [showKakaoConfirm, setShowKakaoConfirm] = useState(false);
 
   return (
     <div className="hidden md:flex fixed bottom-8 right-8 z-50 flex-col gap-3 select-none pointer-events-auto">
@@ -79,9 +81,10 @@ const FloatingContactButtons: React.FC = () => {
       {/* KakaoTalk Chat Floating Button */}
       <a
         href={kakaoUrl}
-        target="_blank"
-        rel="noopener noreferrer"
-        onClick={() => trackEvent('contact_click', { method: 'kakao', location: 'floating_button' })}
+        onClick={(e) => {
+          e.preventDefault();
+          setShowKakaoConfirm(true);
+        }}
         className="hover-bubble-bounce group relative flex items-center justify-end"
         aria-label="카카오톡 문의"
       >
@@ -89,13 +92,21 @@ const FloatingContactButtons: React.FC = () => {
         <div className="bg-button-kakao flex items-center gap-2.5 text-[#3C1E1E] px-5 py-3.5 md:px-6 md:py-4 rounded-full shadow-[0_6px_24px_rgba(254,229,0,0.55)] active:scale-95 relative overflow-visible border border-black/10">
           {/* Pulsing Outer Ring */}
           <span className="absolute -inset-1 rounded-full bg-[#FEE500]/50 animate-ping pointer-events-none" />
-          
+
           <MessageCircle size={22} className="bubble-icon-animate md:w-[24px] md:h-[24px] fill-[#3C1E1E] shrink-0" />
           <span className="text-sm md:text-base lg:text-lg font-black tracking-tight pr-1">
             카톡문의
           </span>
         </div>
       </a>
+
+      {showKakaoConfirm && (
+        <KakaoConfirmModal
+          kakaoUrl={kakaoUrl}
+          location="floating_button"
+          onClose={() => setShowKakaoConfirm(false)}
+        />
+      )}
     </div>
   );
 };
