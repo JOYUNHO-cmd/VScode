@@ -10,7 +10,6 @@ import {
   onSnapshot,
   query,
   orderBy,
-  getDocFromServer,
   serverTimestamp
 } from 'firebase/firestore';
 import { db, isMockFirebase, getCachedAuth } from './firebase';
@@ -91,22 +90,6 @@ function notifyPortfolioChanged() {
       console.error("Error in portfolio listener:", e);
     }
   });
-}
-
-// Connection check
-export async function testFirestoreConnection() {
-  if (isMockFirebase) {
-    console.log("Mock Firebase connection active (localStorage fallback)");
-    return;
-  }
-  try {
-    await getDocFromServer(doc(db, 'system', 'connection_test'));
-    console.log("Firebase connection successful");
-  } catch (error) {
-    if (error instanceof Error && error.message.includes('the client is offline')) {
-      console.error("Please check your Firebase configuration or network.");
-    }
-  }
 }
 
 // Company Info Operations

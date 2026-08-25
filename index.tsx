@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
-import { testFirestoreConnection } from './lib/firebaseService';
 import './src/styles.css';
 
 // Naver login callback handler for popup redirect
@@ -39,9 +38,6 @@ if (handleNaverCallback()) {
   // Stop further rendering for popup
   console.log("Naver callback handled, stopping React mount.");
 } else {
-  // Initialize and verify the Firebase connection
-  testFirestoreConnection();
-
   const rootElement = document.getElementById('root');
 
   if (!rootElement) {

@@ -11,7 +11,7 @@ const fs = require('fs');
 const path = require('path');
 const sharp = require('sharp');
 
-const SOOMGO_DIR = 'C:/Users/PC/Desktop/홈페이지 이미지 사용/리뷰';
+const SOOMGO_DIR = 'C:/Users/PC/Desktop/홈페이지 이미지 사용/리뷰/숨고 리뷰';
 const KAKAO_DIR = 'C:/Users/PC/Desktop/홈페이지 이미지 사용/리뷰/카카오톡 리뷰';
 const OUT_DIR = path.join(__dirname, '..', 'public', 'images', 'reviews');
 const MAX_WIDTH = 640;
