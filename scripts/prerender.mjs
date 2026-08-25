@@ -30,7 +30,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT_DIR = path.resolve(__dirname, '..');
 const DIST_DIR = path.join(ROOT_DIR, 'dist');
 const SSR_ENTRY = path.join(ROOT_DIR, 'dist-ssr', 'entry-server.js');
-const PRODUCTION_ORIGIN = 'https://neutiul.com';
+const PRODUCTION_ORIGIN = 'https://www.neutiul.com';
 const STATIC_ROUTES = ['/', '/about', '/services', '/portfolio', '/contact', '/privacy'];
 
 // Routes that get real, hydratable content baked into <div id="root">

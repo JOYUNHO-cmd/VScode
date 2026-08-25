@@ -96,7 +96,7 @@ function notifyPortfolioChanged() {
 export async function getCompanyInfo() {
   const oldLogo1 = 'https://i.ibb.co/kVzK83Kf/image.png';
   const oldLogo2 = 'https://i.ibb.co/Ldcq4XMr/image.png';
-  const newLogo = 'https://neutiul.com/images/logo.webp';
+  const newLogo = 'https://www.neutiul.com/images/logo.webp';
 
   if (isMockFirebase) {
     const stored = localStorage.getItem('neutiul_company_info');
