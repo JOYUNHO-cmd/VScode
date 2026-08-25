@@ -1,7 +1,40 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useSite } from '../context/SiteContext';
-import { Sparkles, Calendar, ArrowUpRight, ExternalLink, Loader2, Rss, ChevronRight } from 'lucide-react';
+import { Sparkles, Calendar, ArrowUpRight, ExternalLink, Loader2, Rss, ChevronRight, ChevronDown } from 'lucide-react';
 import { m } from 'motion/react';
+import portfolioManifest from '../lib/portfolioManifest.json';
+import PortfolioSplitCard, { PortfolioGalleryItem } from '../components/PortfolioSplitCard';
+import PortfolioLightbox from '../components/PortfolioLightbox';
+
+const galleryItems = portfolioManifest as PortfolioGalleryItem[];
+const GALLERY_CATEGORIES = Array.from(
+  new Map(galleryItems.map((item) => [item.category, item.categoryLabel])).entries()
+);
+const PAGE_SIZE = 24;
+
+// The manifest is grouped category-by-category (conversion order), so
+// showing it as-is under "전체" reads as long same-category runs. Round-
+// robin across categories instead, so the "전체" view is mixed rather
+// than sequential — a stable interleave, not a per-load random shuffle,
+// so the order doesn't jump around on every reload.
+function interleaveByCategory(items: PortfolioGalleryItem[]): PortfolioGalleryItem[] {
+  const buckets = new Map<string, PortfolioGalleryItem[]>();
+  for (const item of items) {
+    const bucket = buckets.get(item.category) || [];
+    bucket.push(item);
+    buckets.set(item.category, bucket);
+  }
+  const bucketList = Array.from(buckets.values());
+  const result: PortfolioGalleryItem[] = [];
+  for (let i = 0; result.length < items.length; i++) {
+    for (const bucket of bucketList) {
+      if (i < bucket.length) result.push(bucket[i]);
+    }
+  }
+  return result;
+}
+
+const mixedGalleryItems = interleaveByCategory(galleryItems);
 
 interface NaverRssItem {
   title: string;
@@ -30,6 +63,22 @@ export const Portfolio: React.FC = () => {
   const [rssItems, setRssItems] = useState<NaverRssItem[]>([]);
   const [rssLoading, setRssLoading] = useState(true);
   const [rssError, setRssError] = useState<string | null>(null);
+
+  const [activeCategory, setActiveCategory] = useState<string>('all');
+  const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
+  const [openItem, setOpenItem] = useState<PortfolioGalleryItem | null>(null);
+  const [categoryDropdownOpen, setCategoryDropdownOpen] = useState(false);
+
+  const filteredItems = useMemo(
+    () => (activeCategory === 'all' ? mixedGalleryItems : galleryItems.filter((i) => i.category === activeCategory)),
+    [activeCategory]
+  );
+  const visibleItems = filteredItems.slice(0, visibleCount);
+
+  const handleCategoryChange = (category: string) => {
+    setActiveCategory(category);
+    setVisibleCount(PAGE_SIZE);
+  };
 
   // Naver Blog URLs
   const naverBlogUrl1 = "https://blog.naver.com/PostList.naver?blogId=kslee0143&from=postList&categoryNo=98&parentCategoryNo=98";
@@ -179,8 +228,154 @@ export const Portfolio: React.FC = () => {
         <div className="absolute bottom-0 left-0 w-full h-16 md:h-24 bg-gradient-to-t from-slate-50 to-transparent pointer-events-none z-20"></div>
       </section>
 
+      {/* Before/After Gallery */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-16">
-        
+        <div className="text-center mb-8 md:mb-10">
+          <h2 className="text-2xl md:text-4xl font-black text-slate-900 mb-3 tracking-tight">
+            시공 전후 비교 갤러리
+          </h2>
+          <p className="text-slate-500 text-sm md:text-base break-keep">
+            실제 현장 전/후 사진입니다! 클릭하면 크게 보입니다.
+          </p>
+        </div>
+
+        {/* Mobile Category Dropdown Selector */}
+        <div className="block md:hidden relative mb-8 z-30 max-w-sm mx-auto">
+          <button
+            type="button"
+            onClick={() => setCategoryDropdownOpen(!categoryDropdownOpen)}
+            className="w-full flex items-center justify-between bg-gradient-to-r from-emerald-50 via-teal-50 to-emerald-50/90 border-2 border-emerald-500 rounded-2xl px-3.5 sm:px-5 py-3.5 text-sm font-extrabold text-slate-900 shadow-md shadow-emerald-500/10 active:scale-[0.99] transition-all duration-200"
+          >
+            <span className="flex items-center gap-1.5 min-[380px]:gap-2 overflow-hidden">
+              <span className="relative flex h-3 w-3 shrink-0">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-3 w-3 bg-emerald-600"></span>
+              </span>
+              {activeCategory === 'all' ? (
+                <span className="flex items-center gap-1.5 min-[380px]:gap-2 whitespace-nowrap overflow-hidden">
+                  <span className="bg-emerald-600 text-white px-2.5 py-1 rounded-lg text-xs sm:text-sm font-black shadow-sm shrink-0">
+                    전체
+                  </span>
+                  <span className="text-[11.5px] min-[360px]:text-xs min-[400px]:text-[13px] text-emerald-950 font-extrabold tracking-tight whitespace-nowrap">
+                    (궁금하신 현장 사례를 선택해주세요)
+                  </span>
+                </span>
+              ) : (
+                <span className="bg-emerald-600 text-white px-2.5 py-1 rounded-lg text-xs sm:text-sm font-black shadow-sm truncate">
+                  {GALLERY_CATEGORIES.find(([slug]) => slug === activeCategory)?.[1]}
+                </span>
+              )}
+            </span>
+            <div className="w-8 h-8 rounded-xl bg-emerald-600 text-white flex items-center justify-center shrink-0 shadow-sm ml-1">
+              <ChevronDown className={`w-5 h-5 transition-transform duration-300 ${categoryDropdownOpen ? 'rotate-180' : ''}`} />
+            </div>
+          </button>
+
+          {categoryDropdownOpen && (
+            <>
+              <div className="fixed inset-0 z-20 cursor-default" onClick={() => setCategoryDropdownOpen(false)} />
+              <m.div
+                initial={{ opacity: 0, y: -8 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.15 }}
+                className="absolute left-0 right-0 mt-2 bg-white border border-slate-200 rounded-2xl shadow-2xl overflow-hidden z-30 py-1.5 max-h-80 overflow-y-auto"
+              >
+                <button
+                  onClick={() => {
+                    handleCategoryChange('all');
+                    setCategoryDropdownOpen(false);
+                  }}
+                  className={`w-full text-left px-5 py-3.5 text-xs sm:text-sm font-bold transition-all duration-150 flex items-center justify-between ${
+                    activeCategory === 'all' ? 'bg-emerald-50 text-[#04a875] font-black' : 'text-slate-700 hover:bg-slate-50'
+                  }`}
+                >
+                  <span>전체</span>
+                  {activeCategory === 'all' && <span className="w-2 h-2 rounded-full bg-emerald-500" />}
+                </button>
+                {GALLERY_CATEGORIES.map(([slug, label]) => (
+                  <button
+                    key={slug}
+                    onClick={() => {
+                      handleCategoryChange(slug);
+                      setCategoryDropdownOpen(false);
+                    }}
+                    className={`w-full text-left px-5 py-3.5 text-xs sm:text-sm font-bold transition-all duration-150 flex items-center justify-between ${
+                      activeCategory === slug ? 'bg-emerald-50 text-[#04a875] font-black' : 'text-slate-700 hover:bg-slate-50'
+                    }`}
+                  >
+                    <span>{label}</span>
+                    {activeCategory === slug && <span className="w-2 h-2 rounded-full bg-emerald-500" />}
+                  </button>
+                ))}
+              </m.div>
+            </>
+          )}
+        </div>
+
+        {/* Desktop Category Filter Chips — fixed 8-column grid so 전체 + 23
+            categories lay out as a clean 3-row block instead of ragged
+            wrapping that depends on label lengths. */}
+        <div className="hidden md:grid md:grid-cols-8 gap-2 mb-8 md:mb-10">
+          <button
+            type="button"
+            onClick={() => handleCategoryChange('all')}
+            className={`px-3 py-2.5 rounded-xl text-xs lg:text-sm font-bold text-center transition-all ${
+              activeCategory === 'all'
+                ? 'bg-primary text-white shadow-md shadow-primary/25'
+                : 'bg-white text-slate-600 border border-slate-200 hover:border-primary/40 hover:text-primary'
+            }`}
+          >
+            전체
+          </button>
+          {GALLERY_CATEGORIES.map(([slug, label]) => {
+            return (
+              <button
+                key={slug}
+                type="button"
+                onClick={() => handleCategoryChange(slug)}
+                className={`px-3 py-2.5 rounded-xl text-xs lg:text-sm font-bold text-center leading-snug transition-all ${
+                  activeCategory === slug
+                    ? 'bg-primary text-white shadow-md shadow-primary/25'
+                    : 'bg-white text-slate-600 border border-slate-200 hover:border-primary/40 hover:text-primary'
+                }`}
+              >
+                {label}
+              </button>
+            );
+          })}
+        </div>
+
+        {/* Gallery Grid */}
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-5">
+          {visibleItems.map((item, idx) => (
+            <PortfolioSplitCard
+              key={item.id}
+              item={item}
+              eager={idx < 8}
+              onClick={() => setOpenItem(item)}
+            />
+          ))}
+        </div>
+
+        {visibleCount < filteredItems.length && (
+          <div className="flex justify-center mt-8 md:mt-10">
+            <button
+              type="button"
+              onClick={() => setVisibleCount((c) => c + PAGE_SIZE)}
+              className="px-6 py-3 rounded-xl bg-white border border-slate-200 text-slate-700 font-bold text-sm hover:border-primary/40 hover:text-primary transition-all shadow-sm"
+            >
+              더 보기
+            </button>
+          </div>
+        )}
+      </div>
+
+      {openItem && (
+        <PortfolioLightbox item={openItem} onClose={() => setOpenItem(null)} />
+      )}
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-16">
+
         {/* Construction Channel Callout */}
         <m.div 
           initial={{ opacity: 0, y: 25 }}
