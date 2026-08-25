@@ -12,6 +12,9 @@ import { m } from 'motion/react';
 import { trackEvent } from '../lib/analytics';
 import { subscribePortfolioItems } from '../lib/firebaseService';
 import { PortfolioItem } from '../types';
+import ServiceBeforeAfterMarquee from '../components/ServiceBeforeAfterMarquee';
+import ReviewsSection from '../components/ReviewsSection';
+import FAQSection from '../components/FAQSection';
 
 const certificationsData = [
   { 
@@ -52,596 +55,6 @@ const certificationsData = [
   },
 ];
 
-interface BeforeAfterItem {
-  id: string;
-  title: string;
-  beforeImg: string;
-  afterImg: string;
-  beforeFilter: string;
-  points: string[];
-  desc: string;
-  serviceIds: string[];
-}
-
-const getBeforeAfterDataForService = (serviceId: string): BeforeAfterItem[] => {
-  const kitchenImg = 'https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=1000&auto=format&fit=crop&q=80';
-  const windowImg = 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1000&auto=format&fit=crop&q=80';
-  const bathroomImg = 'https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?w=1000&auto=format&fit=crop&q=80';
-  const roomStorageImg = 'https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=1000&auto=format&fit=crop&q=80';
-  const floorImg = 'https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=1000&auto=format&fit=crop&q=80';
-
-  const kitchenFilter = 'brightness(0.65) contrast(1.15) saturate(0.55) sepia(0.3) hue-rotate(10deg) blur(0.5px)';
-  const windowFilter = 'brightness(0.5) contrast(1.25) saturate(0.35) grayscale(0.3) blur(1px)';
-  const bathroomFilter = 'brightness(0.6) contrast(1.1) saturate(0.5) sepia(0.2) hue-rotate(-20deg) blur(0.8px)';
-  const roomStorageFilter = 'brightness(0.6) contrast(1.15) saturate(0.4) sepia(0.2) blur(0.6px)';
-  const floorFilter = 'brightness(0.65) contrast(1.2) saturate(0.5) grayscale(0.4) blur(0.4px)';
-
-  switch (serviceId) {
-    case 'new-construction':
-      return [
-        {
-          id: 'nc-1',
-          title: '에버랜드 캔디샾 준공 마무리 청소',
-          beforeImg: '/images/portfolio/nc-1-before.webp',
-          afterImg: '/images/portfolio/nc-1-after.webp',
-          beforeFilter: '',
-          points: ['창틀 내부 백시멘트 잔해물 흡입', '창틀 고착 실리콘 가루 정밀 세척', '유리창 페인트 흔적 상처없이 제거'],
-          desc: '건축 공사 중 굳어져 하얗게 쌓인 백시멘트 분진과 창틀 틈새에 고착된 실리콘 찌꺼기를 강력 석션 및 미세 클리닝으로 완전 박멸했습니다.',
-          serviceIds: []
-        },
-        {
-          id: 'nc-2',
-          title: '청담동 지하 술집 준공 청소',
-          beforeImg: '/images/portfolio/nc-2-before.webp',
-          afterImg: '/images/portfolio/nc-2-after.webp',
-          beforeFilter: '',
-          points: ['타일 메지 자국 백화 현상 세정', '바닥 보양지 밑 미세 분진 세척', '페인트 및 본드 흔적 흔적없이 제거'],
-          desc: '공사 완료 후 바닥 타일 메지에서 올라온 하얀 백시멘트 가루와 자재 표면에 눌어붙은 본드 및 페인트 자국을 정밀 박리 세척했습니다.',
-          serviceIds: []
-        },
-        {
-          id: 'nc-3',
-          title: '서초 건물 대수선으로 인한 청소',
-          beforeImg: '/images/portfolio/nc-3-before.webp',
-          afterImg: '/images/portfolio/nc-3-after.webp',
-          beforeFilter: '',
-          points: ['싱크대 서랍장 탈거 후 미세 공사분진 흡입', '하부 걸레받이 탈거 후 숨은 모래/콘크리트 제거', '싱크대 상판 광택 복원 및 살균'],
-          desc: '주방 빌트인 가구 시공 과정에서 발생하여 서랍 틈새 and 걸레받이 안쪽에 잔뜩 숨어있던 유해 톱밥 가루와 먼지를 완벽하게 클리닝했습니다.',
-          serviceIds: []
-        },
-        {
-          id: 'nc-4',
-          title: '오산 만두 전골집 프랜차이즈 준공 마무리',
-          beforeImg: '/images/portfolio/nc-4-before.webp',
-          afterImg: '/images/portfolio/nc-4-after.webp',
-          beforeFilter: '',
-          points: ['전등갓 분해 후 흡착 유해 가루 제거', '콘센트 및 벽면 정전기 먼지 세정', '천장 몰딩 부위 도배풀 완벽 제거'],
-          desc: '천장 조명 내부와 벽면 실크벽지 틈새, 콘센트 단자에 유입된 미세 공사 가루를 완벽 흡입한 뒤 습식 닦기 처리로 마무리했습니다.',
-          serviceIds: []
-        }
-      ];
-
-    case 'interior':
-      return [
-        {
-          id: 'it-1',
-          title: '인천 쿠우쿠우 리모델링 청소',
-          beforeImg: '/images/portfolio/it-1-before.webp',
-          afterImg: '/images/portfolio/it-1-after.webp',
-          beforeFilter: '',
-          points: ['서랍 전부 탈거 후 안쪽 보이지 않는 톱밥 석션', '붙박이장 선반의 뿌연 공사 먼지 3중 습식 닦기', '새가구 특유의 포름알데히드 유해 냄새 중화'],
-          desc: '새로운 인테리어 수납가구 제작 시 발생한 서랍 안쪽의 톱밥가루와 유해 화학 물질을 특수 중화 세척 및 고온 스팀으로 박멸했습니다.',
-          serviceIds: []
-        },
-        {
-          id: 'it-2',
-          title: '강동구 백화점 오픈 청소',
-          beforeImg: '/images/portfolio/it-2-before.webp',
-          afterImg: '/images/portfolio/it-2-after.webp',
-          beforeFilter: '',
-          points: ['자재 손상 없는 특수 본드 용해제 시공', '실리콘 및 타일 메지 얼룩 정밀 제거', '바닥 보양지 자국 및 접착제 클리닝'],
-          desc: '인테리어 바닥재 시공 과정에서 마감재 표면에 잔류한 끈적이는 본드 얼룩과 실리콘 자국을 본래 마감재 손상 없이 안전하게 박리했습니다.',
-          serviceIds: []
-        },
-        {
-          id: 'it-3',
-          title: '강남 음식점 인테리어 청소',
-          beforeImg: '/images/portfolio/it-3-before.webp',
-          afterImg: '/images/portfolio/it-3-after.webp',
-          beforeFilter: '',
-          points: ['고착된 창틀 보양 필름 열풍기 분리 제거', '샷시 프레임에 묻은 실리콘 칼클리닝', '창틀 구석구석 칼클리닝 및 습식 석션'],
-          desc: '인테리어 작업 중 장시간 방치되어 고온에 눌어붙은 프레임 보양 테이프를 특수 기법으로 자재 변색 없이 말끔하게 박리 클리닝했습니다.',
-          serviceIds: []
-        },
-        {
-          id: 'it-4',
-          title: '광교 박주호 축구 교실 인테리어 청소',
-          beforeImg: '/images/portfolio/it-4-before.webp',
-          afterImg: '/images/portfolio/it-4-after.webp',
-          beforeFilter: '',
-          points: ['주방 가전/가구 푸른 보양 비닐 스크래치 없이 제거', '싱크대 상하부장 공사 유해 먼지 닦기', '가스레인지 틈새 톱밥 미세 오염 클리닝'],
-          desc: '주방 설비의 스텐레스 상판 및 하이그로시 도어에 부착된 보양용 필름을 완벽 제거하고 마감 먼지를 디테일하게 청소했습니다.',
-          serviceIds: []
-        }
-      ];
-
-    case 'office':
-      return [
-        {
-          id: 'of-1',
-          title: '운영 중인 사무실 부분 인테리어 분진제거',
-          beforeImg: '/images/portfolio/of-1-before.webp',
-          afterImg: '/images/portfolio/of-1-after.webp',
-          beforeFilter: '',
-          points: ['고성능 마루 광택기 찌든 때 기계 세척', '묵은 카펫/의자 바퀴 자국 검은 얼룩 용해', '오염수 잔류 없는 완벽한 고압 흡입 석션'],
-          desc: '많은 인원이 상시 이용하며 신발 자국과 의자 바퀴 마찰로 인해 검게 변색되었던 사무실 디럭스타일 바닥을 기계 박리 기법으로 리프레시했습니다.',
-          serviceIds: []
-        },
-        {
-          id: 'of-2',
-          title: '사무실 바닥과 벽면 공사 후 청소',
-          beforeImg: '/images/portfolio/of-2-before.webp',
-          afterImg: '/images/portfolio/of-2-after.webp',
-          beforeFilter: '',
-          points: ['유리창 스티커 자국 및 먼지 끈적임 용해', '스퀴지 정밀 스크래치 프리 광택 클리닝', '먼지 방지 전용 하이그로시 코팅 마무리'],
-          desc: '지문, 얼룩, 테이프 자국 등으로 불투명해진 회의실 유리 파티션과 내부 샷시 유리창을 전용 글래스 클리너로 투명하게 광택 세정했습니다.',
-          serviceIds: []
-        },
-        {
-          id: 'of-3',
-          title: '전체 리모델링 후 분진 제거',
-          beforeImg: '/images/portfolio/of-3-before.webp',
-          afterImg: '/images/portfolio/of-3-after.webp',
-          beforeFilter: '',
-          points: ['탕비실 싱크대 찌든 배수 오염 분해 세척', '누적된 커피, 음료 찌든 흔적 산도 세정', '배수 트랩 탈거 후 유해 악취 살균 소독'],
-          desc: '직원들이 빈번하게 차나 음료를 흘려 변색되고 세균이 증식한 탕비실 싱크대 일대를 위생적으로 복원하고 하수구 스팀 소독을 진행했습니다.',
-          serviceIds: []
-        },
-        {
-          id: 'of-4',
-          title: '신축 사무실 분진 제거',
-          beforeImg: '/images/portfolio/of-4-before.webp',
-          afterImg: '/images/portfolio/of-4-after.webp',
-          beforeFilter: '',
-          points: ['개인 책상 선반 및 OA기기 표면 정밀 닦기', '파티션 패브릭 정전기 정밀 먼지 석션', '사무실 내 환풍구 흡착 먼지 필터 청소'],
-          desc: '사무공간 내 호흡기 건강을 위협하는 에어컨 및 환풍기 필터 분진, 그리고 파티션과 사무가구에 안착된 미세 유해 먼지를 꼼꼼하게 제거했습니다.',
-          serviceIds: []
-        }
-      ];
-
-    case 'floor':
-      return [
-        {
-          id: 'fl-1',
-          title: '10년동안 사용한 사무실 바닥 퇴거 청소',
-          beforeImg: '/images/portfolio/fl-1-before.webp',
-          afterImg: '/images/portfolio/fl-1-after.webp',
-          beforeFilter: '',
-          points: ['마루광택기 전용 박리 세척 기계 작업', '데코타일 틈새 깊이 박힌 기름성 오염 흡입', '찌든 오염 박리 후 여러 번의 정밀 린스'],
-          desc: '통행량이 많아 무겁게 고착된 먼지와 검은 찌든 때를 고성능 마루광택기와 찌든 때 전용 친환경 약품으로 완벽하게 용해하여 복원했습니다.',
-          serviceIds: []
-        },
-        {
-          id: 'fl-2',
-          title: '교회 퇴거로 인한 카펫 제거 후 본드제거',
-          beforeImg: '/images/portfolio/fl-2-before.webp',
-          afterImg: '/images/portfolio/fl-2-after.webp',
-          beforeFilter: '',
-          points: ['고착된 노란 바닥 본드 화학적 용해 작업', '수작업 스크래퍼 정밀 긁어내기 시공', '고압 린스를 통한 바닥면 끈적임 복구'],
-          desc: '오랜 시간 카펫이나 데코타일을 시공했다가 철거한 후 도끼다시 바닥면에 심하게 눌어붙은 누런 본드 잔여물을 완벽하게 용해 처리했습니다.',
-          serviceIds: []
-        },
-        {
-          id: 'fl-3',
-          title: '도끼다시 바닥 본드 제거',
-          beforeImg: '/images/portfolio/fl-3-before.webp',
-          afterImg: '/images/portfolio/fl-3-after.webp',
-          beforeFilter: '',
-          points: ['기존 마모되고 변색된 오염층 세정', '정전기 흡착 타이어 고무 마찰 자국 세정', '바닥 원자재 색상 및 본연의 톤 재생'],
-          desc: '기존의 찌든 오염물과 융합된 오래된 바닥 오염을 전문 약품 및 광택 세정 장비로 완벽하게 닦아내어 새것 같은 바닥을 복원했습니다.',
-          serviceIds: []
-        },
-        {
-          id: 'fl-4',
-          title: '바닥 콩자갈 묵은 때 제거',
-          beforeImg: '/images/portfolio/fl-4-before.webp',
-          afterImg: '/images/portfolio/fl-4-after.webp',
-          beforeFilter: '',
-          points: ['바닥재 맞춤형 세정 약품 도포', '구석진 구경 오염 정밀 린스', '오염수 흡입 및 잔여물 건조 마감'],
-          desc: '찌든 때와 누적 오염을 정밀 제거하여 깔끔하고 청결한 바닥 상태를 회복했습니다.',
-          serviceIds: []
-        }
-      ];
-
-    case 'floor-wax':
-      return [
-        {
-          id: 'fl-wax-1',
-          title: '물류 창고 지게차 바퀴자국 묵은 때 제거',
-          beforeImg: '/images/portfolio/fl-wax-1-before.webp',
-          afterImg: '/images/portfolio/fl-wax-1-after.webp',
-          beforeFilter: '',
-          points: ['마루광택기 전용 박리 세척 기계 작업', '데코타일 틈새 깊이 박힌 기름성 오염 흡입', '찌든 오염 박리 후 여러 번의 정밀 린스'],
-          desc: '통행량이 많아 무겁게 고착된 먼지와 검은 찌든 때를 고성능 마루광택기와 찌든 때 전용 친환경 약품으로 완벽하게 용해하여 복원했습니다.',
-          serviceIds: []
-        },
-        {
-          id: 'fl-wax-2',
-          title: '퇴거 조약에 의한 바닥 디럭스 타일 복원',
-          beforeImg: '/images/portfolio/fl-wax-2-before.webp',
-          afterImg: '/images/portfolio/fl-wax-2-after.webp',
-          beforeFilter: '',
-          points: ['고착된 노란 바닥 본드 화학적 용해 작업', '수작업 스크래퍼 정밀 긁어내기 시공', '고압 린스를 통한 바닥면 끈적임 복구'],
-          desc: '오랜 시간 카펫이나 데코타일을 시공했다가 철거한 후 도끼다시 바닥면에 심하게 눌어붙은 누런 본드 잔여물을 완벽하게 용해 처리했습니다.',
-          serviceIds: []
-        },
-        {
-          id: 'fl-wax-3',
-          title: '10년 묵은 사무실 바닥 오염 제거',
-          beforeImg: '/images/portfolio/fl-wax-3-before.webp',
-          afterImg: '/images/portfolio/fl-wax-3-after.webp',
-          beforeFilter: '',
-          points: ['기존 마모되고 변색된 오염 왁스 박리', '정전기 흡착 타이어 고무 마찰 자국 세정', '바닥 원자재 색상 및 본연의 톤 재생'],
-          desc: '기존의 코팅 수명이 다해 찌든 오염물과 융합된 오래된 왁스층을 왁스 박리제를 활용해 완벽하게 벗겨내어 새것 같은 바닥을 복원했습니다.',
-          serviceIds: []
-        },
-        {
-          id: 'fl-wax-4',
-          title: '강동구 수학 학원 바닥 오염 제거',
-          beforeImg: '/images/portfolio/fl-wax-4-before.webp',
-          afterImg: '/images/portfolio/fl-wax-4-after.webp',
-          beforeFilter: '',
-          points: ['왁스 도포 전 완벽 수분 건조 작업', '1차 프리미엄 왁스 균일한 밀착 시공', '2차 고광택 보호막 왁스 덧방 코팅'],
-          desc: '찌든 때를 정밀 제거한 데코타일 바닥에 프리미엄 바닥 전용 수입 왁스를 2중 레이어로 균일하게 코팅하여 깊은 광택과 스크래치 방지력을 더했습니다.',
-          serviceIds: []
-        }
-      ];
-
-    case 'restaurant':
-      return [
-        {
-          id: 'rs-1',
-          title: '새 주방 분진과 시멘트 제거',
-          beforeImg: '/images/portfolio/rs-1-before.webp',
-          afterImg: '/images/portfolio/rs-1-after.webp',
-          beforeFilter: '',
-          points: ['두꺼운 유지분 오염 스크래퍼 정밀 박리', '식당용 특수 유제 용해 약품 전처리', '누런 기름때 고압 고온 스팀 완전 용해'],
-          desc: '조리 시 열기로 인해 딱딱하게 수지화된 대형 후드 안쪽의 갈색 기름때를 화재 위험 방지를 위해 전용 화학 용해제와 고온 스팀으로 박멸했습니다.',
-          serviceIds: []
-        },
-        {
-          id: 'rs-2',
-          title: '6년 사용된 식당 후드 청소',
-          beforeImg: '/images/portfolio/rs-2-before.webp',
-          afterImg: '/images/portfolio/rs-2-after.webp',
-          beforeFilter: '',
-          points: ['가스 화구 전체 분해 후 침전 탄내 용해', '불구멍 구석구석 낀 철분 녹 및 탄소 제거', '화구 스텐레스 벽면 찌든 유분 복원 세정'],
-          desc: '조리 열기로 화구 표면에 고착화된 두꺼운 연소 그을음과 탄 자국을 분해식 스크럽 전처리 및 스팀 살균 작업으로 본래 자재색을 되찾아드렸습니다.',
-          serviceIds: []
-        },
-        {
-          id: 'rs-3',
-          title: '방치된 주방 천장 필터 청소',
-          beforeImg: '/images/portfolio/rs-3-before.webp',
-          afterImg: '/images/portfolio/rs-3-after.webp',
-          beforeFilter: '',
-          points: ['그리스트랩 내부 음식물 유분 찌꺼기 퍼내기', '배수 트렌치 주변 붉은 오염 수작업 세척', '초강력 악취 제거 화학 소독 및 스팀 살균'],
-          desc: '식당 내부 주방의 지독한 악취와 날파리 발생의 원인인 그리스트랩 고착 슬러지를 완벽히 긁어내 배출하고 초고온 스팀 살균 작업을 마쳤습니다.',
-          serviceIds: []
-        },
-        {
-          id: 'rs-4',
-          title: '자석형 기름받이 필터 청소',
-          beforeImg: '/images/portfolio/rs-4-before.webp',
-          afterImg: '/images/portfolio/rs-4-after.webp',
-          beforeFilter: '',
-          points: ['테이블 가구 목재 찌든 끈적 기름막 제거', '식당 홀 타일 바닥 오염 분해 세정', '손님용 의자 가죽 가구 기름때 닦기'],
-          desc: '공기 중에 기화되어 가구와 바닥에 미세하게 안착되어 끈적였던 묵은 기름막을 친환경 유제 세제로 말끔히 탈지하여 상쾌함을 더했습니다.',
-          serviceIds: []
-        }
-      ];
-
-    case 'factory':
-      return [
-        {
-          id: 'fc-1',
-          title: '공장 에폭시 바닥 기름때 및 오염 정밀 세정',
-          beforeImg: '/images/portfolio/fc-1-before.webp',
-          afterImg: '/images/portfolio/fc-1-after.webp',
-          beforeFilter: '',
-          points: ['윤활유 및 산업 기름때 전용 디그리셔 시공', '고성능 마루광택기를 이용한 오염 박리', '고압 기계 세정 및 오염수 흡입 제거'],
-          desc: '기계 가동으로 인해 공장 바닥에 누적된 묵은 기름때와 슬러지를 전문 산업용 약품과 세정 장비로 깔끔하게 박리 수거했습니다.',
-          serviceIds: []
-        },
-        {
-          id: 'fc-2',
-          title: '공장 생산 설비 및 바닥 세정 박리 작업',
-          beforeImg: '/images/portfolio/fc-2-before.webp',
-          afterImg: '/images/portfolio/fc-2-after.webp',
-          beforeFilter: '',
-          points: ['산업용 고압 세척기를 이용한 수직/수평 세정', '설비 주변 찌든 기름 오염 고온 수세', '작업장 미끄럼 방지 완벽 마감'],
-          desc: '생산 라인 주변 및 작업장 표면에 붙은 찌든 오염물질을 강력 고압 세척기로 박리 제거하여 미끄러움을 방지하고 안전을 확보했습니다.',
-          serviceIds: []
-        },
-        {
-          id: 'fc-3',
-          title: '공장 생산 라인 바닥 보강 작업',
-          beforeImg: '/images/portfolio/fc-3-before.webp',
-          afterImg: '/images/portfolio/fc-3-after.webp',
-          beforeFilter: '',
-          points: ['고소 구조물 및 벽면 흡착 미세 분진 클리닝', '분진 고착 오염 물질 친환경 세제로 용해', '잔여 수분 및 찌꺼기 완벽 건조 흡입'],
-          desc: '공장 벽면 및 철골 구조물에 쌓였던 미세 분진과 그을음을 스크럽 세정과 정밀 석션 기계로 꼼꼼하게 다듬어 정화했습니다.',
-          serviceIds: []
-        },
-        {
-          id: 'fc-4',
-          title: '악세스 플로어 바닥 청소',
-          beforeImg: '/images/portfolio/fc-4-before.webp',
-          afterImg: '/images/portfolio/fc-4-after.webp',
-          beforeFilter: '',
-          points: ['에폭시 표면 손상 없는 세정 케어', '지게차 및 차량 타이어 휠 자국 박리', '세정 완료 후 깨끗한 린스 세척 마감'],
-          desc: '장기간 지게차 및 작업자 이동으로 더러워진 바닥 타이어 자국과 찌든 기름을 전용 알칼리 세제와 광택 장비로 상쾌하게 다듬었습니다.',
-          serviceIds: []
-        }
-      ];
-
-    case 'special':
-      return [
-        {
-          id: 'sp-1',
-          title: '배관이 터져 물 난리난 쓰레기집',
-          beforeImg: '/images/portfolio/sp-1-before.webp',
-          afterImg: '/images/portfolio/sp-1-after.webp',
-          beforeFilter: '',
-          points: [
-            '생활 대형 쓰레기 톤 단위 불투명 마대 신속 폐기',
-            '고객 개인 귀중품 및 중요 서류 정밀 분류 수거',
-            '재활용품 및 일반 가연성 폐기물 규정 반출'
-          ],
-          desc: '오랫동안 쌓여 방치되었던 방대한 양의 생활 쓰레기들을 꼼꼼히 분류 수거하여 깔끔하게 비워드리고, 분실 위험이 있는 개인 물품을 별도 챙겨드렸습니다.',
-          serviceIds: []
-        },
-        {
-          id: 'sp-2',
-          title: '방 한칸에 쓰레기를 모아놓은 집',
-          beforeImg: '/images/portfolio/sp-2-before.webp',
-          afterImg: '/images/portfolio/sp-2-after.webp',
-          beforeFilter: '',
-          points: [
-            '벽지, 천장, 창틀에 착색된 고농도 니코틴 타르 용해',
-            '고온 고압 스팀 박리 작업을 통한 오염 물질 녹여내기',
-            '특수 친환경 약품 세정 후 냄새 및 세균 동시 제거'
-          ],
-          desc: '집안 곳곳을 누렇게 물들인 고질적인 흡연 니코틴 타르 및 유해 화학 흡착물들을 전문 정밀 세제로 완전히 복원 소독했습니다.',
-          serviceIds: []
-        },
-        {
-          id: 'sp-3',
-          title: '직장 생활로 인해 관리를 못한 집',
-          beforeImg: '/images/portfolio/sp-3-before.webp',
-          afterImg: '/images/portfolio/sp-3-after.webp',
-          beforeFilter: '',
-          points: [
-            '방치 쓰레기 속에 숨은 쥐/해충 이동 경로 추적 방제',
-            '쥐 사체 및 대량 분변 살균제 주입 후 위생 제거',
-            '잔여 유해 세균 99.9% 멸균을 위한 정밀 자외선 조사'
-          ],
-          desc: '생활 방치 쓰레기 때문에 유입 및 증식된 해충과 설치류의 흔적을 철저하게 박멸 소독하고, 완벽한 위생상태로 리뉴얼해드렸습니다.',
-          serviceIds: []
-        },
-        {
-          id: 'sp-4',
-          title: '베란다에 담배를 쌓아둔 집',
-          beforeImg: '/images/portfolio/sp-4-before.webp',
-          afterImg: '/images/portfolio/sp-4-after.webp',
-          beforeFilter: '',
-          points: [
-            '이웃 및 외부 노출 방지를 위한 철저한 비대면 반출 시공',
-            '청소 완료 후 멸균 피톤치드 연무 공간 완전 정화',
-            '모든 작업 사진 및 전후 피드백 카카오톡 완전 전달'
-          ],
-          desc: '고객님의 사생활 보호를 위해 소음과 노출을 최소화한 비대면 프로세스로 시공을 완성하며, 일상으로 즉시 복귀 가능한 환경을 만들어드렸습니다.',
-          serviceIds: []
-        }
-      ];
-
-    case 'move-in':
-      return [
-        {
-          id: 'mi-1',
-          title: '주방 부분 인테리어 청소',
-          beforeImg: '/images/portfolio/mi-1-before.webp',
-          afterImg: '/images/portfolio/mi-1-after.webp',
-          beforeFilter: '',
-          points: [
-            '가스레인지 및 후드 필터 분리형 누런 기름때 제거',
-            '상하부장 선반 및 내부 음식물 자국 정밀 세정',
-            '싱크대 개수대 및 하수구 고온 살균 탈취 스팀'
-          ],
-          desc: '조리 시 사방으로 튄 두꺼운 기름때와 미세먼지가 엉겨 붙어 굳어진 주방 공간을 전용 친환경 세제와 고온 고압 스팀으로 녹여내어 신축 아파트 입주 시처럼 깨끗한 싱크대로 되돌려 놓았습니다.',
-          serviceIds: []
-        },
-        {
-          id: 'mi-2',
-          title: '도배 샷시 변경 등 부분 인테리어 청소',
-          beforeImg: '/images/portfolio/mi-2-before.webp',
-          afterImg: '/images/portfolio/mi-2-after.webp',
-          beforeFilter: '',
-          points: [
-            '오랫동안 쌓여서 굳어진 시꺼먼 외부 분진과 모래 흡입',
-            '창문 틈새 구석구석 결로로 생긴 고질적인 곰팡이 균 제거',
-            '방충망 먼지 털기 및 창문 유리창 앞뒤 친환경 광택 세정'
-          ],
-          desc: '손길이 닿기 어려운 깊은 창틀 틈새와 시꺼먼 외부 먼지를 강력 독일식 진공 석션으로 빨아들인 후, 전용 솔과 친환경 항균 약품으로 문질러 하얗고 매끄러운 본연의 창틀 자재 빛깔을 찾아드렸습니다.',
-          serviceIds: []
-        },
-        {
-          id: 'mi-3',
-          title: '거실 도배 바닥 부분 인테리어 청소',
-          beforeImg: '/images/portfolio/mi-3-before.webp',
-          afterImg: '/images/portfolio/mi-3-after.webp',
-          beforeFilter: '',
-          points: [
-            '수전 및 샤워부스 유리의 고질적인 하얀 물때(석회) 분해',
-            '배수구 트랩 내부 이물질 제거 후 전용 약품 살균 소독',
-            '타일 사이사이에 번진 붉은 곰팡이와 찌든 때 스팀 박멸'
-          ],
-          desc: '물기가 마를 날이 없어 세균과 하얀 칼슘 침전물이 고착화된 욕실을 특수 중화 약품으로 용해한 후, 고온 스팀 장비를 이용해 타일 틈새까지 살균하여 욕실 특유의 퀴퀴한 악취를 원천적으로 제거했습니다.',
-          serviceIds: []
-        },
-        {
-          id: 'mi-4',
-          title: '전체 인테리어 분진 제거',
-          beforeImg: '/images/portfolio/mi-4-before.webp',
-          afterImg: '/images/portfolio/mi-4-after.webp',
-          beforeFilter: '',
-          points: [
-            '가구 탈거 가능한 서랍장 전체 탈거 후 내부 미세 톱밥 먼지 제거',
-            '전등갓 전면 탈착 후 내부 벌레 사체 및 흡착 분진 정밀 클리닝',
-            '콘센트, 스위치, 몰딩 부위의 도배풀 및 미세 먼지 디테일 제거'
-          ],
-          desc: '이삿짐이 빠진 자리에 고스란히 남아있던 붙박이장 선반의 고질적인 수납 오염과 구석의 미세 톱밥가루, 탈거하기 번거로운 전등갓 내부 먼지까지 말끔하게 습식 클리닝해 드렸습니다.',
-          serviceIds: []
-        }
-      ];
-
-    case 'flood':
-      return [
-        {
-          id: 'fl-flood-1',
-          title: '오수관 터짐으로 인한 오수 침수',
-          beforeImg: '/images/portfolio/fl-flood-1-before.webp',
-          afterImg: '/images/portfolio/fl-flood-1-after.webp',
-          beforeFilter: '',
-          points: ['대형 산업용 배수 펌프 및 고성능 석션 배수', '고인 오수 및 오물 잔여물 신속 수거', '오염 수거 후 고압 온수 정밀 세정'],
-          desc: '갑작스러운 침수로 오수와 오물이 가득 들어차 위생적 위험에 노출되었던 실내 바닥을 강력 석션 장비로 신속히 배수 및 수거 정화했습니다.',
-          serviceIds: []
-        },
-        {
-          id: 'fl-flood-2',
-          title: '싱크대 역류로 인한 오수 침수',
-          beforeImg: '/images/portfolio/fl-flood-2-before.webp',
-          afterImg: '/images/portfolio/fl-flood-2-after.webp',
-          beforeFilter: '',
-          points: ['밀려든 토사, 흙더미 및 오염물 완벽 수거', '바닥 및 벽면 침전 오염 수작업 긁어내기', '친환경 방역 세정제로 오염 물질 세척'],
-          desc: '침수 후 바닥과 구석에 두껍게 쌓여 방치되었던 토사 및 슬러지를 전량 수거하고 전용 세정제로 본래 깨끗한 바닥을 복원했습니다.',
-          serviceIds: []
-        },
-        {
-          id: 'fl-flood-3',
-          title: '빗물로 인한 주차장 침수',
-          beforeImg: '/images/portfolio/fl-flood-3-before.webp',
-          afterImg: '/images/portfolio/fl-flood-3-after.webp',
-          beforeFilter: '',
-          points: ['대형 산업용 제습기 및 열풍기 동원 깊은 습기 제거', '곰팡이 번식 방지를 위한 벽면 완전 건조', '2차 피해 예방을 위한 구조체 건조 진단'],
-          desc: '눈에 보이지 않는 벽면 및 바닥 구조체 속 깊이 흡수된 습기를 고성능 제습 건조 장비로 완벽 제거하여 곰팡이 생성을 근본 차단했습니다.',
-          serviceIds: []
-        },
-        {
-          id: 'fl-flood-4',
-          title: '누수로 인한 침수 현장',
-          beforeImg: '/images/portfolio/fl-flood-4-before.webp',
-          afterImg: '/images/portfolio/fl-flood-4-after.webp',
-          beforeFilter: '',
-          points: ['침수 오수로 인한 퀴퀴한 악취 분해 산화 처리', '2차 세균 및 유해 바이러스 99.9% 멸균 소독', '쾌적한 마무리를 위한 공간 피톤치드 살포'],
-          desc: '침수 부산물로 발생하는 지독한 악취와 고질적 곰팡이균, 유해 바이러스를 특수 초미립자 살균 소독과 피톤치드로 정화 처리했습니다.',
-          serviceIds: []
-        }
-      ];
-
-    case 'fire':
-      return [
-        {
-          id: 'fr-fire-1',
-          title: '전소된 건물의 엉겨붙은 자재들은 제거하는 작업',
-          beforeImg: '/images/portfolio/fr-fire-1-before.webp',
-          afterImg: '/images/portfolio/fr-fire-1-after.webp',
-          beforeFilter: '',
-          points: ['화재 전용 특수 약품을 이용한 그을음 화학 용해', '천장, 벽면, 몰딩에 흡착된 그을음 스크럽 클리닝', '자재 손상 없는 미세 분진 흡입 정밀 처리'],
-          desc: '화재로 인해 벽면과 천장 전체에 검게 흡착되었던 미세 그을음 분진을 화재 전용 세정 약품과 정밀 세척 기술로 깨끗하게 박리 제거했습니다.',
-          serviceIds: []
-        },
-        {
-          id: 'fr-fire-2',
-          title: '아랫층 화재로 인한 그을음으로 인한 청소',
-          beforeImg: '/images/portfolio/fr-fire-2-before.webp',
-          afterImg: '/images/portfolio/fr-fire-2-after.webp',
-          beforeFilter: '',
-          points: ['불에 탄 가구, 인테리어 집기 및 소모품 철거', '유독 물질 착색 폐기물 분리 수거 및 안전 반출', '2차 오염 방지를 위한 작업 공간 방역 정돈'],
-          desc: '화재 피해를 입어 재사용이 불가능한 가재도구와 손상 자재들을 안전 수칙에 맞춰 신속 철거하고 마감 공사가 가능하도록 정돈했습니다.',
-          serviceIds: []
-        },
-        {
-          id: 'fr-fire-3',
-          title: '화재 연기가 넘어와서 생긴 바닥 그을음',
-          beforeImg: '/images/portfolio/fr-fire-3-before.webp',
-          afterImg: '/images/portfolio/fr-fire-3-after.webp',
-          beforeFilter: '',
-          points: ['산업용 대형 오존 발생기 동원 악취 화학 분해', '실내 유독성 탄 타르 냄새 분자 산화 살균', '매캐한 연기 냄새 완벽 차단 및 탈취 시공'],
-          desc: '공기 중과 벽면에 밴 매캐한 화재 탄내 및 유독가스를 고농도 오존 공법과 유제 산화 탈취로 근본 원인까지 깨끗이 정화했습니다.',
-          serviceIds: []
-        },
-        {
-          id: 'fr-fire-4',
-          title: '화재로 생긴 천장 그을음 제거 작업',
-          beforeImg: '/images/portfolio/fr-fire-4-before.webp',
-          afterImg: '/images/portfolio/fr-fire-4-after.webp',
-          beforeFilter: '',
-          points: ['다이옥신 등 1급 유해 발암물질 스팀 중화', '인테리어 재시공이 가능한 깨끗한 골조 복원', '피톤치드 살균 소독을 통한 최종 안전 마감'],
-          desc: '눈에 보이지 않지만 호흡기에 치명적인 연소 유해 물질을 고온 스팀과 중화제로 완벽 세정하여 안심하고 리모델링할 수 있게 복원했습니다.',
-          serviceIds: []
-        }
-      ];
-
-    case 'external-wall':
-      return [
-        {
-          id: 'ew-1',
-          title: '건물 타일 복원 및 녹 제거',
-          beforeImg: '/images/portfolio/ew-1-before.webp',
-          afterImg: '/images/portfolio/ew-1-after.webp',
-          beforeFilter: '',
-          points: ['복합판넬 및 외벽 타일 전용 친환경 세제 도포', '고압 세척기를 이용한 수직면 정밀 린스 세정', '스카이 고소작업차 투입 및 철저한 안전 관리'],
-          desc: '비바람과 자동차 배기가스로 인해 검게 변색되었던 복합판넬 외벽을 판넬 코팅 손상 없이 고압 온수 세척으로 본연의 색상을 되찾아드렸습니다.',
-          serviceIds: []
-        },
-        {
-          id: 'ew-2',
-          title: '공단 사옥 간단 오염 제거',
-          beforeImg: '/images/portfolio/ew-2-before.webp',
-          afterImg: '/images/portfolio/ew-2-after.webp',
-          beforeFilter: '',
-          points: ['유리창 고착 유막 및 석회질 물때 분해 제거', '스퀴지 및 퓨어워터 세정으로 얼룩 없는 광택 복원', '창틀 실리콘 틈새 이물질 및 먼지 제거'],
-          desc: '외부 오염으로 불투명해진 대형 유리창과 프레임을 전문 약품과 글래스 스퀴지로 맑고 투명하게 정밀 세정하여 건물의 개방감을 극대화했습니다.',
-          serviceIds: []
-        },
-        {
-          id: 'ew-3',
-          title: '빌라 외형 복원 및 물때 제거',
-          beforeImg: '/images/portfolio/ew-3-before.webp',
-          afterImg: '/images/portfolio/ew-3-after.webp',
-          beforeFilter: '',
-          points: ['석재 자재 특성에 맞춘 전용 중화 세정제 도포', '석재 틈새 고착 오염물 및 빗물 얼룩 박리 세척', '외벽 표면 보호 및 재오염 방지 마감'],
-          desc: '석재 표면에 흘러내린 백화 현상과 묵은 빗물 얼룩을 석재 전용 중화제로 안전하게 용해하여 석재 본래의 고급스러운 질감을 복원했습니다.',
-          serviceIds: []
-        },
-        {
-          id: 'ew-4',
-          title: '흘러내린 메지 제거 작업',
-          beforeImg: '/images/portfolio/ew-4-before.webp',
-          afterImg: '/images/portfolio/ew-4-after.webp',
-          beforeFilter: '',
-          points: ['공장 분진 및 유증기 오염물 산업용 디그리셔 세척', '판넬 이음새 실리콘 곰팡이 방제 및 고압 수세', '무사고 고소작업 안전 통제 준수'],
-          desc: '공장 외벽에 안착된 산업 분진과 기름때를 고압 세척 건으로 완벽하게 세척하여 쾌적하고 신뢰받는 기업 이미지를 완성해 드렸습니다.',
-          serviceIds: []
-        }
-      ];
-
-    default:
-      return [];
-  }
-};
-
 const getCategoryMapping = (serviceId: string) => {
   switch (serviceId) {
     case 'new-construction': return '신축 준공청소';
@@ -658,159 +71,6 @@ const getCategoryMapping = (serviceId: string) => {
     case 'external-wall': return '외벽 청소';
     default: return '';
   }
-};
-
-const BeforeAfterCard: React.FC<{ item: BeforeAfterItem; index?: number }> = ({ item, index = 0 }) => {
-  const [sliderPos, setSliderPos] = useState<number>(50);
-  const [isDragging, setIsDragging] = useState<boolean>(false);
-  const containerRef = useRef<HTMLDivElement>(null);
-
-  const updateSliderPos = (clientX: number) => {
-    if (!containerRef.current) return;
-    const rect = containerRef.current.getBoundingClientRect();
-    if (rect.width <= 0) return;
-    const x = clientX - rect.left;
-    const percentage = Math.max(0, Math.min(100, (x / rect.width) * 100));
-    setSliderPos(percentage);
-  };
-
-  const handlePointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
-    setIsDragging(true);
-    try {
-      e.currentTarget.setPointerCapture(e.pointerId);
-    } catch (_) {}
-    updateSliderPos(e.clientX);
-  };
-
-  const handlePointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
-    if (isDragging) {
-      updateSliderPos(e.clientX);
-    }
-  };
-
-  const handlePointerUp = (e: React.PointerEvent<HTMLDivElement>) => {
-    setIsDragging(false);
-  };
-
-  return (
-    <m.div
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-40px" }}
-      transition={{ duration: 0.5, delay: (index % 2) * 0.15 }}
-      className="h-full flex flex-col"
-    >
-      {/* Mobile View: Side-by-side images (Left: BEFORE, Right: AFTER) */}
-      <div className="block md:hidden bg-white rounded-2xl p-3 sm:p-4 border border-slate-200/80 shadow-sm space-y-2.5">
-        <div className="grid grid-cols-2 gap-2.5 sm:gap-3">
-          {/* BEFORE Image Card */}
-          <div className="relative rounded-2xl sm:rounded-3xl overflow-hidden aspect-[3/4] bg-slate-100 border border-slate-200/60 shadow-sm group">
-            <img
-              src={item.beforeImg}
-              alt={`${item.title} 청소 전`}
-              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-              style={{ filter: item.beforeFilter }}
-              referrerPolicy="no-referrer"
-            />
-            <div className="absolute top-2 left-2 z-10 bg-rose-600/95 text-white text-[9px] font-black px-2 py-0.5 rounded-full shadow-md tracking-wider">
-              BEFORE
-            </div>
-          </div>
-
-          {/* AFTER Image Card */}
-          <div className="relative rounded-2xl sm:rounded-3xl overflow-hidden aspect-[3/4] bg-slate-100 border border-slate-200/60 shadow-sm group">
-            <img
-              src={item.afterImg}
-              alt={`${item.title} 청소 후`}
-              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-              referrerPolicy="no-referrer"
-            />
-            <div className="absolute top-2 right-2 z-10 bg-emerald-700/95 text-white text-[9px] font-black px-2 py-0.5 rounded-full shadow-md tracking-wider">
-              AFTER
-            </div>
-          </div>
-        </div>
-
-        {item.title && (
-          <div className="text-center pt-0.5">
-            <h4 className="text-xs sm:text-sm font-bold text-slate-800 break-keep">{item.title}</h4>
-          </div>
-        )}
-      </div>
-
-      {/* Desktop View: Interactive Drag Slider */}
-      <div className="hidden md:flex bg-white rounded-3xl overflow-hidden border border-slate-100 shadow-lg hover:shadow-2xl transition-all duration-300 flex-col h-full group hover:border-emerald-200/80">
-        {/* Interactive Slider Container */}
-        <div 
-          ref={containerRef}
-          onPointerDown={handlePointerDown}
-          onPointerMove={handlePointerMove}
-          onPointerUp={handlePointerUp}
-          onPointerCancel={handlePointerUp}
-          className={`relative w-full aspect-[3/4] overflow-hidden select-none bg-slate-100 touch-none ${
-            isDragging ? 'cursor-grabbing' : 'cursor-grab'
-          }`}
-        >
-          {/* AFTER IMAGE (Bottom) */}
-          <img
-            src={item.afterImg}
-            alt={`${item.title} 청소 후`}
-            className="absolute inset-0 w-full h-full object-cover pointer-events-none"
-            referrerPolicy="no-referrer"
-          />
-          <div className="absolute top-3.5 right-3.5 z-20 bg-emerald-700/95 text-white text-[9px] sm:text-[10px] font-black px-2.5 py-1 rounded-full shadow-md tracking-wider pointer-events-none">
-            AFTER (작업 후)
-          </div>
-
-          {/* BEFORE IMAGE (Top overlay, clipped by sliderPos) */}
-          <img
-            src={item.beforeImg}
-            alt={`${item.title} 청소 전`}
-            className="absolute inset-0 w-full h-full object-cover pointer-events-none"
-            style={{ 
-              filter: item.beforeFilter,
-              clipPath: `polygon(0 0, ${sliderPos}% 0, ${sliderPos}% 100%, 0 100%)` 
-            }}
-            referrerPolicy="no-referrer"
-          />
-          <div className="absolute top-3.5 left-3.5 z-20 bg-rose-600/95 text-white text-[9px] sm:text-[10px] font-black px-2.5 py-1 rounded-full shadow-md tracking-wider pointer-events-none">
-            BEFORE (작업 전)
-          </div>
-
-          {/* SLIDER CONTROLLER LINE */}
-          <div 
-            className="absolute inset-y-0 z-30 w-[3px] bg-gradient-to-b from-emerald-400 via-white to-emerald-400 shadow-[0_0_12px_rgba(44,211,150,0.85)] pointer-events-none"
-            style={{ left: `${sliderPos}%` }}
-          >
-            {/* Subtle Outer Pulsing Halo */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-emerald-400/30 animate-ping pointer-events-none" />
-            
-            {/* Eye-catching controller button */}
-            <div className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-11 h-11 sm:w-12 sm:h-12 bg-gradient-to-r from-emerald-500 via-teal-500 to-emerald-600 text-white rounded-full flex items-center justify-center shadow-xl shadow-emerald-500/40 border-2 border-white ring-4 ring-emerald-500/20 transition-transform ${
-              isDragging ? 'scale-125' : 'group-hover:scale-110'
-            }`}>
-              <div className="flex items-center justify-center -space-x-0.5 text-white">
-                <ChevronLeft className="w-4 h-4 sm:w-5 sm:h-5 stroke-[3] drop-shadow" />
-                <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5 stroke-[3] drop-shadow" />
-              </div>
-            </div>
-
-            {/* Interactive Badge Hint at bottom */}
-            <div className="absolute bottom-3 left-1/2 -translate-x-1/2 bg-slate-900/85 backdrop-blur-md text-white text-[10px] sm:text-xs font-bold px-3 py-1 rounded-full whitespace-nowrap shadow-lg flex items-center gap-1.5 border border-white/20 pointer-events-none opacity-90 group-hover:opacity-100 transition-opacity">
-              <span className="text-emerald-400 font-black">◄</span>
-              <span>중간 버튼을 누르고 좌우로 드래그하여 비교</span>
-              <span className="text-emerald-400 font-black">►</span>
-            </div>
-          </div>
-        </div>
-
-        {/* Card Content */}
-        <div className="p-4 sm:p-5 flex items-center justify-center text-center">
-          <h4 className="text-base sm:text-lg font-bold text-slate-900 break-keep group-hover:text-primaryDark transition-colors">{item.title}</h4>
-        </div>
-      </div>
-    </m.div>
-  );
 };
 
 const naverBlogLinks = [
@@ -1278,9 +538,6 @@ const ServiceLanding: React.FC = () => {
   // Find the current service based on the URL parameter
   const service = config.services.find(s => s.id === serviceId);
 
-  // Get exactly 4 before & after items for current serviceId
-  const displayBeforeAfter = getBeforeAfterDataForService(serviceId || '');
-
   // Scroll to top when serviceId changes
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -1349,7 +606,7 @@ const ServiceLanding: React.FC = () => {
   const cleanPhone = config.companyInfo.phone.replace(/[^0-9]/g, '');
 
   return (
-    <div className="bg-slate-50 text-slate-800 min-h-svh font-sans">
+    <div className="bg-slate-50 text-slate-800 min-h-svh">
       
       {/* Dynamic Immersive Premium Hero Header */}
       <section className="relative min-h-[75vh] sm:min-h-[80vh] md:min-h-[85vh] py-10 sm:py-14 md:py-18 flex items-center justify-center overflow-hidden bg-slate-950">
@@ -1420,112 +677,9 @@ const ServiceLanding: React.FC = () => {
         </div>
       </section>
 
-      {/* Representative Message & CEO Commitment Section */}
-      <section className="py-12 md:py-16 bg-gradient-to-b from-white via-[#f4faf7] to-white border-b border-emerald-100/60 relative overflow-hidden">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="bg-gradient-to-br from-emerald-50/90 via-white to-teal-50/60 rounded-2xl md:rounded-3xl p-6 sm:p-8 md:p-12 border-2 border-emerald-200/80 shadow-xl shadow-emerald-900/10 flex flex-col md:flex-row items-center gap-8 md:gap-12 relative overflow-hidden">
-            {/* Decorative soft glow circles */}
-            <div className="absolute -top-12 -right-12 w-48 h-48 bg-emerald-200/30 rounded-full blur-2xl pointer-events-none" />
-            <div className="absolute -bottom-12 -left-12 w-48 h-48 bg-teal-200/30 rounded-full blur-2xl pointer-events-none" />
-
-            {/* CEO Message Content (Left) */}
-            <div className="w-full md:w-1/2 text-left order-2 md:order-1 relative z-10">
-              <h3 className="text-[23px] sm:text-3xl md:text-[36.5px] font-extrabold text-slate-900 mb-4 sm:mb-6 tracking-tight leading-snug">
-                느티울 대표 <span className="text-emerald-700 underline decoration-emerald-300 decoration-4 underline-offset-4">조윤호</span>입니다.
-              </h3>
-              <div className="bg-white/90 backdrop-blur-sm p-4 sm:p-6 rounded-2xl border border-emerald-100/90 shadow-md shadow-emerald-900/5">
-                <p className="text-slate-800 text-[12px] leading-[25px] md:text-[18.5px] md:leading-loose font-bold whitespace-pre-line break-keep">
-{`저희는 결과로 증명하는 청소를 합니다.
-제가 직접 현장을 관리하며
-시작부터 마무리까지 책임지고 작업합니다.
-
-저희 회사명처럼,
-편안하고 든든하게 고객님의 공간을 지키며
-언제나 믿고 맡길 수 있는 서비스로 보답하겠습니다.`}
-                </p>
-              </div>
-            </div>
-
-            {/* CEO Image (Right, Clean borderless presentation) */}
-            <div className="w-full md:w-1/2 shrink-0 flex justify-center md:justify-end order-1 md:order-2 relative z-10">
-              <div className="relative w-full max-w-md md:max-w-xl overflow-hidden rounded-2xl md:rounded-3xl shadow-xl">
-                <img 
-                  src="/images/professional-cleaning.webp" 
-                  alt="느티울 대표 조윤호" 
-                  className="w-full h-auto object-cover transform hover:scale-105 transition-transform duration-500 rounded-2xl md:rounded-3xl"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Professional Certifications Status Section (전문 자격증 보유 현황) */}
-      <section className="py-16 md:py-20 bg-slate-50 border-b border-slate-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12 md:mb-16">
-            <h2 className="text-[31.75px] md:text-5xl font-extrabold text-slate-900 mb-6">전문 자격증 보유 현황</h2>
-            <p className="text-slate-500 text-[11px] font-bold leading-[18px] sm:text-[15px] md:text-xl sm:font-medium sm:leading-relaxed max-w-3xl mx-auto break-keep">
-              느티울은 검증된 전문 자격을 갖춘 대표가 직접 시공합니다.<br />
-              전문성과 기술력을 바탕으로 신뢰할 수 있는 서비스를 제공합니다.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-5 sm:gap-6 md:gap-8 px-1 md:px-0">
-            {certificationsData.map((cert) => (
-              <div key={cert.id} className="group relative">
-                <div className="aspect-[3/4] overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-lg group-hover:border-primary/50 group-hover:shadow-2xl transition-all duration-500">
-                  <img 
-                    src={cert.image} 
-                    alt={cert.title} 
-                    className="w-full h-full object-cover group-hover:scale-110 transition-all duration-700"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-                  <div className="absolute bottom-4 left-0 w-full px-4 transform translate-y-4 group-hover:translate-y-0 transition-transform opacity-0 group-hover:opacity-100">
-                     <p className="text-white text-[8px] md:text-[10px] font-bold uppercase tracking-wider">{cert.issuer}</p>
-                  </div>
-                </div>
-                <div className="mt-3 md:mt-5 text-center px-1">
-                  <h4 className="text-xs sm:text-base md:text-[17px] font-bold text-slate-800 mb-1 group-hover:text-primaryDark transition-colors leading-tight break-keep">
-                    {cert.title}
-                  </h4>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Real Before & After Cleaning Showcase Section */}
-      <section 
-        ref={beforeAfterRef} 
-        className="py-10 md:py-14 bg-white border-b border-slate-100/80 relative overflow-hidden"
-      >
-        {/* Soft natural accent blur */}
-        <div className="absolute top-1/4 left-[-10%] w-[500px] h-[500px] bg-emerald-500/5 rounded-full blur-[120px] pointer-events-none" />
-        <div className="absolute bottom-1/4 right-[-10%] w-[500px] h-[500px] bg-teal-500/5 rounded-full blur-[120px] pointer-events-none" />
-
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          {/* Top helper guide banner */}
-          <div className="mb-5 sm:mb-6 flex justify-center">
-            <div className="flex items-center gap-2 sm:gap-3.5 text-[11px] min-[360px]:text-xs sm:text-[20.75px] text-slate-600 font-bold bg-slate-50 border border-slate-100 px-4 py-2.5 sm:px-8 sm:py-5 rounded-full shadow-sm max-w-2xl text-center break-keep whitespace-nowrap">
-              <span className="flex h-2 w-2 sm:h-3.5 sm:w-3.5 relative shrink-0">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 sm:h-3.5 sm:w-3.5 bg-emerald-500"></span>
-              </span>
-              <span className="hidden md:inline">청소 전/후 좌우 드레그를 통해 확인하세요!</span>
-              <span className="inline md:hidden">청소 전(좌) · 후(우) 현장 비교 사진</span>
-            </div>
-          </div>
-
-          {/* Grid Layout of multiple before/after cards */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
-            {(displayBeforeAfter || []).map((item) => (
-              <BeforeAfterCard key={item.id} item={item} />
-            ))}
-          </div>
-        </div>
-      </section>
+      <div ref={beforeAfterRef}>
+        <ServiceBeforeAfterMarquee serviceId={serviceId || ''} />
+      </div>
 
       {/* Dynamic Filtered Portfolios Specific to This Service Only */}
       <section className="py-16 md:py-24 max-w-7xl mx-auto px-4 bg-slate-50">
@@ -1640,11 +794,84 @@ const ServiceLanding: React.FC = () => {
                 </div>
               );
             })()}
-
-
-
           </div>
         )}
+      </section>
+
+      {/* Representative Message & CEO Commitment Section */}
+      <section className="py-12 md:py-16 bg-gradient-to-b from-white via-[#f4faf7] to-white border-b border-emerald-100/60 relative overflow-hidden">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <div className="bg-gradient-to-br from-emerald-50/90 via-white to-teal-50/60 rounded-2xl md:rounded-3xl p-6 sm:p-8 md:p-12 border-2 border-emerald-200/80 shadow-xl shadow-emerald-900/10 flex flex-col md:flex-row items-center gap-8 md:gap-12 relative overflow-hidden">
+            {/* Decorative soft glow circles */}
+            <div className="absolute -top-12 -right-12 w-48 h-48 bg-emerald-200/30 rounded-full blur-2xl pointer-events-none" />
+            <div className="absolute -bottom-12 -left-12 w-48 h-48 bg-teal-200/30 rounded-full blur-2xl pointer-events-none" />
+
+            {/* CEO Message Content (Left) */}
+            <div className="w-full md:w-1/2 text-left order-2 md:order-1 relative z-10">
+              <h3 className="text-[23px] sm:text-3xl md:text-[36.5px] font-extrabold text-slate-900 mb-4 sm:mb-6 tracking-tight leading-snug">
+                느티울 대표 <span className="text-emerald-700 underline decoration-emerald-300 decoration-4 underline-offset-4">조윤호</span>입니다.
+              </h3>
+              <div className="bg-white/90 backdrop-blur-sm p-4 sm:p-6 rounded-2xl border border-emerald-100/90 shadow-md shadow-emerald-900/5">
+                <p className="text-slate-800 text-[12px] leading-[25px] md:text-[18.5px] md:leading-loose font-bold whitespace-pre-line break-keep">
+{`저희는 결과로 증명하는 청소를 합니다.
+제가 직접 현장을 관리하며
+시작부터 마무리까지 책임지고 작업합니다.
+
+저희 회사명처럼,
+편안하고 든든하게 고객님의 공간을 지키며
+언제나 믿고 맡길 수 있는 서비스로 보답하겠습니다.`}
+                </p>
+              </div>
+            </div>
+
+            {/* CEO Image (Right, Clean borderless presentation) */}
+            <div className="w-full md:w-1/2 shrink-0 flex justify-center md:justify-end order-1 md:order-2 relative z-10">
+              <div className="relative w-full max-w-md md:max-w-xl overflow-hidden rounded-2xl md:rounded-3xl shadow-xl">
+                <img 
+                  src="/images/professional-cleaning.webp" 
+                  alt="느티울 대표 조윤호" 
+                  className="w-full h-auto object-cover transform hover:scale-105 transition-transform duration-500 rounded-2xl md:rounded-3xl"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Professional Certifications Status Section (전문 자격증 보유 현황) */}
+      <section className="py-16 md:py-20 bg-slate-50 border-b border-slate-200">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12 md:mb-16">
+            <h2 className="text-[31.75px] md:text-5xl font-extrabold text-slate-900 mb-6">전문 자격증 보유 현황</h2>
+            <p className="text-slate-500 text-[11px] font-bold leading-[18px] sm:text-[15px] md:text-xl sm:font-medium sm:leading-relaxed max-w-3xl mx-auto break-keep">
+              느티울은 검증된 전문 자격을 갖춘 대표가 직접 시공합니다.<br />
+              전문성과 기술력을 바탕으로 신뢰할 수 있는 서비스를 제공합니다.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-5 sm:gap-6 md:gap-8 px-1 md:px-0">
+            {certificationsData.map((cert) => (
+              <div key={cert.id} className="group relative">
+                <div className="aspect-[3/4] overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-lg group-hover:border-primary/50 group-hover:shadow-2xl transition-all duration-500">
+                  <img 
+                    src={cert.image} 
+                    alt={cert.title} 
+                    className="w-full h-full object-cover group-hover:scale-110 transition-all duration-700"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                  <div className="absolute bottom-4 left-0 w-full px-4 transform translate-y-4 group-hover:translate-y-0 transition-transform opacity-0 group-hover:opacity-100">
+                     <p className="text-white text-[8px] md:text-[10px] font-bold uppercase tracking-wider">{cert.issuer}</p>
+                  </div>
+                </div>
+                <div className="mt-3 md:mt-5 text-center px-1">
+                  <h4 className="text-xs sm:text-base md:text-[17px] font-bold text-slate-800 mb-1 group-hover:text-primaryDark transition-colors leading-tight break-keep">
+                    {cert.title}
+                  </h4>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
       </section>
 
       {/* Floor Cleaning Tile Diagnostic & Solution Section (바닥청소/왁스 전용 타일 오염 솔루션 안내) */}
@@ -2144,6 +1371,10 @@ const ServiceLanding: React.FC = () => {
 
         </div>
       </section>
+
+      <ReviewsSection />
+
+      <FAQSection ctaPhone={cleanPhone} />
 
       {/* Embedded Real, Seamless Consultation Contact Formspree Area (No placeholders) */}
       <section className="py-16 md:py-24 bg-white border-t border-slate-200">

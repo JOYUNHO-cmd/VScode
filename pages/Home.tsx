@@ -4,8 +4,9 @@ import { ArrowRight, CheckCircle2, Star, ShieldCheck, Clock, Sparkles, Quote, Rs
 import { m } from 'motion/react';
 import { useSite } from '../context/SiteContext';
 import { trackEvent } from '../lib/analytics';
-import PhotoMarquee from '../components/PhotoMarquee';
-import ReviewMarquee from '../components/ReviewMarquee';
+import PortfolioMarquee from '../components/PortfolioMarquee';
+import ReviewsSection from '../components/ReviewsSection';
+import FAQSection from '../components/FAQSection';
 
 const zelkovaHero = '/images/hero-tree-family.webp';
 const zelkovaMobileHero = '/images/hero-tree-family-mobile.webp';
@@ -44,153 +45,12 @@ const FALLBACK_IMAGES = [
   'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?w=850&auto=format&fit=crop&q=80'
 ];
 
-interface FAQItem {
-  q: string;
-  a: string;
-}
-
-interface FAQCategory {
-  category: string;
-  categoryName: string;
-  qas: FAQItem[];
-}
-
-const FAQ_DATA: FAQCategory[] = [
-  {
-    category: 'reservation',
-    categoryName: '예약 & 견적',
-    qas: [
-      {
-        q: "정확한 견적은 어떻게 받을 수 있나요?",
-        a: "평수만으로도 대략적인 견적은 가능하지만, 현장 상태(오염도, 자재 종류, 짐 유무)에 따라 작업 방식이 달라지기 때문에 정확한건 무료로 현장 방문 후 안내해드립니다. 방문 견적 시 저희가 살펴보고 통화로 소통이 가능하니 현장에 계실 필요가 없습니다. 또한 15년간 수많은 현장을 다뤄온 경험으로, 전화 상담만으로도 상당히 근접한 견적을 바로 안내해드릴 수 있습니다."
-      },
-      {
-        q: "서울, 인천, 경기 전 지역도 무료 방문 출장 견적이 가능한가요?",
-        a: "네, 100% 무료로 출장 방문 견적을 진행합니다. 군포, 안양, 수원뿐만 아니라 서울 전지역(강남, 여의도, 가산, 마곡, 성수 등), 인천 전지역(송도, 청라, 영종, 남동공단 등), 경기 전지역(판교, 동탄, 안산, 시흥, 화성, 평택 등) 어디든 조윤호 대표가 직접 현장을 찾아가 꼼꼼히 진단하고 투명한 견적서를 제공합니다."
-      },
-      {
-        q: "견적 후 추가 비용이 발생하는 경우가 있나요?",
-        a: "사전에 협의되지 않은 추가 비용은 절대 없습니다. 현장 확인 후 안내드린 견적이 최종 금액이며, 작업 중 예상치 못한 사항이 생기더라도 반드시 사전에 안내드리고 고객님 동의 후에만 진행합니다."
-      },
-      {
-        q: "예약금이나 계약금이 있나요?",
-        a: "정확한 일정을 확정하기 위해서 총 금액의 5%만 예약금을 받고 있습니다."
-      }
-    ]
-  },
-  {
-    category: 'process',
-    categoryName: '작업 과정 & 범위',
-    qas: [
-      {
-        q: "청소는 보통 몇 시간/며칠 정도 걸리나요?",
-        a: "보통 평수와 오염도에 따라 다르지만, 특별한 경우가 아니면 하루면 다 끝낼 수 있습니다. (이른 오전 시작 - 오후 마무리)"
-      },
-      {
-        q: "청소 당일 저희가 꼭 있어야 하나요?",
-        a: "꼭 계실 필요는 없습니다. 작업 시작과 종료 시간을 정확히 안내드리고, 외출하셔도 안심하고 맡기실 수 있도록 책임감 있게 작업합니다. 원하시면 진행 상황을 사진으로 공유해드릴 수도 있습니다."
-      },
-      {
-        q: "가구나 짐이 있는 상태에서도 진행 가능한가요?",
-        a: "가능합니다. 짐이 있는 상태에서도 손상 없이 작업할 수 있는 노하우를 갖추고 있으며, 필요 시 가구 이동도 조심스럽게 도와드립니다."
-      },
-      {
-        q: "냉장고, 에어컨 내부까지 포함되나요?",
-        a: "네, 원하시는 범위에 맞춰 세부 작업까지 모두 가능합니다. 냉장고 내부, 에어컨 내부 세척, 창틀, 방충망 등 눈에 잘 안 띄는 부분까지 꼼꼼히 챙겨드립니다."
-      }
-    ]
-  },
-  {
-    category: 'safety',
-    categoryName: '안전 & 신뢰',
-    qas: [
-      {
-        q: "사용하는 세제가 아이/반려동물에게 안전한가요?",
-        a: "네, 친환경 세정제를 사용하며 작업 후에는 중화 처리까지 진행해 세정 성분이 남지 않도록 합니다. 아이와 반려동물이 있는 가정에서도 안심하고 이용하실 수 있습니다."
-      },
-      {
-        q: "작업자분들이 보험에 가입되어 있나요?",
-        a: "네, 만일의 상황에 대비한 보험이 가입되어 있어 안심하고 맡기실 수 있습니다."
-      },
-      {
-        q: "방문하시는 분들 신원이 확실한가요?",
-        a: "15년간 함께해온 저희 전문팀(오직 1팀 입니다) 인력이 방문하며, 방문 전 담당팀 정보를 미리 안내해드리기 때문에 누가 오는지 알고 안심하고 맞이하실 수 있습니다."
-      }
-    ]
-  },
-  {
-    category: 'materials',
-    categoryName: '소재 & 오염 케어',
-    qas: [
-      {
-        q: "마루나 타일이 오래됐는데 손상되지 않을까요?",
-        a: "가장 많이 걱정하시는 부분인데요, 여태껏 다양한 자재(마루, 포세린 타일, 대리석 등)를 다뤄온 경험으로 소재별 특성에 맞는 세정제와 방법을 선정합니다. 오히려 잘못된 셀프 청소로 인한 손상을 막아드릴 수 있습니다."
-      },
-      {
-        q: "곰팡이나 심한 오염도 제거가 가능한가요?",
-        a: "네, 어떤 상태든 가능합니다. 고독사 현장, 화재 현장, 장기 방치된 공간까지 다뤄온 경험이 있기 때문에 일반 오염은 물론 심한 곰팡이, 찌든 때도 확실하게 제거해드립니다."
-      },
-      {
-        q: "냄새(반려동물, 담배 등)도 확실히 제거되나요?",
-        a: "네, 표면적인 방향제 처리가 아니라 냄새의 원인 자체를 제거하는 방식으로 작업하며, 마무리 단계의 피톤치드 분사로 쾌적함까지 더해드립니다."
-      }
-    ]
-  },
-  {
-    category: 'aftercare',
-    categoryName: '일정 & 사후 관리',
-    qas: [
-      {
-        q: "청소 후 만족스럽지 않으면 어떻게 되나요?",
-        a: "작업 완료 후 고객님과 함께 결과물을 직접 확인하며, 미흡한 부분이 있다면 그 자리에서 바로 보완해드립니다. 정산은 고객님이 만족하신 후에 진행됩니다."
-      },
-      {
-        q: "재청소나 A/S 기간이 있나요?",
-        a: "기한 없는 사후 관리를 약속드립니다. 시간이 지난 후 문제가 발견되어도 언제든 연락 주시면 책임지고 대응해드립니다."
-      },
-      {
-        q: "원하는 날짜에 바로 예약 가능한가요?",
-        a: "가능한 빠른 일정 조율을 도와드리며, 예약이 몰릴 수 있어 여유 있게 문의 주시는 것을 추천드립니다."
-      },
-      {
-        q: "예약 변경이나 취소는 어떻게 하나요?",
-        a: "작업 2~3일 전 변경은 확실히 말씀드리기 어려우나 그전에 시간상 여유(1주일)가 있다면 변경이나 취소가 가능합니다."
-      },
-      {
-        q: "주말/공휴일에도 가능한가요?",
-        a: "네, 고객님의 일정에 맞춰 주말과 공휴일(야간도 가능합니다)에도 유연하게 작업 가능합니다."
-      }
-    ]
-  },
-  {
-    category: 'special',
-    categoryName: '특수 상황',
-    qas: [
-      {
-        q: "이사 전/후 청소도 가능한가요?",
-        a: "네, 입주 전 청소부터 이사 후 정리까지 모두 가능합니다."
-      },
-      {
-        q: "준공청소와 입주청소는 뭐가 다른가요?",
-        a: "준공청소는 신축 공사 후 건축 자재 분진과 잔여물을 제거하는 작업이고, 입주청소는 이사 들어가기 전 생활 공간을 위생적으로 준비하는 작업입니다. 상황에 맞는 작업을 안내해드립니다."
-      },
-      {
-        q: "반려동물이 있는 집도 괜찮나요?",
-        a: "네, 전혀 문제없습니다. 반려동물의 털, 냄새까지 고려한 청소 방식으로 진행합니다."
-      }
-    ]
-  }
-];
-
 const Home: React.FC = () => {
   const { config } = useSite();
   const cleanPhone = config.companyInfo.phone.replace(/[^0-9]/g, '');
   const heroParallaxRef = useRef<HTMLDivElement>(null);
   const [rssItems, setRssItems] = useState<NaverRssItem[]>([]);
   const [rssLoading, setRssLoading] = useState(true);
-  const [activeFAQTab, setActiveFAQTab] = useState<string | null>(null);
-  const [openFAQIdx, setOpenFAQIdx] = useState<string | null>(null);
-  const [faqDropdownOpen, setFaqDropdownOpen] = useState(false);
   const [openCertIdx, setOpenCertIdx] = useState<number | null>(null);
 
   const certifications = [
@@ -405,17 +265,37 @@ const Home: React.FC = () => {
         </div>
       </section>
 
-      {/* Client Site Photo Marquee */}
-      <section className="py-12 md:py-16 bg-gradient-to-b from-emerald-50/60 via-white to-white relative border-b border-slate-100 overflow-hidden">
-        <div className="absolute top-0 left-1/4 w-64 h-64 bg-emerald-400/10 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute bottom-0 right-1/4 w-72 h-72 bg-teal-400/10 rounded-full blur-3xl pointer-events-none" />
+      {/* Before/After Portfolio Teaser */}
+      <section className="py-12 md:py-16 bg-white relative border-b border-slate-100 overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 md:px-8 text-center mb-6 md:mb-10 relative z-10">
           <p className="text-slate-900 text-xl md:text-3xl font-black tracking-tight break-keep">
-            이런 곳들도 <span className="bg-gradient-to-r from-[#04a875] to-[#22ba8b] bg-clip-text text-transparent">느티울</span>과 함께했습니다
+            <span className="block md:inline">제가 직접 발로 뛴</span>{' '}
+            <span className="block md:inline">현장 <span className="bg-gradient-to-r from-[#04a875] to-[#22ba8b] bg-clip-text text-transparent">사진</span>으로 증명합니다</span>
           </p>
+          <p className="text-slate-500 text-sm md:text-base mt-2">
+            실제 시공 현장의 전/후 비교 사진입니다.
+          </p>
+          <m.span
+            animate={{ y: [0, -6, 0] }}
+            transition={{ repeat: Infinity, duration: 1.4, ease: "easeInOut" }}
+            className="inline-flex items-center gap-1.5 mt-3 px-3.5 py-1.5 rounded-full bg-primary/10 border border-primary/25 text-primaryDark text-xs md:text-sm font-bold shadow-sm"
+          >
+            🔍 사진을 누르면 크게 볼 수 있어요
+          </m.span>
         </div>
-        <PhotoMarquee />
+        <PortfolioMarquee />
+        <div className="flex justify-center mt-6 md:mt-8 relative z-10">
+          <Link
+            to="/portfolio"
+            className="inline-flex items-center gap-2 bg-primary text-white px-6 py-3 md:px-7 md:py-3.5 rounded-xl font-bold text-sm md:text-base hover:bg-primaryDark transition-all shadow-lg shadow-primary/25 group"
+          >
+            전체 시공사례 보기
+            <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
+          </Link>
+        </div>
       </section>
+
+      <ReviewsSection />
 
       {/* Real Client Anxieties Section */}
       <section className="py-16 md:py-24 bg-gradient-to-b from-white via-[#f4faf7] to-[#eaf7f3] relative overflow-hidden border-b border-emerald-100/50">
@@ -952,305 +832,7 @@ const Home: React.FC = () => {
         </div>
       </section>
 
-      {/* Real Customer Reviews */}
-      <section className="py-16 md:py-24 bg-gradient-to-b from-white via-amber-50/30 to-white relative border-b border-slate-100 overflow-hidden">
-        <div className="absolute top-10 right-[10%] w-64 h-64 bg-amber-300/10 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute bottom-10 left-[10%] w-72 h-72 bg-emerald-300/10 rounded-full blur-3xl pointer-events-none" />
-        <div className="max-w-7xl mx-auto px-4 md:px-8 text-center mb-8 md:mb-14 relative z-10">
-          <div className="flex items-center justify-center gap-1.5 md:gap-2 mb-4 md:mb-5">
-            {[...Array(5)].map((_, i) => (
-              <m.div
-                key={i}
-                initial={{ scale: 0, rotate: -180 }}
-                whileInView={{ scale: 1, rotate: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.1, type: 'spring', stiffness: 260, damping: 14 }}
-              >
-                <Star
-                  size={30}
-                  className="md:w-9 md:h-9 text-amber-400 fill-amber-400 animate-star-twinkle"
-                  style={{ animationDelay: `${i * 0.15}s` }}
-                />
-              </m.div>
-            ))}
-          </div>
-          <h2 className="text-sm md:text-4xl font-black text-slate-900 leading-tight mb-3 md:mb-5 whitespace-nowrap">
-            직접 이용해보신 고객님들의 후기
-          </h2>
-          <p className="text-slate-500 text-sm md:text-lg leading-relaxed break-keep">
-            <span className="block md:inline">저희가 아닌, 실제로 청소를 맡기신</span>{' '}
-            <span className="block md:inline">고객님들의 이야기입니다.</span>{' '}
-            <span className="block md:inline mt-3 md:mt-0">사진을 눌러 크게 볼 수 있습니다.</span>
-          </p>
-        </div>
-
-        <ReviewMarquee />
-      </section>
-
-      {/* 5th Section: Beautiful & Interactive Q&A Accordion */}
-      <section className="py-20 md:py-28 bg-gradient-to-br from-[#ebf7f4] via-[#f7fbf9] to-[#e6f4f1] relative overflow-hidden border-b border-slate-100/80">
-        {/* Premium subtle dot pattern overlay */}
-        <div className="absolute inset-0 bg-[radial-gradient(#0f9d6c_0.8px,transparent_0.8px)] bg-[size:24px_24px] [mask-image:radial-gradient(ellipse_60%_60%_at_50%_50%,#000_70%,transparent_100%)] opacity-[0.06] pointer-events-none" />
-        
-        {/* Soft eco-inspired backdrop highlights */}
-        <div className="absolute top-1/4 right-[-10%] w-[600px] h-[600px] bg-emerald-400/12 rounded-full blur-[150px] pointer-events-none" />
-        <div className="absolute bottom-1/4 left-[-10%] w-[600px] h-[600px] bg-teal-400/12 rounded-full blur-[150px] pointer-events-none" />
-
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="text-center mb-10 md:mb-14">
-            <h2 className="text-[18px] min-[360px]:text-[20px] min-[400px]:text-[22px] sm:text-[32px] md:text-[36.4px] font-black text-slate-900 mb-3.5 leading-tight tracking-tight whitespace-nowrap">
-              가장 많이 질문하시는 <span className="bg-gradient-to-r from-emerald-600 via-teal-600 to-emerald-500 bg-clip-text text-transparent underline decoration-emerald-300 decoration-wavy underline-offset-8">안심 Q&A</span>
-            </h2>
-            <p className="text-slate-600 text-sm sm:text-base md:text-lg font-bold max-w-2xl mx-auto break-keep">
-              궁금한 점을 명쾌하게 해결해 드립니다.
-            </p>
-          </div>
-
-          {/* Mobile FAQ Dropdown Selector */}
-          <div className="block md:hidden relative mb-8 z-30">
-            <button
-              onClick={() => setFaqDropdownOpen(!faqDropdownOpen)}
-              className="w-full flex items-center justify-between bg-gradient-to-r from-emerald-50 via-teal-50 to-emerald-50/90 border-2 border-emerald-500 rounded-2xl px-3.5 sm:px-5 py-3.5 text-sm font-extrabold text-slate-900 shadow-md shadow-emerald-500/10 active:scale-[0.99] transition-all duration-200"
-            >
-              <span className="flex items-center gap-2 overflow-hidden">
-                <span className="relative flex h-3 w-3 shrink-0">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-3 w-3 bg-emerald-700"></span>
-                </span>
-                {activeFAQTab === null ? (
-                  <span className="text-[13px] min-[360px]:text-sm text-emerald-950 font-extrabold tracking-tight whitespace-nowrap">
-                    궁금하신 카테고리를 선택해주세요
-                  </span>
-                ) : activeFAQTab === 'all' ? (
-                  <span className="flex items-center gap-1.5 min-[380px]:gap-2 whitespace-nowrap overflow-hidden">
-                    <span className="bg-emerald-700 text-white px-2.5 py-1 rounded-lg text-xs sm:text-sm font-black shadow-sm shrink-0">
-                      전체 보기
-                    </span>
-                    <span className="text-[11.5px] min-[360px]:text-xs min-[400px]:text-[13px] text-emerald-950 font-extrabold tracking-tight whitespace-nowrap">
-                      (궁금하신 카테고리 선택)
-                    </span>
-                  </span>
-                ) : (
-                  <span className="bg-emerald-700 text-white px-2.5 py-1 rounded-lg text-xs sm:text-sm font-black shadow-sm">
-                    {FAQ_DATA.find((cat) => cat.category === activeFAQTab)?.categoryName || ''}
-                  </span>
-                )}
-              </span>
-              <div className="w-8 h-8 rounded-xl bg-emerald-700 text-white flex items-center justify-center shrink-0 shadow-sm ml-1">
-                <ChevronDown
-                  className={`w-5 h-5 transition-transform duration-300 ${
-                    faqDropdownOpen ? 'rotate-180' : ''
-                  }`}
-                />
-              </div>
-            </button>
-
-            {faqDropdownOpen && (
-              <>
-                {/* Backdrop to close dropdown easily on clicking outside */}
-                <div
-                  className="fixed inset-0 z-20 cursor-default"
-                  onClick={() => setFaqDropdownOpen(false)}
-                />
-                <m.div
-                  initial={{ opacity: 0, y: -8 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.15 }}
-                  className="absolute left-0 right-0 mt-2 bg-white border border-slate-200 rounded-2xl shadow-2xl overflow-hidden z-30 py-1.5"
-                >
-                  <button
-                    onClick={() => {
-                      setActiveFAQTab('all');
-                      setOpenFAQIdx(null);
-                      setFaqDropdownOpen(false);
-                    }}
-                    className={`w-full text-left px-5 py-3.5 text-xs sm:text-sm font-bold transition-all duration-150 flex items-center justify-between ${
-                      activeFAQTab === 'all'
-                        ? 'bg-emerald-50 text-[#0b7a54] font-black'
-                        : 'text-slate-700 hover:bg-slate-50'
-                    }`}
-                  >
-                    <span>전체 보기</span>
-                    {activeFAQTab === 'all' && (
-                      <span className="w-2 h-2 rounded-full bg-emerald-500" />
-                    )}
-                  </button>
-                  {FAQ_DATA.map((cat) => (
-                    <button
-                      key={cat.category}
-                      onClick={() => {
-                        setActiveFAQTab(cat.category);
-                        setOpenFAQIdx(null);
-                        setFaqDropdownOpen(false);
-                      }}
-                      className={`w-full text-left px-5 py-3.5 text-xs sm:text-sm font-bold transition-all duration-150 flex items-center justify-between ${
-                        activeFAQTab === cat.category
-                          ? 'bg-emerald-50 text-[#0b7a54] font-black'
-                          : 'text-slate-700 hover:bg-slate-50'
-                      }`}
-                    >
-                      <span>{cat.categoryName}</span>
-                      {activeFAQTab === cat.category && (
-                        <span className="w-2 h-2 rounded-full bg-emerald-500" />
-                      )}
-                    </button>
-                  ))}
-                </m.div>
-              </>
-            )}
-          </div>
-
-          {/* Desktop Category Navigation Bar (Single Line Segmented Control) */}
-          <div className="hidden md:flex items-center justify-center mb-10">
-            <div className="inline-flex items-center p-1.5 bg-slate-100/90 backdrop-blur-md border border-slate-200/90 rounded-full shadow-inner max-w-full overflow-x-auto scrollbar-none gap-1">
-              <button
-                onClick={() => {
-                  setActiveFAQTab('all');
-                  setOpenFAQIdx(null);
-                }}
-                className={`whitespace-nowrap flex-shrink-0 px-4 py-2.5 rounded-full text-xs lg:text-sm font-black transition-all duration-200 cursor-pointer ${
-                  activeFAQTab === 'all'
-                    ? 'bg-gradient-to-r from-[#0b7a54] to-[#0f9d6c] text-white shadow-md shadow-emerald-600/25 scale-[1.02]'
-                    : 'text-slate-600 hover:text-slate-900 hover:bg-white/80'
-                }`}
-              >
-                전체 보기
-              </button>
-              {FAQ_DATA.map((cat) => (
-                <button
-                  key={cat.category}
-                  onClick={() => {
-                    setActiveFAQTab(cat.category);
-                    setOpenFAQIdx(null);
-                  }}
-                  className={`whitespace-nowrap flex-shrink-0 px-4 py-2.5 rounded-full text-xs lg:text-sm font-extrabold transition-all duration-200 cursor-pointer ${
-                    activeFAQTab === cat.category
-                      ? 'bg-gradient-to-r from-[#0b7a54] to-[#0f9d6c] text-white shadow-md shadow-emerald-600/25 font-black scale-[1.02]'
-                      : 'text-slate-600 hover:text-slate-900 hover:bg-white/80'
-                  }`}
-                >
-                  {cat.categoryName}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {/* Interactive FAQ Accordion List */}
-          {activeFAQTab === null ? (
-            <div className="max-w-2xl mx-auto text-center py-10 md:py-14 px-6 rounded-2xl md:rounded-3xl border-2 border-dashed border-emerald-300/70 bg-white/60">
-              <p className="text-slate-600 font-bold text-sm md:text-base mb-5 break-keep">
-                위에서 궁금하신 카테고리를 선택하시면 질문을 확인하실 수 있어요.
-              </p>
-              <div className="flex flex-col gap-2.5 md:flex-row md:items-stretch md:justify-center md:gap-4">
-                <button
-                  onClick={() => setActiveFAQTab('all')}
-                  className="w-full md:w-auto px-4 py-2.5 md:px-7 rounded-full md:rounded-2xl text-sm md:text-base font-black bg-gradient-to-r from-[#0b7a54] to-[#0f9d6c] text-white shadow-md shadow-emerald-600/25 md:flex md:items-center"
-                >
-                  전체 질문 보기
-                </button>
-                <div className="grid grid-cols-3 gap-2 md:gap-2.5">
-                  {FAQ_DATA.map((cat) => (
-                    <button
-                      key={cat.category}
-                      onClick={() => setActiveFAQTab(cat.category)}
-                      className="px-2.5 py-2 md:px-4 md:py-2.5 rounded-full text-[11px] sm:text-xs md:text-sm font-bold bg-slate-100 text-slate-600 hover:bg-emerald-50 hover:text-emerald-700 transition-colors break-keep leading-snug"
-                    >
-                      {cat.categoryName}
-                    </button>
-                  ))}
-                </div>
-              </div>
-            </div>
-          ) : (
-          <div className="space-y-4 max-w-3xl mx-auto">
-            {FAQ_DATA.filter(cat => activeFAQTab === 'all' || cat.category === activeFAQTab)
-              .flatMap((cat) => cat.qas.map((qa, index) => {
-                const uniqueKey = `${cat.category}-${index}`;
-                const isOpen = openFAQIdx === uniqueKey;
-
-                return (
-                  <div
-                    key={uniqueKey}
-                    className={`bg-white border rounded-2xl md:rounded-3xl transition-all duration-300 overflow-hidden ${
-                      isOpen
-                        ? 'border-emerald-500 ring-2 ring-emerald-500/20 shadow-xl shadow-emerald-500/5'
-                        : 'border-slate-200/90 hover:border-emerald-300 hover:shadow-md'
-                    }`}
-                  >
-                    {/* Header / Question Trigger */}
-                    <button
-                      onClick={() => setOpenFAQIdx(isOpen ? null : uniqueKey)}
-                      className="w-full text-left p-5 sm:p-6 md:p-7 flex items-center justify-between gap-4 cursor-pointer group"
-                    >
-                      <div className="flex gap-3 sm:gap-4 items-center flex-1">
-                        <div className={`w-8 h-8 sm:w-9 sm:h-9 rounded-xl flex items-center justify-center shrink-0 font-black text-sm sm:text-base transition-colors ${
-                          isOpen ? 'bg-[#0b7a54] text-white shadow-md' : 'bg-emerald-100/90 text-[#0b7a54]'
-                        }`}>
-                          Q
-                        </div>
-                        <div className="flex-1">
-                          <span className={`text-[15px] sm:text-[18px] md:text-[19px] font-extrabold leading-snug tracking-tight break-keep transition-colors duration-150 ${
-                            isOpen ? 'text-[#0b7a54]' : 'text-slate-900 group-hover:text-emerald-700'
-                          }`}>
-                            {qa.q}
-                          </span>
-                        </div>
-                      </div>
-                      <div className={`w-8 h-8 sm:w-9 sm:h-9 rounded-full flex items-center justify-center shrink-0 transition-all duration-200 ${
-                        isOpen ? 'bg-emerald-500 text-white rotate-180 shadow-sm' : 'bg-slate-100 text-slate-500 group-hover:bg-emerald-100 group-hover:text-emerald-700'
-                      }`}>
-                        <ChevronDown className="w-4 h-4 sm:w-5 sm:h-5 stroke-[2.5]" />
-                      </div>
-                    </button>
-
-                    {/* Collapsible Answer Body */}
-                    <m.div
-                      initial={false}
-                      animate={{
-                        height: isOpen ? 'auto' : 0,
-                        opacity: isOpen ? 1 : 0
-                      }}
-                      transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
-                      className="overflow-hidden"
-                    >
-                      <div className="px-5 pb-6 pt-1 sm:px-7 sm:pb-7 text-left">
-                        <div className="p-4 sm:p-6 rounded-2xl bg-gradient-to-r from-emerald-50/70 to-slate-50 border border-emerald-100/80 flex gap-3.5 sm:gap-4 items-start shadow-inner">
-                          <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-slate-900 text-white font-black text-xs sm:text-sm flex items-center justify-center shrink-0 mt-0.5 shadow-sm">
-                            A
-                          </div>
-                          <div className="text-slate-800 text-[14px] sm:text-[16.5px] md:text-[17px] leading-relaxed font-semibold break-keep whitespace-pre-line flex-1">
-                            {qa.a}
-                          </div>
-                        </div>
-                      </div>
-                    </m.div>
-                  </div>
-                );
-              }))}
-          </div>
-          )}
-
-          {/* Bottom Trust Badge */}
-          <div className="text-center mt-12 md:mt-16 p-6 sm:p-8 bg-gradient-to-r from-[#0b7a54] via-[#0da36c] to-[#085f42] text-white rounded-3xl max-w-2xl mx-auto shadow-xl shadow-emerald-950/20 border border-emerald-400/30 relative overflow-hidden flex flex-col sm:flex-row items-center justify-between gap-4">
-            <div className="text-center sm:text-left">
-              <p className="text-sm sm:text-base md:text-lg font-extrabold text-white leading-snug break-keep">
-                💡 찾으시는 답변이 없으신가요?
-              </p>
-              <p className="text-xs sm:text-sm text-emerald-100 font-medium mt-1 break-keep">
-                언제든 문의해 주시면 친절하고 속 시원히 안내해 드리겠습니다.
-              </p>
-            </div>
-            <Link
-              to="/contact"
-              onClick={() => trackEvent('contact_click', { method: 'quote', location: 'home_faq' })}
-              className="shrink-0 px-5 py-2.5 bg-white text-[#0b7a54] hover:bg-emerald-50 text-xs sm:text-sm font-black rounded-xl shadow-md transition-all flex items-center gap-1.5 transform hover:scale-105"
-            >
-              <span>무료 상담 신청</span>
-              <ArrowRight className="w-4 h-4" />
-            </Link>
-          </div>
-        </div>
-      </section>
+      <FAQSection />
 
       {/* Services Preview */}
       <section className="py-16 md:py-24 bg-slate-50 relative overflow-hidden">

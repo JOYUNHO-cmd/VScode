@@ -1,0 +1,90 @@
+import React, { useEffect, useRef, useState } from 'react';
+import portfolioManifest from '../lib/portfolioManifest.json';
+import PortfolioSplitCard, { PortfolioGalleryItem } from './PortfolioSplitCard';
+import PortfolioLightbox from './PortfolioLightbox';
+
+const allItems = portfolioManifest as PortfolioGalleryItem[];
+
+// Maps each of the 12 service landing pages to the portfolio-gallery
+// category slugs that belong on it. Several photo categories (마루코팅/
+// 왁스코팅 vs 본드제거/오일폴티스/콩자갈/타일작업) split across the two
+// "바닥" services rather than mapping 1:1, and a few categories with no
+// dedicated service page (관공서, 매장·백화점청소, 시트지제거, 어닝청소,
+// 건물복원청소, 곰팡이제거, 기타청소) are folded into the closest-fit
+// service. 'factory' has no matching source photos, so it renders nothing.
+const SERVICE_CATEGORY_MAP: Record<string, string[]> = {
+  'new-construction': ['new-construction'],
+  interior: ['interior', 'sheet-removal'],
+  'move-in': ['move-in'],
+  office: ['office', 'store-department', 'government'],
+  floor: ['floor-adhesive-removal', 'floor-oil-poultice', 'floor-pebble', 'floor-tile'],
+  'floor-wax': ['floor-wood-coating', 'floor-wax-coating'],
+  restaurant: ['kitchen', 'hood'],
+  factory: [],
+  flood: ['flood'],
+  fire: ['fire'],
+  special: ['special', 'mold-removal', 'etc'],
+  'external-wall': ['exterior-wall', 'awning', 'building-restoration'],
+};
+
+interface Props {
+  serviceId: string;
+}
+
+const ServiceBeforeAfterMarquee: React.FC<Props> = ({ serviceId }) => {
+  const categories = SERVICE_CATEGORY_MAP[serviceId] || [];
+  const items = allItems.filter((item) => categories.includes(item.category));
+  const trackRef = useRef<HTMLDivElement>(null);
+  const [openItem, setOpenItem] = useState<PortfolioGalleryItem | null>(null);
+
+  useEffect(() => {
+    const el = trackRef.current;
+    if (!el || typeof IntersectionObserver === 'undefined') return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        el.classList.toggle('is-paused', !entry.isIntersecting);
+      },
+      { threshold: 0 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  if (items.length === 0) return null;
+
+  const track = [...items, ...items];
+
+  return (
+    <section className="py-12 md:py-16 bg-white relative border-b border-slate-100 overflow-hidden">
+      <div className="max-w-7xl mx-auto px-4 md:px-8 text-center mb-6 md:mb-10 relative z-10">
+        <p className="text-slate-900 text-xl md:text-3xl font-black tracking-tight break-keep">
+          제가 직접 시공한 <span className="bg-gradient-to-r from-[#04a875] to-[#22ba8b] bg-clip-text text-transparent">전후 사진</span>입니다
+        </p>
+        <p className="text-slate-500 text-sm md:text-base mt-2">
+          사진을 누르면 크게 볼 수 있어요.
+        </p>
+      </div>
+
+      <div className="marquee-track overflow-hidden">
+        <div ref={trackRef} className="flex w-max animate-marquee">
+          {track.map((item, idx) => (
+            <PortfolioSplitCard
+              key={`${item.id}-${idx}`}
+              item={item}
+              size="marquee-lg"
+              eager={idx < 4}
+              onClick={() => setOpenItem(item)}
+            />
+          ))}
+        </div>
+      </div>
+
+      {openItem && (
+        <PortfolioLightbox item={openItem} onClose={() => setOpenItem(null)} />
+      )}
+    </section>
+  );
+};
+
+export default ServiceBeforeAfterMarquee;

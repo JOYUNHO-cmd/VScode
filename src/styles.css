@@ -69,6 +69,11 @@ html {
 .animate-marquee-slow {
   animation-duration: 90s;
 }
+/* Opposite scroll direction — used to make a two-row wall of cards read
+   as a deliberate crossing pattern rather than two identical strips. */
+.animate-marquee-reverse {
+  animation-direction: reverse;
+}
 /* Pause-on-hover only for real pointer devices. Touch browsers emulate
    :hover on tap, which was pausing/resuming the animation mid-gesture on
    mobile and looked like stutter/flicker while scrolling past the strip. */

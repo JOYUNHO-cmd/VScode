@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, Phone, UserCog, ClipboardCheck, ChevronUp } from 'lucide-react';
+import { Menu, X, Phone, UserCog, ClipboardCheck, ChevronUp, ChevronDown } from 'lucide-react';
 import { m, AnimatePresence } from 'motion/react';
 import { useSite } from '../context/SiteContext';
 import { trackEvent } from '../lib/analytics';
@@ -8,6 +8,8 @@ import { trackEvent } from '../lib/analytics';
 const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [hoveredIdx, setHoveredIdx] = useState<number | null>(null);
+  const [servicesOpen, setServicesOpen] = useState(false);
+  const [mobileServicesOpen, setMobileServicesOpen] = useState(false);
   const { config, isEditable } = useSite();
   const location = useLocation();
 
@@ -15,6 +17,11 @@ const Navbar: React.FC = () => {
   useEffect(() => {
     setIsOpen(false);
   }, [location.pathname]);
+
+  // Collapse the mobile services accordion whenever the whole mobile menu closes
+  useEffect(() => {
+    if (!isOpen) setMobileServicesOpen(false);
+  }, [isOpen]);
 
   const navLinks = [
     { name: '홈', path: '/' },
@@ -95,6 +102,66 @@ const Navbar: React.FC = () => {
               if (idx === 2) {
                 customStyle.fontFamily = 'Noto Sans KR, sans-serif';
               }
+
+              if (link.path === '/services') {
+                return (
+                  <div
+                    key={link.name}
+                    className="relative"
+                    onMouseEnter={() => { setHoveredIdx(idx); setServicesOpen(true); }}
+                    onMouseLeave={() => { setHoveredIdx(null); setServicesOpen(false); }}
+                  >
+                    <button
+                      type="button"
+                      onClick={() => setServicesOpen((v) => !v)}
+                      className={`relative px-3 py-2 text-lg font-bold transition-all duration-200 inline-flex items-center gap-1 ${
+                        isCurrent
+                          ? 'text-primaryDark'
+                          : 'text-gray-600 hover:text-primary'
+                      }`}
+                      style={customStyle}
+                    >
+                      <span className="relative z-10">{link.name}</span>
+                      <ChevronDown size={18} className={`relative z-10 transition-transform duration-200 ${servicesOpen ? 'rotate-180' : ''}`} />
+                      {isCurrent && (
+                        <m.div
+                          layoutId="activeNavUnderline"
+                          className="absolute bottom-0 left-0 right-0 h-1 bg-primary rounded-full shadow-[0_2px_8px_rgba(44,211,150,0.5)]"
+                          transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                        />
+                      )}
+                    </button>
+
+                    <AnimatePresence>
+                      {servicesOpen && (
+                        <m.div
+                          initial={{ opacity: 0, y: 8 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: 8 }}
+                          transition={{ duration: 0.15 }}
+                          className="absolute top-full left-1/2 -translate-x-1/2 pt-2 w-[420px] z-50"
+                        >
+                          <div className="bg-white rounded-2xl shadow-2xl border border-gray-100 p-3 grid grid-cols-2 gap-1">
+                            {config.services.map((service) => (
+                              <Link
+                                key={service.id}
+                                to={`/services/${service.id}`}
+                                className="px-3 py-2.5 rounded-xl text-[15px] font-semibold text-gray-700 hover:bg-primary/10 hover:text-primaryDark transition-colors"
+                              >
+                                {service.title}
+                              </Link>
+                            ))}
+                            <div className="col-span-2 mt-1 px-3 py-2.5 rounded-xl text-sm font-bold text-gray-400 bg-slate-50 text-center select-none">
+                              각각의 서비스를 누르면 이동합니다
+                            </div>
+                          </div>
+                        </m.div>
+                      )}
+                    </AnimatePresence>
+                  </div>
+                );
+              }
+
               return (
                 <Link
                   key={link.name}
@@ -171,26 +238,76 @@ const Navbar: React.FC = () => {
           >
             <div className="px-4 pt-3 pb-6 space-y-1 sm:px-3 bg-white">
               <div className="divide-y divide-slate-100/90 rounded-2xl overflow-hidden">
-                {navLinks.map((link, idx) => (
-                  <m.div
-                    key={link.name}
-                    initial={{ opacity: 0, x: -10 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: idx * 0.04 }}
-                  >
-                    <Link
-                      to={link.path}
-                      onClick={() => setIsOpen(false)}
-                      className={`block px-4 py-3.5 text-[17px] font-bold text-center transition-all ${
-                          isActive(link.path) 
-                            ? 'bg-primary/10 text-primaryDark font-black shadow-sm' 
-                            : 'text-gray-700 hover:bg-gray-50 active:bg-gray-100'
-                      }`}
+                {navLinks.map((link, idx) => {
+                  if (link.path === '/services') {
+                    return (
+                      <m.div
+                        key={link.name}
+                        initial={{ opacity: 0, x: -10 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: idx * 0.04 }}
+                      >
+                        <button
+                          type="button"
+                          onClick={() => setMobileServicesOpen((v) => !v)}
+                          className={`w-full flex items-center justify-center gap-1.5 px-4 py-3.5 text-[17px] font-bold text-center transition-all ${
+                              isActive(link.path) || mobileServicesOpen
+                                ? 'bg-primary/10 text-primaryDark font-black shadow-sm'
+                                : 'text-gray-700 hover:bg-gray-50 active:bg-gray-100'
+                          }`}
+                        >
+                          {link.name}
+                          <ChevronDown size={18} className={`transition-transform duration-200 ${mobileServicesOpen ? 'rotate-180' : ''}`} />
+                        </button>
+                        <AnimatePresence>
+                          {mobileServicesOpen && (
+                            <m.div
+                              initial={{ opacity: 0, height: 0 }}
+                              animate={{ opacity: 1, height: 'auto' }}
+                              exit={{ opacity: 0, height: 0 }}
+                              transition={{ duration: 0.2 }}
+                              className="overflow-hidden bg-slate-50"
+                            >
+                              <div className="grid grid-cols-2 gap-1.5 p-2.5">
+                                {config.services.map((service) => (
+                                  <Link
+                                    key={service.id}
+                                    to={`/services/${service.id}`}
+                                    onClick={() => setIsOpen(false)}
+                                    className="px-3 py-2.5 rounded-lg text-[13px] font-semibold text-gray-700 text-center bg-white hover:bg-primary/10 hover:text-primaryDark transition-colors"
+                                  >
+                                    {service.title}
+                                  </Link>
+                                ))}
+                              </div>
+                            </m.div>
+                          )}
+                        </AnimatePresence>
+                      </m.div>
+                    );
+                  }
+
+                  return (
+                    <m.div
+                      key={link.name}
+                      initial={{ opacity: 0, x: -10 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: idx * 0.04 }}
                     >
-                      {link.name}
-                    </Link>
-                  </m.div>
-                ))}
+                      <Link
+                        to={link.path}
+                        onClick={() => setIsOpen(false)}
+                        className={`block px-4 py-3.5 text-[17px] font-bold text-center transition-all ${
+                            isActive(link.path)
+                              ? 'bg-primary/10 text-primaryDark font-black shadow-sm'
+                              : 'text-gray-700 hover:bg-gray-50 active:bg-gray-100'
+                        }`}
+                      >
+                        {link.name}
+                      </Link>
+                    </m.div>
+                  );
+                })}
               </div>
 
               <div className="flex justify-center gap-5 py-3.5 bg-white border-t border-slate-100/80 mt-2">

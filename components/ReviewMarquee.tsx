@@ -10,11 +10,11 @@ interface ReviewPhoto {
 
 const reviews = reviewManifest as ReviewPhoto[];
 
-// Continuous horizontal scroll of real review screenshots, same mechanism
-// as PhotoMarquee (pure CSS animation, pause on hover/off-screen — see
-// index.css) but slower and uncropped, since these have to stay readable
-// as they drift by. Tapping a card still opens a full-size lightbox for
-// reading the whole thing at leisure.
+// Continuous horizontal scroll of real review screenshots (pure CSS
+// animation, pause on hover/off-screen — see index.css) but slower and
+// uncropped, since these have to stay readable as they drift by. Tapping
+// a card still opens a full-size lightbox for reading the whole thing at
+// leisure.
 const ReviewMarquee: React.FC = () => {
   const track = [...reviews, ...reviews];
   const trackRef = useRef<HTMLDivElement>(null);
