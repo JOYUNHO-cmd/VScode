@@ -798,6 +798,8 @@ const ServiceLanding: React.FC = () => {
         )}
       </section>
 
+      <ReviewsSection />
+
       {/* Representative Message & CEO Commitment Section */}
       <section className="py-12 md:py-16 bg-gradient-to-b from-white via-[#f4faf7] to-white border-b border-emerald-100/60 relative overflow-hidden">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -1371,8 +1373,6 @@ const ServiceLanding: React.FC = () => {
 
         </div>
       </section>
-
-      <ReviewsSection />
 
       <FAQSection ctaPhone={cleanPhone} />
 
