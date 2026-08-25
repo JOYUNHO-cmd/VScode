@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, CheckCircle2, Star, ShieldCheck, Clock, Sparkles, Quote, Rss, Calendar, Loader2, ArrowUpRight, Target, Compass, Heart, Zap, Shield, Trees, Home as LucideHome, Leaf, ShieldAlert, ChevronDown, HelpCircle, MousePointerClick, Banknote, Award, X } from 'lucide-react';
 import { m } from 'motion/react';
@@ -185,11 +185,9 @@ const FAQ_DATA: FAQCategory[] = [
 const Home: React.FC = () => {
   const { config } = useSite();
   const cleanPhone = config.companyInfo.phone.replace(/[^0-9]/g, '');
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+  const heroParallaxRef = useRef<HTMLDivElement>(null);
   const [rssItems, setRssItems] = useState<NaverRssItem[]>([]);
   const [rssLoading, setRssLoading] = useState(true);
-  const [hoveredIdx, setHoveredIdx] = useState<number | null>(null);
-  const [spotlights, setSpotlights] = useState<{ [key: number]: { x: number; y: number } }>({});
   const [activeFAQTab, setActiveFAQTab] = useState<string | null>(null);
   const [openFAQIdx, setOpenFAQIdx] = useState<string | null>(null);
   const [faqDropdownOpen, setFaqDropdownOpen] = useState(false);
@@ -204,27 +202,36 @@ const Home: React.FC = () => {
     { title: '정리수납전문가 1급', issuer: '한국자격검정평가진흥원', image: '/images/about/cert-organizing-expert.webp' },
   ];
 
-  const handleCardMouseMove = (idx: number, e: React.MouseEvent<HTMLDivElement>) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    setSpotlights(prev => ({
-      ...prev,
-      [idx]: { x, y }
-    }));
-  };
-
+  // Hero parallax: mutate the DOM node directly via ref instead of
+  // React state, so mouse movement anywhere on the page doesn't
+  // re-render this entire ~1400-line component on every pixel of
+  // movement. That re-render churn was a major contributor to the
+  // page's poor INP (Clarity measured 1.1s on the homepage — anything
+  // over 500ms is flagged "poor"): it kept the main thread busy
+  // re-rendering marquees/FAQ/etc. on every mousemove, so it had to
+  // compete with actual click/tap handling for input responsiveness.
+  // requestAnimationFrame caps the work to once per frame regardless
+  // of how many mousemove events fire in between.
   useEffect(() => {
+    let rafId: number | null = null;
     const handleMouseMove = (e: MouseEvent) => {
-      // Normalize mouse position from -1 to 1
-      setMousePos({
-        x: (e.clientX / window.innerWidth) * 2 - 1,
-        y: (e.clientY / window.innerHeight) * 2 - 1,
+      if (rafId !== null) return;
+      rafId = requestAnimationFrame(() => {
+        rafId = null;
+        const x = (e.clientX / window.innerWidth) * 2 - 1;
+        const y = (e.clientY / window.innerHeight) * 2 - 1;
+        const el = heroParallaxRef.current;
+        if (el) {
+          el.style.transform = `translate(${x * -10}px, ${y * -10}px) scale(1.05)`;
+        }
       });
     };
 
     window.addEventListener('mousemove', handleMouseMove);
-    return () => window.removeEventListener('mousemove', handleMouseMove);
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+      if (rafId !== null) cancelAnimationFrame(rafId);
+    };
   }, []);
 
   useEffect(() => {
@@ -322,11 +329,10 @@ const Home: React.FC = () => {
         </div>
 
         {/* Desktop Background Image (Hidden on mobile, absolute overlay on PC) */}
-        <div 
+        <div
+          ref={heroParallaxRef}
           className="hidden md:block absolute inset-0 z-0 transition-transform duration-100 ease-out"
-          style={{
-            transform: `translate(${mousePos.x * -10}px, ${mousePos.y * -10}px) scale(1.05)`
-          }}
+          style={{ transform: 'scale(1.05)' }}
         >
           <img
             src={zelkovaHero}
