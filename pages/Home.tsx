@@ -176,14 +176,30 @@ const Home: React.FC = () => {
     <div className="flex flex-col bg-light text-textMain">
       {/* Hero Section */}
       <section className="relative min-h-[calc(100svh-6rem)] md:h-[90vh] flex flex-col justify-center items-center overflow-hidden bg-white">
+        {/* Manually scoped preload hints for the hero background. React's
+            Float API auto-preloads any fetchPriority="high" <img> it
+            renders, but it has no concept of the CSS-driven mobile/desktop
+            split below — it was unconditionally preloading BOTH hero
+            images (both marked fetchPriority="high") on every single page
+            load regardless of viewport, wasting ~100-160KB of bandwidth
+            racing the one actually needed. Preloading manually with an
+            explicit media attribute (matching the <source> below) lets
+            the browser itself decide which one to fetch, and we drop
+            fetchPriority from the actual <img> tags so React doesn't
+            re-introduce its own unscoped duplicate preload. */}
+        <link rel="preload" as="image" href={zelkovaMobileHero} media="(max-width: 767px)" fetchPriority="high" />
+        <link rel="preload" as="image" href={zelkovaHero} media="(min-width: 768px)" fetchPriority="high" />
+
         {/* Mobile Background Image (Absolute full-bleed background on mobile for vertical image) */}
         <div className="block md:hidden absolute inset-0 z-0">
-          <img
-            src={zelkovaMobileHero}
-            alt="느티울종합청소 느티나무 배경"
-            className="w-full h-full object-cover object-center"
-            fetchPriority="high"
-          />
+          <picture>
+            <source media="(min-width: 768px)" srcSet={zelkovaHero} />
+            <img
+              src={zelkovaMobileHero}
+              alt="느티울종합청소 느티나무 배경"
+              className="w-full h-full object-cover object-center"
+            />
+          </picture>
           {/* Elegant overlay that lets the image show through clearly and vividly, keeping the text readable */}
           <div className="absolute inset-0 bg-white/50" />
         </div>
@@ -194,12 +210,14 @@ const Home: React.FC = () => {
           className="hidden md:block absolute inset-0 z-0 transition-transform duration-100 ease-out"
           style={{ transform: 'scale(1.05)' }}
         >
-          <img
-            src={zelkovaHero}
-            alt="느티울종합청소 느티나무 배경"
-            className="w-full h-full object-cover object-center"
-            fetchPriority="high"
-          />
+          <picture>
+            <source media="(min-width: 768px)" srcSet={zelkovaHero} />
+            <img
+              src={zelkovaMobileHero}
+              alt="느티울종합청소 느티나무 배경"
+              className="w-full h-full object-cover object-center"
+            />
+          </picture>
           <div className="absolute inset-0 bg-gradient-to-r from-white/80 via-white/50 to-white/30 md:bg-white/25" />
         </div>
 
@@ -862,7 +880,7 @@ const Home: React.FC = () => {
                   className="group relative overflow-hidden rounded-2xl bg-white border border-slate-200/80 shadow-md hover:shadow-2xl hover:border-primary/40 transition-all duration-300 flex flex-col h-full w-full"
                 >
                   <div className="h-32 sm:h-48 lg:h-52 overflow-hidden relative">
-                    <img src={service.image} alt={service.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+                    <img src={service.image} alt={service.title} loading="lazy" decoding="async" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
                     <div className="absolute inset-0 bg-black/10 group-hover:bg-black/0 transition-colors"></div>
                   </div>
                   <div className="p-4 sm:p-5 flex-1 flex items-center justify-center text-center">
