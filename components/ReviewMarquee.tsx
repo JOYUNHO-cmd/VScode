@@ -20,8 +20,13 @@ const ReviewMarquee: React.FC = () => {
   const [openFile, setOpenFile] = useState<string | null>(null);
   // The track keeps scrolling every card through the browser's
   // near-viewport lazy-load distance even before this section has ever
-  // been on screen, which defeats loading="lazy" below idx 4. Once it's
-  // been seen once, every review image is allowed to load its real src.
+  // been on screen, which defeats loading="lazy". Once it's been seen
+  // once, every review image is allowed to load its real src — nothing
+  // is eager-loaded up front any more (that used to be idx < 4, but this
+  // section sits well below the fold on the homepage, and those 4 eager
+  // fetches were confirmed via Lighthouse to compete for bandwidth with
+  // the actual hero LCP image on initial load, without preventing any
+  // visible pop-in since everVisible already covers that once scrolled to).
   // It's also paused until then, so the seamless-loop duplicate below
   // buys nothing yet — deferring it keeps ~35 fewer nodes out of the
   // initial hydration/layout pass.
@@ -56,11 +61,11 @@ const ReviewMarquee: React.FC = () => {
               aria-label="후기 크게 보기"
             >
               <img
-                src={idx < 4 || everVisible ? `/images/reviews/${review.file}` : undefined}
+                src={everVisible ? `/images/reviews/${review.file}` : undefined}
                 alt="느티울 실제 고객 후기"
                 width={review.width}
                 height={review.height}
-                loading={idx < 4 ? 'eager' : 'lazy'}
+                loading="lazy"
                 decoding="async"
                 className="w-full h-auto"
               />

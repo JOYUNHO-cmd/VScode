@@ -397,6 +397,8 @@ const Home: React.FC = () => {
                 width={880}
                 height={806}
                 className="w-full max-w-[280px] sm:max-w-[360px] md:max-w-[440px] h-auto object-contain mx-auto drop-shadow-md rounded-2xl"
+                loading="lazy"
+                decoding="async"
                 referrerPolicy="no-referrer"
               />
             </m.div>

@@ -20,6 +20,11 @@ const PortfolioMarquee: React.FC = () => {
   // dragging every card through the near-viewport lazy-load distance even
   // when this section (3 rows, all rendered at once) has never actually
   // been on screen, so native loading="lazy" alone doesn't stay lazy here.
+  // Row 0's first 4 items used to load eagerly regardless of visibility
+  // (to avoid a pop-in flash) — removed after Lighthouse showed those
+  // fetches competing for bandwidth with the actual hero LCP image on
+  // page load, since this whole section sits below the fold anyway and
+  // everVisible already prevents any pop-in once it's actually scrolled to.
   const [everVisible, setEverVisible] = useState(false);
 
   useEffect(() => {
@@ -56,7 +61,6 @@ const PortfolioMarquee: React.FC = () => {
                     key={`${item.id}-${idx}`}
                     item={item}
                     size="marquee"
-                    eager={rowIdx === 0 && idx < 4}
                     visible={everVisible}
                     onClick={() => setOpenItem(item)}
                   />
