@@ -36,6 +36,13 @@ const ServiceBeforeAfterMarquee: React.FC<Props> = ({ serviceId }) => {
   const items = allItems.filter((item) => categories.includes(item.category));
   const trackRef = useRef<HTMLDivElement>(null);
   const [openItem, setOpenItem] = useState<PortfolioGalleryItem | null>(null);
+  // The track keeps scrolling every item through the browser's near-viewport
+  // lazy-load distance regardless of whether it's actually been seen, which
+  // defeats loading="lazy" on the ~100+ images across all the region/service
+  // marquees (measured ~6.5MB downloaded before any real scroll). Once the
+  // section has been seen the first time, every card is allowed to load its
+  // real src; before that, PortfolioSplitCard renders none.
+  const [everVisible, setEverVisible] = useState(false);
 
   useEffect(() => {
     const el = trackRef.current;
@@ -44,6 +51,7 @@ const ServiceBeforeAfterMarquee: React.FC<Props> = ({ serviceId }) => {
     const observer = new IntersectionObserver(
       ([entry]) => {
         el.classList.toggle('is-paused', !entry.isIntersecting);
+        if (entry.isIntersecting) setEverVisible(true);
       },
       { threshold: 0 }
     );
@@ -74,6 +82,7 @@ const ServiceBeforeAfterMarquee: React.FC<Props> = ({ serviceId }) => {
               item={item}
               size="marquee-lg"
               eager={idx < 4}
+              visible={everVisible}
               onClick={() => setOpenItem(item)}
             />
           ))}

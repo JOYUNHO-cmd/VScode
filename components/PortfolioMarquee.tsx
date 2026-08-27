@@ -66,6 +66,11 @@ const rows = Array.from({ length: ROW_COUNT }, (_, r) =>
 const PortfolioMarquee: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [openItem, setOpenItem] = useState<PortfolioGalleryItem | null>(null);
+  // See ServiceBeforeAfterMarquee for why: the CSS scroll animation keeps
+  // dragging every card through the near-viewport lazy-load distance even
+  // when this section (3 rows, all rendered at once) has never actually
+  // been on screen, so native loading="lazy" alone doesn't stay lazy here.
+  const [everVisible, setEverVisible] = useState(false);
 
   useEffect(() => {
     const el = containerRef.current;
@@ -76,6 +81,7 @@ const PortfolioMarquee: React.FC = () => {
         el.querySelectorAll('.animate-marquee').forEach((track) => {
           track.classList.toggle('is-paused', !entry.isIntersecting);
         });
+        if (entry.isIntersecting) setEverVisible(true);
       },
       { threshold: 0 }
     );
@@ -98,6 +104,7 @@ const PortfolioMarquee: React.FC = () => {
                     item={item}
                     size="marquee"
                     eager={rowIdx === 0 && idx < 4}
+                    visible={everVisible}
                     onClick={() => setOpenItem(item)}
                   />
                 ))}

@@ -18,6 +18,15 @@ interface PortfolioSplitCardProps {
   onClick: () => void;
   size?: 'marquee' | 'marquee-lg' | 'grid';
   eager?: boolean;
+  // Marquee callers only: false while the marquee section has never
+  // scrolled into view. A CSS-animated track keeps moving every item
+  // through the browser's near-viewport lazy-load distance regardless of
+  // whether a user has actually scrolled anywhere near it, so native
+  // loading="lazy" alone doesn't stay lazy on these — omitting `src`
+  // entirely until the section is first seen does. Non-marquee callers
+  // (the /portfolio grid) don't pass this, so it defaults to true and
+  // behaves exactly as before.
+  visible?: boolean;
 }
 
 // Side-by-side 전/후 split card — both photos visible at once (no tap
@@ -28,9 +37,10 @@ interface PortfolioSplitCardProps {
 // 'marquee-lg' is double the width of 'marquee' — used only on service
 // landing pages (ServiceBeforeAfterMarquee); the homepage teaser and the
 // /portfolio grid stay on 'marquee'/'grid' untouched.
-const PortfolioSplitCard: React.FC<PortfolioSplitCardProps> = ({ item, onClick, size = 'grid', eager = false }) => {
+const PortfolioSplitCard: React.FC<PortfolioSplitCardProps> = ({ item, onClick, size = 'grid', eager = false, visible = true }) => {
   const isMarquee = size === 'marquee' || size === 'marquee-lg';
   const isMarqueeLg = size === 'marquee-lg';
+  const canLoad = eager || visible;
 
   return (
     <button
@@ -49,7 +59,7 @@ const PortfolioSplitCard: React.FC<PortfolioSplitCardProps> = ({ item, onClick, 
         <div className="grid grid-cols-2">
           <div className="relative aspect-square bg-slate-100">
             <img
-              src={`/images/portfolio-gallery/${item.before}`}
+              src={canLoad ? `/images/portfolio-gallery/${item.before}` : undefined}
               alt={`${item.title} 시공 전`}
               width={item.beforeWidth}
               height={item.beforeHeight}
@@ -61,7 +71,7 @@ const PortfolioSplitCard: React.FC<PortfolioSplitCardProps> = ({ item, onClick, 
           </div>
           <div className="relative aspect-square bg-slate-100 border-l border-white">
             <img
-              src={`/images/portfolio-gallery/${item.after}`}
+              src={canLoad ? `/images/portfolio-gallery/${item.after}` : undefined}
               alt={`${item.title} 시공 후`}
               width={item.afterWidth}
               height={item.afterHeight}

@@ -583,9 +583,9 @@ const Home: React.FC = () => {
                         backfaceVisibility: 'hidden',
                         WebkitFontSmoothing: 'antialiased'
                       }}
-                      loading="eager"
-                      decoding="sync"
-                      referrerPolicy="no-referrer" 
+                      loading="lazy"
+                      decoding="async"
+                      referrerPolicy="no-referrer"
                     />
                   </div>
                 </m.div>

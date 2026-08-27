@@ -19,6 +19,11 @@ const ReviewMarquee: React.FC = () => {
   const track = [...reviews, ...reviews];
   const trackRef = useRef<HTMLDivElement>(null);
   const [openFile, setOpenFile] = useState<string | null>(null);
+  // The track keeps scrolling every card through the browser's
+  // near-viewport lazy-load distance even before this section has ever
+  // been on screen, which defeats loading="lazy" below idx 4. Once it's
+  // been seen once, every review image is allowed to load its real src.
+  const [everVisible, setEverVisible] = useState(false);
 
   useEffect(() => {
     const el = trackRef.current;
@@ -27,6 +32,7 @@ const ReviewMarquee: React.FC = () => {
     const observer = new IntersectionObserver(
       ([entry]) => {
         el.classList.toggle('is-paused', !entry.isIntersecting);
+        if (entry.isIntersecting) setEverVisible(true);
       },
       { threshold: 0 }
     );
@@ -47,7 +53,7 @@ const ReviewMarquee: React.FC = () => {
               aria-label="후기 크게 보기"
             >
               <img
-                src={`/images/reviews/${review.file}`}
+                src={idx < 4 || everVisible ? `/images/reviews/${review.file}` : undefined}
                 alt="느티울 실제 고객 후기"
                 width={review.width}
                 height={review.height}
