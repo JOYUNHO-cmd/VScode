@@ -13,6 +13,9 @@ dist-ssr
 *.local
 migrated_prompt_history
 
+# Generated at build time by scripts/generate-portfolio-highlights.mjs
+/lib/portfolioHighlights.json
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

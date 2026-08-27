@@ -1,5 +1,5 @@
 {
-  "buildCommand": "vite build && vite build --ssr entry-server.tsx --outDir dist-ssr && node scripts/prerender.mjs",
+  "buildCommand": "node scripts/generate-portfolio-highlights.mjs && vite build && vite build --ssr entry-server.tsx --outDir dist-ssr && node scripts/prerender.mjs",
   "outputDirectory": "dist",
   "rewrites": [
     { "source": "/(.*)", "destination": "/index.html" }
