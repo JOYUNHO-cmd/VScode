@@ -61,7 +61,11 @@ const ServiceBeforeAfterMarquee: React.FC<Props> = ({ serviceId }) => {
 
   if (items.length === 0) return null;
 
-  const track = [...items, ...items];
+  // Animation is paused (is-paused, above) until first seen, so the second
+  // copy needed for the seamless-loop illusion buys nothing before then —
+  // only doubling once visible keeps ~half these DOM nodes out of the
+  // initial hydration/layout pass on every service landing page.
+  const track = everVisible ? [...items, ...items] : items;
 
   return (
     <section className="py-12 md:py-16 bg-white relative border-b border-slate-100 overflow-hidden">

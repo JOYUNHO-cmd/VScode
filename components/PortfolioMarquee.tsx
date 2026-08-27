@@ -93,7 +93,10 @@ const PortfolioMarquee: React.FC = () => {
     <>
       <div ref={containerRef} className="space-y-3 md:space-y-4">
         {rows.map((row, rowIdx) => {
-          const track = [...row, ...row];
+          // See ServiceBeforeAfterMarquee: paused until first seen, so the
+          // seamless-loop duplicate buys nothing before then — deferring it
+          // keeps ~half these nodes (3 rows' worth) out of initial hydration.
+          const track = everVisible ? [...row, ...row] : row;
           const reverse = rowIdx % 2 === 1;
           return (
             <div key={rowIdx} className="marquee-track overflow-hidden">

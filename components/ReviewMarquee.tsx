@@ -16,14 +16,17 @@ const reviews = reviewManifest as ReviewPhoto[];
 // a card still opens a full-size lightbox for reading the whole thing at
 // leisure.
 const ReviewMarquee: React.FC = () => {
-  const track = [...reviews, ...reviews];
   const trackRef = useRef<HTMLDivElement>(null);
   const [openFile, setOpenFile] = useState<string | null>(null);
   // The track keeps scrolling every card through the browser's
   // near-viewport lazy-load distance even before this section has ever
   // been on screen, which defeats loading="lazy" below idx 4. Once it's
   // been seen once, every review image is allowed to load its real src.
+  // It's also paused until then, so the seamless-loop duplicate below
+  // buys nothing yet — deferring it keeps ~35 fewer nodes out of the
+  // initial hydration/layout pass.
   const [everVisible, setEverVisible] = useState(false);
+  const track = everVisible ? [...reviews, ...reviews] : reviews;
 
   useEffect(() => {
     const el = trackRef.current;
