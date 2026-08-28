@@ -1,21 +1,43 @@
 import React, { useEffect, useRef, useState } from 'react';
-// The full ~131KB/388-item portfolioManifest.json isn't needed here — this
-// file's picking/shuffling logic runs once at build time (see
-// scripts/generate-portfolio-highlights.mjs) and writes just the ~24 items
-// this component actually renders. Home.tsx (which renders this) is the one
-// page App.tsx keeps out of the lazy route-splitting, so anything imported
-// here rides along in the main JS chunk on every load — pulling in the full
-// manifest just to extract 24 items from it was real, avoidable bundle
-// weight for every visitor.
-import portfolioRows from '../lib/portfolioHighlights.json';
+// The full ~131KB/388-item portfolioManifest.json isn't needed here — the
+// hand-picked subset (see lib/portfolioHighlightIds.json) is resolved once
+// at build time (scripts/generate-portfolio-highlights.mjs) into this much
+// smaller file. Home.tsx (which renders this) is the one page App.tsx
+// keeps out of the lazy route-splitting, so anything imported here rides
+// along in the main JS chunk on every load — pulling in the full manifest
+// just to use ~45 items from it was real, avoidable bundle weight.
+import initialRows from '../lib/portfolioHighlights.json';
 import PortfolioSplitCard, { PortfolioGalleryItem } from './PortfolioSplitCard';
 import PortfolioLightbox from './PortfolioLightbox';
 
-const rows = portfolioRows as PortfolioGalleryItem[][];
+const ROW_COUNT = 3;
+const SSR_ROWS = initialRows as PortfolioGalleryItem[][];
+
+function shuffle<T>(arr: T[]): T[] {
+  const result = [...arr];
+  for (let i = result.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [result[i], result[j]] = [result[j], result[i]];
+  }
+  return result;
+}
+
+function splitIntoRows(items: PortfolioGalleryItem[]): PortfolioGalleryItem[][] {
+  return Array.from({ length: ROW_COUNT }, (_, r) => items.filter((_, i) => i % ROW_COUNT === r));
+}
 
 const PortfolioMarquee: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [openItem, setOpenItem] = useState<PortfolioGalleryItem | null>(null);
+  // Server/first-client-render both use the same static, build-time order
+  // (required — React would flag a hydration mismatch otherwise). Once
+  // mounted, this reshuffles into a genuinely random arrangement using
+  // Math.random(), so each visit sees the hand-picked cases in a different
+  // order/rows. Runs client-only and after hydration, so it's safe.
+  const [rows, setRows] = useState(SSR_ROWS);
+  useEffect(() => {
+    setRows(splitIntoRows(shuffle(SSR_ROWS.flat())));
+  }, []);
   // See ServiceBeforeAfterMarquee for why: the CSS scroll animation keeps
   // dragging every card through the near-viewport lazy-load distance even
   // when this section (3 rows, all rendered at once) has never actually
