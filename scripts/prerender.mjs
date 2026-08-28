@@ -1,18 +1,21 @@
 // scripts/prerender.mjs
 //
-// Runs after `vite build`. For each known route, generates the correct
-// <title>/meta/JSON-LD via the shared lib/seoData.mjs (the exact same
-// logic SEO.tsx uses at runtime) and writes a fully-baked static HTML
-// file to dist/<route>/index.html.
+// Runs after `vite build` + `vite build --ssr`. For each known route,
+// generates the correct <title>/meta/JSON-LD via the shared lib/seoData.mjs
+// (the exact same logic SEO.tsx uses at runtime), renders the route's real
+// content through entry-server.tsx (react-dom/server), and writes a fully
+// hydratable static HTML file to dist/<route>/index.html.
 //
 // Deliberately does NOT launch a browser (Puppeteer/Playwright) — this
 // avoids any dependency on system Chromium libraries being present in
 // the build container, so this step cannot fail for that reason.
 //
-// Netlify serves a real file at a matching path before falling back to
-// the SPA redirect in _redirects, so crawlers that never execute
-// JavaScript (Naver, most AI answer-engine bots) still get correct
-// per-page meta and structured data.
+// Vercel serves a real file at a matching path before falling back to the
+// SPA rewrite, so crawlers that never execute JavaScript (or budget out
+// before they do) see the actual page — not just its meta tags and not an
+// empty <div id="root">. That gap (every route but '/' shipping empty)
+// showed up directly in Search Console as ~31 pages stuck "Crawled -
+// currently not indexed".
 
 import fs from 'node:fs/promises';
 import fsSync from 'node:fs';
@@ -33,11 +36,11 @@ const SSR_ENTRY = path.join(ROOT_DIR, 'dist-ssr', 'entry-server.js');
 const PRODUCTION_ORIGIN = 'https://www.neutiul.com';
 const STATIC_ROUTES = ['/', '/about', '/services', '/portfolio', '/contact', '/privacy'];
 
-// Routes that get real, hydratable content baked into <div id="root">
-// (via entry-server.tsx / react-dom/server) instead of just meta tags.
-// Keep this in sync with any route whose <div id="root"></div> should
-// arrive pre-painted for PageSpeed/LCP purposes.
-const CONTENT_PRERENDER_ROUTES = new Set(['/']);
+// How many routes to render concurrently. Each render is mostly waiting on
+// a one-time dynamic import() of that route's lazy chunk (cached after the
+// first hit) plus synchronous React work, so this is about capping peak
+// memory/CPU rather than working around any I/O bottleneck.
+const RENDER_CONCURRENCY = 8;
 
 function injectRootHtml(html, rootHtml) {
   return html.replace('<div id="root"></div>', `<div id="root">${rootHtml}</div>`);
@@ -74,16 +77,32 @@ async function inlineCriticalCss(html) {
   }
 }
 
-async function renderContentByRoute() {
+async function renderContentByRoute(routes) {
   const rendered = new Map();
   if (!fsSync.existsSync(SSR_ENTRY)) {
     console.warn('  ! dist-ssr/entry-server.js not found, skipping content prerender (meta-only for all routes)');
     return rendered;
   }
   const { render } = await import(pathToFileURL(SSR_ENTRY).href);
-  for (const route of CONTENT_PRERENDER_ROUTES) {
-    rendered.set(route, render(route));
+
+  const queue = [...routes];
+  let done = 0;
+  async function worker() {
+    while (queue.length > 0) {
+      const route = queue.shift();
+      try {
+        rendered.set(route, await render(route));
+      } catch (err) {
+        console.error(`  ✗ ${route} failed to render:`, err.message);
+        throw err;
+      }
+      done += 1;
+      if (done % 20 === 0 || done === routes.length) {
+        console.log(`  ... ${done}/${routes.length} routes rendered`);
+      }
+    }
   }
+  await Promise.all(Array.from({ length: RENDER_CONCURRENCY }, worker));
   return rendered;
 }
 
@@ -202,19 +221,22 @@ async function main() {
   let services = SERVICES;
   console.log(`  using ${services.length} service(s) from constants.ts: ${services.map((s) => s.id).join(', ')}`);
 
-  console.log('Rendering initial HTML for content-prerendered routes...');
-  const contentByRoute = await renderContentByRoute();
-  for (const route of contentByRoute.keys()) {
-    console.log(`  ✓ ${route} (${contentByRoute.get(route).length} chars of markup)`);
-  }
-
-  console.log('Writing prerendered routes...');
   const serviceRoutes = services.map((s) => `/services/${s.id}`);
   const regionRoutes = REGION_LANDING_SERVICES.flatMap((serviceId) =>
     REGIONS.map((region) => `/services/${serviceId}/${region.id}`)
   );
   console.log(`  + ${regionRoutes.length} region-landing route(s) for service(s): ${REGION_LANDING_SERVICES.join(', ')}`);
   const allRoutes = [...STATIC_ROUTES, ...serviceRoutes, ...regionRoutes];
+
+  // Every route gets real, hydratable content baked into <div id="root">
+  // now (see entry-server.tsx) — not just '/'. A crawler that never
+  // executes JS (or budgets out before it does) needs an actual page
+  // there, not an empty div waiting on client-side React.
+  console.log(`Rendering initial HTML for all ${allRoutes.length} routes (this waits on each route's lazy chunk)...`);
+  const contentByRoute = await renderContentByRoute(allRoutes);
+  console.log(`  ✓ rendered ${contentByRoute.size}/${allRoutes.length} routes`);
+
+  console.log('Writing prerendered routes...');
 
   for (const route of allRoutes) {
     const parts = route.startsWith('/services/') ? route.split('/services/')[1].split('/').filter(Boolean) : [];
