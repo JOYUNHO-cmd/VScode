@@ -44,10 +44,28 @@ if (handleNaverCallback()) {
     throw new Error('Failed to find the root element');
   }
 
-  const root = ReactDOM.hydrateRoot(
-    rootElement,
-    <React.StrictMode>
-      <App />
-    </React.StrictMode>
-  );
+  // scripts/prerender.mjs only bakes real, hydratable markup into <div
+  // id="root"> for '/' (see CONTENT_PRERENDER_ROUTES there) — every other
+  // route ships an empty root with meta-only prerendering. hydrateRoot on
+  // an empty root doesn't just warn: it throws a hydration-mismatch error
+  // on every single load of every other page and forces React to redo the
+  // whole render from scratch anyway, so it's strictly worse than a plain
+  // client render there. Only hydrate where there's actually something to
+  // hydrate against; otherwise mount fresh.
+  const hasPrerenderedContent = rootElement.childNodes.length > 0;
+  const root = hasPrerenderedContent
+    ? ReactDOM.hydrateRoot(
+        rootElement,
+        <React.StrictMode>
+          <App />
+        </React.StrictMode>
+      )
+    : ReactDOM.createRoot(rootElement);
+  if (!hasPrerenderedContent) {
+    root.render(
+      <React.StrictMode>
+        <App />
+      </React.StrictMode>
+    );
+  }
 }
