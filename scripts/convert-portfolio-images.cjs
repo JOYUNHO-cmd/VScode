@@ -43,6 +43,9 @@ const CATEGORY_MAP = {
 };
 
 async function main() {
+  // regionData.mjs is ESM; this script is CJS, so pull it in dynamically.
+  const { matchRegion } = await import('../lib/regionData.mjs');
+
   fs.mkdirSync(OUT_DIR, { recursive: true });
   fs.readdirSync(OUT_DIR).forEach((f) => {
     const full = path.join(OUT_DIR, f);
@@ -88,9 +91,15 @@ async function main() {
         continue;
       }
 
+      // Prefix with the matched region's slug when the title names one of
+      // our 17 core service areas ("수원 매탄동 베란다 청소" -> suwon-...),
+      // so filenames and alt text both carry real local-SEO keywords instead
+      // of just a category and a sequence number.
+      const region = matchRegion(title);
+      const slug = region ? `${region.id}-${cat.slug}` : cat.slug;
       const idStr = String(seq).padStart(3, '0');
-      const beforeOut = `${cat.slug}-${idStr}-before.webp`;
-      const afterOut = `${cat.slug}-${idStr}-after.webp`;
+      const beforeOut = `${slug}-${idStr}-before.webp`;
+      const afterOut = `${slug}-${idStr}-after.webp`;
 
       const beforeInfo = await sharp(path.join(dir, pair.before))
         .rotate()
@@ -104,7 +113,7 @@ async function main() {
         .toFile(path.join(OUT_DIR, afterOut));
 
       manifest.push({
-        id: `${cat.slug}-${idStr}`,
+        id: `${slug}-${idStr}`,
         category: cat.slug,
         categoryLabel: cat.label,
         title,

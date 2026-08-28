@@ -12,7 +12,7 @@ const allItems = portfolioManifest as PortfolioGalleryItem[];
 // dedicated service page (관공서, 매장·백화점청소, 시트지제거, 어닝청소,
 // 건물복원청소, 곰팡이제거, 기타청소) are folded into the closest-fit
 // service. 'factory' has no matching source photos, so it renders nothing.
-const SERVICE_CATEGORY_MAP: Record<string, string[]> = {
+export const SERVICE_CATEGORY_MAP: Record<string, string[]> = {
   'new-construction': ['new-construction'],
   interior: ['interior', 'sheet-removal'],
   'move-in': ['move-in'],

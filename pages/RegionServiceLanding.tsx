@@ -1,20 +1,52 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useParams, Link, Navigate } from 'react-router-dom';
-import { MapPin, CheckCircle2, HelpCircle } from 'lucide-react';
+import { MapPin, CheckCircle2, HelpCircle, Award } from 'lucide-react';
 import { useSite } from '../context/SiteContext';
-import { getRegion } from '../lib/regionData.mjs';
+import { getRegion, regionCoreTerm, titleMatchesRegion } from '../lib/regionData.mjs';
 import { buildRegionServiceContent, REGION_LANDING_SERVICES } from '../lib/regionServiceContent.mjs';
 import { breakIntoLines, groupIntoStanzas } from '../lib/mobileLineBreak.mjs';
+import { josa } from '../lib/korean.mjs';
+import ServiceBeforeAfterMarquee, { SERVICE_CATEGORY_MAP } from '../components/ServiceBeforeAfterMarquee';
+import ReviewsSection from '../components/ReviewsSection';
+import PortfolioSplitCard, { PortfolioGalleryItem } from '../components/PortfolioSplitCard';
+import PortfolioLightbox from '../components/PortfolioLightbox';
+import portfolioManifest from '../lib/portfolioManifest.json';
+
+const allPortfolioItems = portfolioManifest as PortfolioGalleryItem[];
+
+const certifications = [
+  { id: 1, title: '청소전문가 1급', issuer: '한국자격검정평가진흥원', image: '/images/about/cert-cleaning-expert.webp' },
+  { id: 2, title: '고객상담사 1급', issuer: '한국자격검정평가진흥원', image: '/images/about/cert-customer-service.webp' },
+  { id: 3, title: '환경관리전문가 1급', issuer: '한국자격검정평가진흥원', image: '/images/about/cert-environment-management.webp' },
+  { id: 4, title: '방역관리사 1급', issuer: '한국방역전문인협회', image: '/images/about/cert-pest-control.webp' },
+  { id: 5, title: '건물위생관리사 1급', issuer: '한국자격검정평가진흥원', image: '/images/about/cert-building-hygiene.webp' },
+  { id: 6, title: '정리수납전문가 1급', issuer: '한국자격검정평가진흥원', image: '/images/about/cert-organizing-expert.webp' },
+];
 
 const RegionServiceLanding: React.FC = () => {
   const { serviceId, regionId } = useParams<{ serviceId: string; regionId: string }>();
   const { config } = useSite();
+  const [openItem, setOpenItem] = useState<PortfolioGalleryItem | null>(null);
 
   const region = regionId ? getRegion(regionId) : null;
   const isEnabled = serviceId ? REGION_LANDING_SERVICES.includes(serviceId) : false;
   const content = region && serviceId ? buildRegionServiceContent(region, serviceId) : null;
   const service = config.services.find((s) => s.id === serviceId);
   const introStanzas = content ? groupIntoStanzas(breakIntoLines(content.intro)) : [];
+
+  // Real photos taken in this specific region, for this specific service —
+  // proof that isn't just "we work in your area" but "here's your area".
+  // Requires at least 2 matches so the section never renders with a single
+  // token photo; below that it stays silent and the service-wide marquee
+  // above still carries the visual proof.
+  const regionItems =
+    region && serviceId
+      ? allPortfolioItems.filter((item) => {
+          const categories = SERVICE_CATEGORY_MAP[serviceId] || [];
+          if (!categories.includes(item.category)) return false;
+          return titleMatchesRegion(item.title, regionCoreTerm(region));
+        })
+      : [];
 
   // Unknown region or a service that doesn't have region pages enabled yet —
   // fall back to the regular service page rather than a dead end.
@@ -67,10 +99,31 @@ const RegionServiceLanding: React.FC = () => {
         </div>
       </section>
 
+      {/* Service-wide before/after proof (same real photos as the main service page) */}
+      <ServiceBeforeAfterMarquee serviceId={serviceId || ''} />
+
+      {/* Region-specific before/after proof, only when we actually have it */}
+      {regionItems.length >= 2 && (
+        <section className="max-w-5xl mx-auto px-4 sm:px-6 py-10">
+          <h2 className="text-xl sm:text-2xl font-bold text-slate-900 mb-5">
+            {region.name}에서 직접 진행한 시공 사례
+          </h2>
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+            {regionItems.map((item) => (
+              <PortfolioSplitCard key={item.id} item={item} onClick={() => setOpenItem(item)} />
+            ))}
+          </div>
+        </section>
+      )}
+
+      {openItem && (
+        <PortfolioLightbox item={openItem} onClose={() => setOpenItem(null)} />
+      )}
+
       {/* Situations */}
       <section className="max-w-5xl mx-auto px-4 sm:px-6 pb-10">
         <h2 className="text-xl sm:text-2xl font-bold text-slate-900 mb-5">
-          {region.name} {content.serviceLabel}가 필요한 상황
+          {region.name} {content.serviceLabel}{josa(content.serviceLabel, '이', '가')} 필요한 상황
         </h2>
         <ul className="grid sm:grid-cols-2 gap-3">
           {content.situations.map((s, i) => (
@@ -100,8 +153,33 @@ const RegionServiceLanding: React.FC = () => {
         </div>
       </section>
 
+      {/* 공인 자격 보유 — same trust badges as the homepage/service pages */}
+      <section className="max-w-5xl mx-auto px-4 sm:px-6 pb-10">
+        <h2 className="text-xl sm:text-2xl font-bold text-slate-900 mb-2 flex items-center gap-2">
+          <Award className="text-primary" size={22} />
+          말이 아닌 자격증으로 증명합니다
+        </h2>
+        <p className="text-gray-500 mb-5 break-keep">대표와 전담팀이 취득한 6개 공인 자격증입니다.</p>
+        <div className="grid grid-cols-3 sm:grid-cols-6 gap-3">
+          {certifications.map((cert) => (
+            <div key={cert.id} className="text-center">
+              <img
+                src={cert.image}
+                alt={`${cert.title} 자격증`}
+                className="w-full aspect-square object-cover rounded-lg border border-gray-100 mb-1.5"
+                loading="lazy"
+              />
+              <p className="text-[11px] sm:text-xs font-bold text-slate-700 truncate">{cert.title}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* 실제 고객 후기 */}
+      <ReviewsSection />
+
       {/* FAQ */}
-      <section className="max-w-5xl mx-auto px-4 sm:px-6 pb-16">
+      <section className="max-w-5xl mx-auto px-4 sm:px-6 py-16">
         <h2 className="text-xl sm:text-2xl font-bold text-slate-900 mb-5">자주 묻는 질문</h2>
         <div className="space-y-4">
           {content.faqs.map((faq, i) => (
