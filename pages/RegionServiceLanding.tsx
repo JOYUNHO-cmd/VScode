@@ -9,6 +9,7 @@ import { josa } from '../lib/korean.mjs';
 import { shuffle } from '../lib/shuffle.mjs';
 import ServiceBeforeAfterMarquee, { SERVICE_CATEGORY_MAP } from '../components/ServiceBeforeAfterMarquee';
 import ReviewsSection from '../components/ReviewsSection';
+import CeoMessageSection from '../components/CeoMessageSection';
 import PortfolioSplitCard, { PortfolioGalleryItem } from '../components/PortfolioSplitCard';
 import PortfolioLightbox from '../components/PortfolioLightbox';
 import portfolioManifest from '../lib/portfolioManifest.json';
@@ -168,6 +169,9 @@ const RegionServiceLanding: React.FC = () => {
           ))}
         </div>
       </section>
+
+      {/* 대표 소개 — a named, accountable person, right before his credentials */}
+      <CeoMessageSection />
 
       {/* 공인 자격 보유 — same trust badges as the homepage/service pages */}
       <section className="max-w-5xl mx-auto px-4 sm:px-6 pb-10">
