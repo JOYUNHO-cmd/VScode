@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { useParams, Link, Navigate } from 'react-router-dom';
 import { MapPin, CheckCircle2, HelpCircle, Award } from 'lucide-react';
 import { useSite } from '../context/SiteContext';
@@ -6,6 +6,7 @@ import { getRegion, regionCoreTerm, titleMatchesRegion } from '../lib/regionData
 import { buildRegionServiceContent, REGION_LANDING_SERVICES } from '../lib/regionServiceContent.mjs';
 import { breakIntoLines, groupIntoStanzas } from '../lib/mobileLineBreak.mjs';
 import { josa } from '../lib/korean.mjs';
+import { shuffle } from '../lib/shuffle.mjs';
 import ServiceBeforeAfterMarquee, { SERVICE_CATEGORY_MAP } from '../components/ServiceBeforeAfterMarquee';
 import ReviewsSection from '../components/ReviewsSection';
 import PortfolioSplitCard, { PortfolioGalleryItem } from '../components/PortfolioSplitCard';
@@ -38,15 +39,18 @@ const RegionServiceLanding: React.FC = () => {
   // proof that isn't just "we work in your area" but "here's your area".
   // Requires at least 2 matches so the section never renders with a single
   // token photo; below that it stays silent and the service-wide marquee
-  // above still carries the visual proof.
-  const regionItems =
-    region && serviceId
-      ? allPortfolioItems.filter((item) => {
-          const categories = SERVICE_CATEGORY_MAP[serviceId] || [];
-          if (!categories.includes(item.category)) return false;
-          return titleMatchesRegion(item.title, regionCoreTerm(region));
-        })
-      : [];
+  // above still carries the visual proof. Shuffled once per mount (useMemo,
+  // not a plain filter) — reshuffling on every render would visibly reorder
+  // the grid each time openItem changes, i.e. every time a photo is clicked.
+  const regionItems = useMemo(() => {
+    if (!region || !serviceId) return [];
+    const categories = SERVICE_CATEGORY_MAP[serviceId] || [];
+    return shuffle(
+      allPortfolioItems.filter(
+        (item) => categories.includes(item.category) && titleMatchesRegion(item.title, regionCoreTerm(region))
+      )
+    );
+  }, [region, serviceId]);
 
   // Unknown region or a service that doesn't have region pages enabled yet —
   // fall back to the regular service page rather than a dead end.

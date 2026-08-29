@@ -1,5 +1,6 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import portfolioManifest from '../lib/portfolioManifest.json';
+import { shuffle } from '../lib/shuffle.mjs';
 import PortfolioSplitCard, { PortfolioGalleryItem } from './PortfolioSplitCard';
 import PortfolioLightbox from './PortfolioLightbox';
 
@@ -33,7 +34,14 @@ interface Props {
 
 const ServiceBeforeAfterMarquee: React.FC<Props> = ({ serviceId }) => {
   const categories = SERVICE_CATEGORY_MAP[serviceId] || [];
-  const items = allItems.filter((item) => categories.includes(item.category));
+  // Shuffled once per mount (not on every render) — portfolioManifest.json
+  // is generated one category folder at a time, so an unshuffled filter
+  // shows long same-sub-category runs (e.g. every floor-adhesive-removal
+  // shot before any floor-tile one) instead of a mix.
+  const items = useMemo(
+    () => shuffle(allItems.filter((item) => categories.includes(item.category))),
+    [serviceId]
+  );
   const trackRef = useRef<HTMLDivElement>(null);
   const [openItem, setOpenItem] = useState<PortfolioGalleryItem | null>(null);
   // The track keeps scrolling every item through the browser's near-viewport
