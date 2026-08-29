@@ -34,14 +34,27 @@ interface Props {
 
 const ServiceBeforeAfterMarquee: React.FC<Props> = ({ serviceId }) => {
   const categories = SERVICE_CATEGORY_MAP[serviceId] || [];
-  // Shuffled once per mount (not on every render) — portfolioManifest.json
-  // is generated one category folder at a time, so an unshuffled filter
-  // shows long same-sub-category runs (e.g. every floor-adhesive-removal
-  // shot before any floor-tile one) instead of a mix.
-  const items = useMemo(
-    () => shuffle(allItems.filter((item) => categories.includes(item.category))),
+  // portfolioManifest.json is generated one category folder at a time, so
+  // an unshuffled filter shows long same-sub-category runs (e.g. every
+  // floor-adhesive-removal shot before any floor-tile one) instead of a
+  // mix. Every route here gets rendered server-side too (scripts/prerender.mjs),
+  // and hydrateRoot reconciles against that markup — if the shuffle ran in
+  // render (e.g. useMemo), the server's Math.random() call and the client's
+  // hydration pass would produce two different orders and silently mismatch
+  // (production React drops most hydration-mismatch warnings, so this
+  // wouldn't even show up as a console error, just wrong img srcs).
+  // Keeping the *first* render — server and client alike — on the same
+  // unshuffled, deterministic order sidesteps that entirely; the shuffle
+  // then runs once in an effect, which by definition never executes on the
+  // server, so there's nothing for hydration to mismatch against.
+  const filteredItems = useMemo(
+    () => allItems.filter((item) => categories.includes(item.category)),
     [serviceId]
   );
+  const [items, setItems] = useState(filteredItems);
+  useEffect(() => {
+    setItems(shuffle(filteredItems));
+  }, [filteredItems]);
   const trackRef = useRef<HTMLDivElement>(null);
   const [openItem, setOpenItem] = useState<PortfolioGalleryItem | null>(null);
   // The track keeps scrolling every item through the browser's near-viewport

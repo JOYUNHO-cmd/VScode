@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useParams, Link, Navigate } from 'react-router-dom';
 import { MapPin, CheckCircle2, HelpCircle, Award } from 'lucide-react';
 import { useSite } from '../context/SiteContext';
@@ -39,18 +39,30 @@ const RegionServiceLanding: React.FC = () => {
   // proof that isn't just "we work in your area" but "here's your area".
   // Requires at least 2 matches so the section never renders with a single
   // token photo; below that it stays silent and the service-wide marquee
-  // above still carries the visual proof. Shuffled once per mount (useMemo,
-  // not a plain filter) — reshuffling on every render would visibly reorder
-  // the grid each time openItem changes, i.e. every time a photo is clicked.
-  const regionItems = useMemo(() => {
+  // above still carries the visual proof.
+  //
+  // Shuffle order lives in state, seeded from the unshuffled filter and
+  // reshuffled only in an effect (see the matching comment in
+  // ServiceBeforeAfterMarquee.tsx) — this route is server-rendered by
+  // scripts/prerender.mjs and hydrated on the client, so shuffling during
+  // render would have the server's Math.random() call and the client's
+  // hydration pass disagree on the order and silently mismatch (production
+  // React mostly drops hydration-mismatch console warnings, so this
+  // wouldn't even be visible as an error, just as wrong photos). Effects
+  // never run on the server, so seeding with the deterministic unshuffled
+  // list keeps the first render — server and client alike — identical, and
+  // the reshuffle that follows is an ordinary post-mount state update.
+  const filteredRegionItems = useMemo(() => {
     if (!region || !serviceId) return [];
     const categories = SERVICE_CATEGORY_MAP[serviceId] || [];
-    return shuffle(
-      allPortfolioItems.filter(
-        (item) => categories.includes(item.category) && titleMatchesRegion(item.title, regionCoreTerm(region))
-      )
+    return allPortfolioItems.filter(
+      (item) => categories.includes(item.category) && titleMatchesRegion(item.title, regionCoreTerm(region))
     );
   }, [region, serviceId]);
+  const [regionItems, setRegionItems] = useState(filteredRegionItems);
+  useEffect(() => {
+    setRegionItems(shuffle(filteredRegionItems));
+  }, [filteredRegionItems]);
 
   // Unknown region or a service that doesn't have region pages enabled yet —
   // fall back to the regular service page rather than a dead end.
