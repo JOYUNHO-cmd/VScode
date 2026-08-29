@@ -176,19 +176,20 @@ const Home: React.FC = () => {
     <div className="flex flex-col bg-light text-textMain">
       {/* Hero Section */}
       <section className="relative min-h-[calc(100svh-6rem)] md:h-[90vh] flex flex-col justify-center items-center overflow-hidden bg-white">
-        {/* Manually scoped preload hints for the hero background. React's
-            Float API auto-preloads any fetchPriority="high" <img> it
-            renders, but it has no concept of the CSS-driven mobile/desktop
-            split below — it was unconditionally preloading BOTH hero
-            images (both marked fetchPriority="high") on every single page
-            load regardless of viewport, wasting ~100-160KB of bandwidth
-            racing the one actually needed. Preloading manually with an
-            explicit media attribute (matching the <source> below) lets
-            the browser itself decide which one to fetch, and we drop
-            fetchPriority from the actual <img> tags so React doesn't
-            re-introduce its own unscoped duplicate preload. */}
-        <link rel="preload" as="image" href={zelkovaMobileHero} media="(max-width: 767px)" fetchPriority="high" />
-        <link rel="preload" as="image" href={zelkovaHero} media="(min-width: 768px)" fetchPriority="high" />
+        {/* No manual preload link here on purpose: a prior version used two
+            <link rel="preload" media="..."> tags (one per breakpoint) to
+            avoid React Float's fetchPriority-driven double-preload, but
+            resource-timing showed both media-scoped preload links firing
+            on the same load regardless of viewport (initiatorType "link"
+            on both requests) — a duplicate-fetch bug one layer down from
+            the one they were meant to fix. Removing them cuts that
+            confirmed extra request. The <picture>/<source> pair below
+            still resolves to exactly one image once the viewport is
+            settled; very early in the load (before layout has a real
+            viewport width to test the media query against) the browser's
+            speculative preload scanner can still grab the <img> fallback
+            ahead of that, which is inherent to art-directed <picture>
+            elements and not something fixable from here. */}
 
         {/* Mobile Background Image (Absolute full-bleed background on mobile for vertical image) */}
         <div className="block md:hidden absolute inset-0 z-0">
