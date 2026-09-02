@@ -36,6 +36,18 @@ const SSR_ENTRY = path.join(ROOT_DIR, 'dist-ssr', 'entry-server.js');
 const PRODUCTION_ORIGIN = 'https://www.neutiul.com';
 const STATIC_ROUTES = ['/', '/about', '/services', '/portfolio', '/contact', '/privacy'];
 
+// Routes that get a real file on disk (so Vercel's SPA rewrite never falls
+// back to serving '/'s file for them — that was making /admin briefly
+// render the homepage's hydrated markup, then throw a hydration-mismatch
+// error once React noticed the DOM didn't match AdminDashboard) but no
+// baked-in content: robots.txt already disallows /admin, and a login form
+// gated behind Firebase auth state isn't something worth SSR-ing anyway.
+// Left as a genuinely empty #root, exactly like every route was before
+// full content-prerendering was added, so index.tsx's existing
+// hasPrerenderedContent check does a plain client render — no hydration,
+// no mismatch.
+const META_ONLY_ROUTES = ['/admin'];
+
 // How many routes to render concurrently. Each render is mostly waiting on
 // a one-time dynamic import() of that route's lazy chunk (cached after the
 // first hit) plus synchronous React work, so this is about capping peak
@@ -253,6 +265,14 @@ async function main() {
   }
 
   console.log(`\nDone. Prerendered ${allRoutes.length} routes (no browser required).`);
+
+  console.log(`Writing ${META_ONLY_ROUTES.length} meta-only route(s) (empty #root, no SSR content)...`);
+  for (const route of META_ONLY_ROUTES) {
+    const currentUrl = `${PRODUCTION_ORIGIN}${route}`;
+    const meta = buildMeta({ pathname: route, companyInfo, services, currentUrl });
+    const html = applyMeta(template, meta, currentUrl);
+    await writeRouteHtml(route, html);
+  }
 
   await writeSitemap(allRoutes);
   await writeRobotsTxt();
