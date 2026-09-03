@@ -12,6 +12,7 @@ import ReviewsSection from '../components/ReviewsSection';
 import CeoMessageSection from '../components/CeoMessageSection';
 import PortfolioSplitCard, { PortfolioGalleryItem } from '../components/PortfolioSplitCard';
 import PortfolioLightbox from '../components/PortfolioLightbox';
+import ServiceCaseBlogSection from '../components/ServiceCaseBlogSection';
 import portfolioManifest from '../lib/portfolioManifest.json';
 
 const allPortfolioItems = portfolioManifest as PortfolioGalleryItem[];
@@ -136,6 +137,14 @@ const RegionServiceLanding: React.FC = () => {
       {openItem && (
         <PortfolioLightbox item={openItem} onClose={() => setOpenItem(null)} />
       )}
+
+      {/* "Want the full job, not just before/after photos?" — real blog
+          posts for this service, right after the photos it refers back to
+          (its own heading text says "위에 보여드린 사진들") and before the
+          page moves on to situations/FAQ. Same component + curated links
+          as the /services/:id page (lib/serviceBlogLinks.mjs), just laid
+          out at this page's narrower max-w-5xl width. */}
+      <ServiceCaseBlogSection serviceId={serviceId || ''} className="max-w-5xl mx-auto px-4 sm:px-6 pb-10" />
 
       {/* Situations */}
       <section className="max-w-5xl mx-auto px-4 sm:px-6 pb-10">
