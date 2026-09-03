@@ -56,20 +56,26 @@ const certificationsData = [
   },
 ];
 
+// Must match the exact category strings the admin dashboard's portfolio
+// form saves to Firestore (see AdminDashboard.tsx's category <select>) —
+// this used to return spaced-out labels like '식당 청소' that never
+// equaled any saved item's category (admin saves '식당청소', no space),
+// so every single service page's "관련 시공사례" section silently
+// filtered down to zero photos regardless of what was uploaded.
 const getCategoryMapping = (serviceId: string) => {
   switch (serviceId) {
-    case 'new-construction': return '신축 준공청소';
-    case 'interior': return '인테리어 청소';
-    case 'move-in': return '입주 청소';
-    case 'office': return '사무실 청소';
-    case 'floor': return '바닥 청소';
-    case 'floor-wax': return '바닥 왁스 코팅';
-    case 'restaurant': return '식당 청소';
-    case 'factory': return '공장 청소';
-    case 'flood': return '침수 청소';
-    case 'fire': return '화재 청소';
-    case 'special': return '특수 청소';
-    case 'external-wall': return '외벽 청소';
+    case 'new-construction': return '준공청소';
+    case 'interior': return '인테리어청소';
+    case 'move-in': return '입주청소';
+    case 'office': return '사무실청소';
+    case 'floor': return '바닥청소';
+    case 'floor-wax': return '바닥코팅';
+    case 'restaurant': return '주방청소';
+    case 'factory': return '공장청소';
+    case 'flood': return '침수청소';
+    case 'fire': return '화재청소';
+    case 'special': return '특수청소';
+    case 'external-wall': return '외벽청소';
     default: return '';
   }
 };

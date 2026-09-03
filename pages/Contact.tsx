@@ -200,7 +200,7 @@ const Contact: React.FC = () => {
                        <option value="화재 복구 청소 (그을음/탈취)">화재 복구 청소 (그을음/탈취)</option>
                        <option value="침수 피해 긴급 복구 청소">침수 피해 긴급 복구 청소</option>
                        <option value="특수 청소 (쓰레기집/고독사/유품)">특수 청소 (쓰레기집/고독사/유품)</option>
-                       <option value="식당 주방 & 닥트/후드 청소">식당 주방 & 닥트/후드 청소</option>
+                       <option value="주방 & 닥트/후드 청소">주방 & 닥트/후드 청소</option>
                        <option value="공장 & 물류창고 대형 청소">공장 & 물류창고 대형 청소</option>
                        <option value="기타 맞춤 견적 문의">기타 맞춤 견적 문의</option>
                      </select>

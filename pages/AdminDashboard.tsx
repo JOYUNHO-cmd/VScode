@@ -439,7 +439,7 @@ const AdminDashboardInner: React.FC = () => {
                          <option value="침수청소">침수청소</option>
                          <option value="입주청소">입주청소</option>
                          <option value="공장청소">공장청소</option>
-                         <option value="식당청소">식당청소</option>
+                         <option value="주방청소">주방청소</option>
                          <option value="인테리어청소">인테리어청소</option>
                          <option value="바닥청소">바닥청소</option>
                          <option value="외벽청소">외벽청소</option>
