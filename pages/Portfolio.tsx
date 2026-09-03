@@ -190,12 +190,21 @@ export const Portfolio: React.FC = () => {
       {/* Premium Hero Header Section */}
       <section className="relative h-[45vh] md:h-[55vh] flex items-center justify-center overflow-hidden bg-slate-900">
         <div className="absolute inset-0 z-0">
-          <img 
-            src="https://images.unsplash.com/photo-1527515637462-cff94eecc1ac?auto=format&fit=crop&q=80&w=1920" 
-            alt="Neutiul Blog Posts" 
-            className="absolute inset-0 w-full h-full object-cover opacity-60 filter saturate-[0.8] contrast-[1.1]"
-            referrerPolicy="no-referrer"
-          />
+          {/* No fetchPriority here on purpose — see Home.tsx's hero comment:
+              a fetchPriority="high" <img> inside <picture> gets Float-
+              preloaded by its literal (fallback) src regardless of which
+              <source> actually matches, causing a real double-fetch. */}
+          <picture>
+            <source media="(min-width: 768px)" srcSet="/images/portfolio-hero.webp" />
+            <img
+              src="/images/portfolio-hero-mobile.webp"
+              alt="느티울 현장 시공 사례"
+              width={1400}
+              height={978}
+              decoding="async"
+              className="absolute inset-0 w-full h-full object-cover opacity-60 filter saturate-[0.8] contrast-[1.1]"
+            />
+          </picture>
           <div className="absolute inset-0 bg-slate-950/60" />
           <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-950/30 to-transparent" />
           <div className="absolute inset-0 bg-gradient-to-br from-emerald-600/15 via-transparent to-primary/10" />

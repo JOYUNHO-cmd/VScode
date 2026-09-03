@@ -48,11 +48,21 @@ const Contact: React.FC = () => {
       <section className="relative py-24 md:py-36 overflow-hidden bg-slate-900">
         {/* Aesthetic Background Image */}
         <div className="absolute inset-0 z-0">
-          <img 
-            src="https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=2000&auto=format&fit=crop" 
-            alt="Clean Office Background" 
-            className="w-full h-full object-cover opacity-40 scale-105"
-          />
+          {/* No fetchPriority here on purpose — see Home.tsx's hero comment:
+              a fetchPriority="high" <img> inside <picture> gets Float-
+              preloaded by its literal (fallback) src regardless of which
+              <source> actually matches, causing a real double-fetch. */}
+          <picture>
+            <source media="(min-width: 768px)" srcSet="/images/contact-hero.webp" />
+            <img
+              src="/images/contact-hero-mobile.webp"
+              alt="느티울 상담 공간"
+              width={1079}
+              height={621}
+              decoding="async"
+              className="w-full h-full object-cover opacity-40 scale-105"
+            />
+          </picture>
           {/* Layered Overlays */}
           <div className="absolute inset-0 bg-gradient-to-b from-slate-900/80 via-slate-900/50 to-slate-900/90" />
           <div className="absolute inset-0 bg-gradient-to-r from-primary/10 via-transparent to-primary/10" />
