@@ -72,11 +72,13 @@ const getCategoryMapping = (serviceId: string) => {
     case 'floor': return '바닥청소';
     case 'floor-wax': return '바닥코팅';
     case 'restaurant': return '주방청소';
+    case 'hood': return '후드청소';
     case 'factory': return '공장청소';
     case 'flood': return '침수청소';
     case 'fire': return '화재청소';
     case 'special': return '특수청소';
     case 'external-wall': return '외벽청소';
+    case 'government-school': return '관공서청소';
     default: return '';
   }
 };

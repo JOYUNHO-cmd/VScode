@@ -1,10 +1,11 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useSite } from '../context/SiteContext';
-import { 
-  Sparkles, Building, Store, Layers, Utensils, 
-  Droplets, Flame, Waves, Building2, Paintbrush, 
-  Home, Briefcase, Eraser, Factory, Biohazard, CheckCircle2, ShieldCheck
+import {
+  Sparkles, Building, Store, Layers, Utensils,
+  Droplets, Flame, Waves, Building2, Paintbrush,
+  Home, Briefcase, Eraser, Factory, Biohazard, CheckCircle2, ShieldCheck,
+  Wind, Landmark
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { m, AnimatePresence } from 'motion/react';
@@ -25,6 +26,8 @@ const iconMap: Record<string, React.ReactNode> = {
   Eraser: <Eraser size={20} />,
   Factory: <Factory size={20} />,
   Biohazard: <Biohazard size={20} />,
+  Wind: <Wind size={20} />,
+  Landmark: <Landmark size={20} />,
 };
 
 const Services: React.FC = () => {
