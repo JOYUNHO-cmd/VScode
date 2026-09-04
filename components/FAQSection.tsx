@@ -231,27 +231,31 @@ const FAQSection: React.FC<FAQSectionProps> = ({ ctaPhone }) => {
                     </div>
                   </button>
 
-                  {/* Collapsible Answer Body */}
-                  <m.div
-                    initial={false}
-                    animate={{
-                      height: isOpen ? 'auto' : 0,
-                      opacity: isOpen ? 1 : 0
-                    }}
-                    transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
-                    className="overflow-hidden"
+                  {/* Collapsible Answer Body — plain CSS max-height
+                      transition instead of Framer Motion's height:'auto'
+                      animation. Animating to 'auto' makes Framer Motion
+                      re-measure the DOM with JS every frame, right on the
+                      accordion tap that INP measures; a CSS transition runs
+                      on the browser's own compositor/layout engine instead,
+                      off the interaction's hot path. This section renders
+                      on every page site-wide, so it's the single
+                      most-repeated instance of this pattern. */}
+                  <div
+                    className="overflow-hidden transition-[max-height,opacity] duration-[250ms] ease-[cubic-bezier(0.16,1,0.3,1)]"
+                    style={{ maxHeight: isOpen ? '600px' : '0px', opacity: isOpen ? 1 : 0 }}
+                    inert={!isOpen}
                   >
-                    <div className="px-5 pb-6 pt-1 sm:px-7 sm:pb-7 text-left">
-                      <div className="p-4 sm:p-6 rounded-2xl bg-gradient-to-r from-emerald-50/70 to-slate-50 border border-emerald-100/80 flex gap-3.5 sm:gap-4 items-start shadow-inner">
-                        <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-slate-900 text-white font-black text-xs sm:text-sm flex items-center justify-center shrink-0 mt-0.5 shadow-sm">
-                          A
-                        </div>
-                        <div className="text-slate-800 text-[14px] sm:text-[16.5px] md:text-[17px] leading-relaxed font-semibold break-keep whitespace-pre-line flex-1">
-                          {qa.a}
+                      <div className="px-5 pb-6 pt-1 sm:px-7 sm:pb-7 text-left">
+                        <div className="p-4 sm:p-6 rounded-2xl bg-gradient-to-r from-emerald-50/70 to-slate-50 border border-emerald-100/80 flex gap-3.5 sm:gap-4 items-start shadow-inner">
+                          <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-slate-900 text-white font-black text-xs sm:text-sm flex items-center justify-center shrink-0 mt-0.5 shadow-sm">
+                            A
+                          </div>
+                          <div className="text-slate-800 text-[14px] sm:text-[16.5px] md:text-[17px] leading-relaxed font-semibold break-keep whitespace-pre-line flex-1">
+                            {qa.a}
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  </m.div>
+                  </div>
                 </div>
               );
             }))}

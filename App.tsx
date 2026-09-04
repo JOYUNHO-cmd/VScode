@@ -6,6 +6,7 @@ import Footer from './components/Footer';
 import MobileStickyBar from './components/MobileStickyBar';
 import FloatingContactButtons from './components/FloatingContactButtons';
 import SEO from './components/SEO';
+import ChunkErrorBoundary from './components/ChunkErrorBoundary';
 // Home stays a static import: it's the only route entry-server.tsx ever
 // renders (SSR only ever matches '/'), and React Router doesn't mount the
 // element of a non-matching <Route>, so lazy-loading every other page below
@@ -67,19 +68,21 @@ const AnimatedRoutes: React.FC = () => {
         transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
         className="w-full flex-grow flex flex-col"
       >
-        <Suspense fallback={<RouteFallback />}>
-          <Routes location={location}>
-            <Route path="/" element={<Home />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/services" element={<Services />} />
-            <Route path="/services/:serviceId" element={<ServiceLanding />} />
-            <Route path="/services/:serviceId/:regionId" element={<RegionServiceLanding />} />
-            <Route path="/portfolio" element={<Portfolio />} />
-            <Route path="/contact" element={<Contact />} />
-            <Route path="/privacy" element={<PrivacyPolicy />} />
-            <Route path="/admin" element={<AdminDashboard />} />
-          </Routes>
-        </Suspense>
+        <ChunkErrorBoundary>
+          <Suspense fallback={<RouteFallback />}>
+            <Routes location={location}>
+              <Route path="/" element={<Home />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/services" element={<Services />} />
+              <Route path="/services/:serviceId" element={<ServiceLanding />} />
+              <Route path="/services/:serviceId/:regionId" element={<RegionServiceLanding />} />
+              <Route path="/portfolio" element={<Portfolio />} />
+              <Route path="/contact" element={<Contact />} />
+              <Route path="/privacy" element={<PrivacyPolicy />} />
+              <Route path="/admin" element={<AdminDashboard />} />
+            </Routes>
+          </Suspense>
+        </ChunkErrorBoundary>
       </m.div>
     </AnimatePresence>
   );

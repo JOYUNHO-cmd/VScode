@@ -225,17 +225,19 @@ const Navbar: React.FC = () => {
         </div>
       </div>
 
-      {/* Mobile Menu with AnimatePresence */}
-      <AnimatePresence>
-        {isOpen && (
-          <m.div 
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
-            className="md:hidden bg-white border-b border-gray-100 absolute w-full shadow-2xl overflow-hidden left-0 right-0 z-50"
-            style={{ backgroundColor: '#ffffff' }}
-          >
+      {/* Mobile Menu — plain CSS max-height transition instead of Framer
+          Motion's height:'auto' animation. Animating to 'auto' forces
+          Framer Motion to re-measure the DOM with JS on every frame (a real
+          main-thread cost on the exact tap that INP measures); a CSS
+          transition runs on the browser's own engine instead, off the
+          interaction's hot path. Stays mounted at all times and is hidden
+          via max-height:0 + inert rather than AnimatePresence unmounting
+          it, so there's no exit-animation bookkeeping either. */}
+      <div
+        className="md:hidden bg-white border-b border-gray-100 absolute w-full shadow-2xl overflow-hidden left-0 right-0 z-50 transition-[max-height] duration-[250ms] ease-[cubic-bezier(0.16,1,0.3,1)]"
+        style={{ backgroundColor: '#ffffff', maxHeight: isOpen ? '1000px' : '0px' }}
+        inert={!isOpen}
+      >
             <div className="px-4 pt-3 pb-6 space-y-1 sm:px-3 bg-white">
               <div className="divide-y divide-slate-100/90 rounded-2xl overflow-hidden">
                 {navLinks.map((link, idx) => {
@@ -259,30 +261,24 @@ const Navbar: React.FC = () => {
                           {link.name}
                           <ChevronDown size={18} className={`transition-transform duration-200 ${mobileServicesOpen ? 'rotate-180' : ''}`} />
                         </button>
-                        <AnimatePresence>
-                          {mobileServicesOpen && (
-                            <m.div
-                              initial={{ opacity: 0, height: 0 }}
-                              animate={{ opacity: 1, height: 'auto' }}
-                              exit={{ opacity: 0, height: 0 }}
-                              transition={{ duration: 0.2 }}
-                              className="overflow-hidden bg-slate-50"
-                            >
-                              <div className="grid grid-cols-2 gap-1.5 p-2.5">
-                                {config.services.map((service) => (
-                                  <Link
-                                    key={service.id}
-                                    to={`/services/${service.id}`}
-                                    onClick={() => setIsOpen(false)}
-                                    className="px-3 py-2.5 rounded-lg text-[13px] font-semibold text-gray-700 text-center bg-white hover:bg-primary/10 hover:text-primaryDark transition-colors"
-                                  >
-                                    {service.title}
-                                  </Link>
-                                ))}
-                              </div>
-                            </m.div>
-                          )}
-                        </AnimatePresence>
+                        <div
+                          className="overflow-hidden bg-slate-50 transition-[max-height] duration-200 ease-out"
+                          style={{ maxHeight: mobileServicesOpen ? '600px' : '0px' }}
+                          inert={!mobileServicesOpen}
+                        >
+                            <div className="grid grid-cols-2 gap-1.5 p-2.5">
+                              {config.services.map((service) => (
+                                <Link
+                                  key={service.id}
+                                  to={`/services/${service.id}`}
+                                  onClick={() => setIsOpen(false)}
+                                  className="px-3 py-2.5 rounded-lg text-[13px] font-semibold text-gray-700 text-center bg-white hover:bg-primary/10 hover:text-primaryDark transition-colors"
+                                >
+                                  {service.title}
+                                </Link>
+                              ))}
+                            </div>
+                        </div>
                       </m.div>
                     );
                   }
@@ -363,9 +359,7 @@ const Navbar: React.FC = () => {
                 </m.button>
               </div>
             </div>
-          </m.div>
-        )}
-      </AnimatePresence>
+      </div>
     </nav>
   );
 };
