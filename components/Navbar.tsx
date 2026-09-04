@@ -4,6 +4,7 @@ import { Menu, X, Phone, UserCog, ClipboardCheck, ChevronUp, ChevronDown } from 
 import { m, AnimatePresence } from 'motion/react';
 import { useSite } from '../context/SiteContext';
 import { trackEvent } from '../lib/analytics';
+import { normalizePathname } from '../lib/pathUtils';
 
 const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -31,7 +32,7 @@ const Navbar: React.FC = () => {
     { name: '견적문의', path: '/contact' },
   ];
 
-  const isActive = (path: string) => location.pathname === path;
+  const isActive = (path: string) => normalizePathname(location.pathname) === path;
   
   // Clean phone number for tel: link (removes hyphens/spaces)
   const cleanPhone = config.companyInfo.phone.replace(/[^0-9]/g, '');

@@ -7,6 +7,7 @@ import MobileStickyBar from './components/MobileStickyBar';
 import FloatingContactButtons from './components/FloatingContactButtons';
 import SEO from './components/SEO';
 import ChunkErrorBoundary from './components/ChunkErrorBoundary';
+import { normalizePathname } from './lib/pathUtils';
 // Home stays a static import: it's the only route entry-server.tsx ever
 // renders (SSR only ever matches '/'), and React Router doesn't mount the
 // element of a non-matching <Route>, so lazy-loading every other page below
@@ -92,7 +93,7 @@ const AnimatedRoutes: React.FC = () => {
 const Layout = ({ children }: { children?: React.ReactNode }) => {
   const location = useLocation();
   const isAdmin = location.pathname.startsWith('/admin');
-  const isServices = location.pathname === '/services';
+  const isServices = normalizePathname(location.pathname) === '/services';
 
   return (
     <>

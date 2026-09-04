@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
 import { useSite } from '../context/SiteContext';
 import { buildMeta } from '../lib/seoData.mjs';
+import { normalizePathname } from '../lib/pathUtils';
 
 export interface SEOProps {
   title?: string;
@@ -25,7 +26,7 @@ const SEO: React.FC<SEOProps> = ({
   const { config } = useSite();
 
   useEffect(() => {
-    const pathname = location.pathname;
+    const pathname = normalizePathname(location.pathname);
     const currentUrl = canonicalUrl || window.location.href;
 
     const meta = buildMeta({
